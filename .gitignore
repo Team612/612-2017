@@ -27,3 +27,13 @@
 *.exe
 *.out
 *.app
+
+# WPI
+wpilib/*
+index.html.1
+
+#FRC User Program
+FRCUserProgram
+
+#Compressed files
+*.zip
