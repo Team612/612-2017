@@ -18,12 +18,11 @@ To deploy:
 
 ## Dependencies
 
-For Windows users:
+General: 
+  CMake
 
-1. Git for Windows/Bash on Ubuntu on Windows
-
-1. CMake
-
-For Linux users:
-
-1. CMake
+Windows:
+  N/A
+  
+Linux: 
+  N/A
