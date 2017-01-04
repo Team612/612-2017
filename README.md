@@ -8,4 +8,5 @@ Chantilly Robotics Team 612 robot code repository for 2017 game FIRST Steamworks
 |Calvin Godfrey (Website Head)           |ggodfrey |
 |Abby Denman   |AbDen   |
 |Shaun Wu   |Alexbay218   |
+|Jeffrey Wang                            |Jeffrey-Wang |
 |||
