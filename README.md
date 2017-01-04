@@ -9,3 +9,6 @@ Chantilly Robotics Team 612 robot code repository for 2017 game FIRST Steamworks
 |Abby Denman   |AbDen   |
 |Shaun Wu   |Alexbay218   |
 |Collin Johnson |Johnson-Collin |
+|David Rowson| DavidRow|
+|Andrew O'Rourke|atorourke|
+|Firstname Lastname |firstlast123 |
