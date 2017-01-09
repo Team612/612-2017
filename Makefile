@@ -4,3 +4,7 @@ all:
 
 deploy:
 	sh deploy.sh
+	
+update:
+	sh .wpilib-download.sh
+	

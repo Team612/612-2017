@@ -18,16 +18,20 @@ version="$(wget --quiet http://first.wpi.edu/FRC/roborio/release/eclipse/plugins
 source wpilib/version.txt > /dev/null 2>&1
 
 if [ ! "$version" = "$downloaded_version" ] ; then
-	wget --quiet -O wpicpp.zip http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_$version.jar
-	unzip -qq wpicpp.zip resources/cpp.zip
-	mkdir wpilib
-	mv resources/cpp.zip ./
-	rm -rf resources
-	unzip -qqd wpilib/ cpp.zip
+	#wget --quiet -O wpicpp.zip http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_$version.jar
+	#unzip -qq wpicpp.zip resources/cpp.zip
+	#mkdir wpilib
+	#mv resources/cpp.zip ./
+	#rm -rf resources
+	#unzip -qqd wpilib/ cpp.zip
 
-	rm -rf cpp.zip
-	rm -rf wpicpp.zip
-	echo "downloaded_version=$version" > wpilib/version.txt
+	#rm -rf cpp.zip
+	#rm -rf wpicpp.zip
+	#echo "downloaded_version=$version" > wpilib/version.txt
+	mkdir wpilib
+	git clone https://github.com/wpilibsuite/allwpilib.git
+	cp -r allwpilib/wpilibc/athena/include wpilib/include/
+	rm -rf allwpilib
 else
 	echo "Already at latest WPILIB version"
 fi

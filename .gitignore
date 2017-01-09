@@ -1,3 +1,8 @@
+# cmake
+.build/CMakeCache.txt
+.build/Makefile
+.build/cmake_install.cmake
+
 # Compiled Object files
 *.slo
 *.lo
@@ -37,3 +42,4 @@ FRCUserProgram
 
 #Compressed files
 *.zip
+

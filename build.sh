@@ -28,9 +28,15 @@ check_internettwo () {
 }
 
 # check internet connection and then download updates if necessary
+LIB="wpilib/"
+
 if check_internetone || check_internettwo; then
-    echo "build.sh: Downloading Libraries..."
-    sh .wpilib-download.sh
+
+	if [ ! -d "$LIB" ]; then
+    	echo "build.sh: Downloading Libraries..."
+    	sh .wpilib-download.sh
+    fi
+    
     echo "build.sh: Downloading Compiler..."
     sh .compiler-download.sh
 fi
