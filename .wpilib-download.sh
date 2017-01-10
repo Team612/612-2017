@@ -28,9 +28,15 @@ if [ ! "$version" = "$downloaded_version" ] ; then
 	#rm -rf cpp.zip
 	#rm -rf wpicpp.zip
 	#echo "downloaded_version=$version" > wpilib/version.txt
-	mkdir wpilib
 	git clone https://github.com/wpilibsuite/allwpilib.git
-	cp -r allwpilib/wpilibc/athena/include wpilib/include/
+	#cp -r allwpilib/wpilibc/ ${PWD}/
+	mv allwpilib wpilib
+	rm -rf wpilib/myRobot
+	rm -rf wpilib/myRobotCpp
+	rm -rf wpilib/wpilibj
+	rm -rf wpilib/wpilibjIntegrationTests
+	
+	#cp -r allwpilib/wpilibc/athena/shared wpilib/athena/shared
 	rm -rf allwpilib
 else
 	echo "Already at latest WPILIB version"
