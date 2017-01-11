@@ -45,12 +45,15 @@ Status: needs testing!
 
 ## Dependencies
 
-General: 
-  CMake
-  JRE (used only to unzip a jar file) 
+General:
+
+  * CMake
+  
+  * JRE (used only to unzip a jar file) 
 
 Windows:
-  Git bash for Windows (or another program that can run sh files) 
+  
+  * Git bash for Windows (or another program that can run sh files) 
   
 Linux: 
   N/A
