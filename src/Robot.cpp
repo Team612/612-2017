@@ -15,7 +15,7 @@
 class Robot: public frc::SampleRobot {
 	frc::RobotDrive myRobot { 0, 1 };
 	frc::Joystick stick { 0 };
-    CanTalonSRX actuator { 0 };
+	CanTalonSRX actuator { 0 };
 
 public:
 	Robot() {
