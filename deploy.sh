@@ -1,7 +1,7 @@
 #!/bin/bash
 #!/usr/bin/expect -f
 
-# make
+make
 
 echo "deploy.sh: Beginning deploy process..."
 team=$(cat TEAM_NAME)
