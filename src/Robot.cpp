@@ -44,7 +44,7 @@ public:
 		myRobot.SetSafetyEnabled(true);
 		while (IsOperatorControl() && IsEnabled()) {
 			myRobot.TankDrive(stick.GetRawAxis(1), stick.GetRawAxis(5));
-            actuator.Set(stick.GetRawAxis(2));
+			actuator.Set(stick.GetRawAxis(2));
 
 			frc::Wait(0.005);
 		}
