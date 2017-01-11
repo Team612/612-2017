@@ -15,21 +15,28 @@
 # most recent version available from the internet
 version="$(wget --quiet http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/ && cat index.html | grep wpilib.plugins.cpp | sed -r 's/^.*wpilib.plugins.cpp_(.*).jar.*$/\1/')"
 # most recent downloaded version (for usage outside of Travis CI)
-source wpilib/version.txt > /dev/null 2>&1
+version=$(echo $version | tr -d '\n')
+downloaded_version=$(cat wpilib/versions.txt)
+
+printf "Version: $version Current: $downloaded_version\n"
 
 if [ ! "$version" = "$downloaded_version" ] ; then
-	wget --quiet -O wpicpp.zip http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_$version.jar
-	unzip -qq wpicpp.zip resources/cpp.zip
+	wget -r -nd --progress=bar http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
+    rm -rf wpilib/
 	mkdir wpilib
-	mv resources/cpp.zip ./
-	rm -rf resources
-	unzip -qqd wpilib/ cpp.zip
+	unzip -q $PWD/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar -d $PWD/wpilib/
+	rm -rf wpilib/edu
+	rm -rf wpilib/META-INF
+	rm -rf wpilib/plugin.xml
+	unzip -q $PWD/wpilib/resources/cpp.zip -d $PWD/wpilib/
+	rm -rf wpilib/resources
+	#rm -rf cpp.zip
+	rm -rf edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
 
-	rm -rf cpp.zip
-	rm -rf wpicpp.zip
-	echo "downloaded_version=$version" > wpilib/version.txt
+	#cp -r allwpilib/wpilibc/athena/shared wpilib/athena/shared
 else
 	echo "Already at latest WPILIB version"
 fi
 rm index.html
 echo "WPILIB Version = $version"
+echo $version >> wpilib/versions.txt

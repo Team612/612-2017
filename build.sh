@@ -28,9 +28,21 @@ check_internettwo () {
 }
 
 # check internet connection and then download updates if necessary
+LIB="wpilib/"
+CTRE="CTRE/include/"
+
 if check_internetone || check_internettwo; then
-    echo "build.sh: Downloading Libraries..."
-    sh .wpilib-download.sh
+
+	if [ ! -d "$LIB" ]; then
+    	echo "build.sh: Downloading Libraries..."
+    	sh .wpilib-download.sh
+    fi
+
+    echo "build.sh: Checking for CTRE..."
+    if [ ! -d "$CTRE" ]; then
+        sh .get_ctre.sh
+    fi
+
     echo "build.sh: Downloading Compiler..."
     sh .compiler-download.sh
 fi
@@ -49,12 +61,17 @@ make VERBOSE=1 -j $PARALLELBUILD
 # Delete cmake files to keep Eclipse working
 echo "build.sh: Deleting CMakeFiles..."
 rm -rf CMakeFiles/
-rm -rf ./FRCUserProgram
-mv ./FRC* ./FRCUserProgram
 
-echo "build.sh: Exited with code $?"
-if [ "$?" -eq "0" ]; then
+echo "build.sh: Re-naming outfile..."
+rm FRCUserProgram
+mv FRC FRCUserProgram
+
+if [ -f "FRCUserProgram" ]; then
     echo "build.sh: Built successfully!"
+    exit 0
 else
     echo "build.sh: Build failed!"
+    exit 1
 fi
+
+exit
