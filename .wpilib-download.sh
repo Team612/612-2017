@@ -31,11 +31,11 @@ if [ ! "$version" = "$downloaded_version" ] ; then
 	#cp -r allwpilib/wpilibc/ ${PWD}/
 	wget -r -nd --progress=bar http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
 	mkdir wpilib
-	unzip $PWD/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar -d $PWD/wpilib/
+	unzip -q $PWD/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar -d $PWD/wpilib/
 	rm -rf wpilib/edu
 	rm -rf wpilib/META-INF
 	rm -rf wpilib/plugin.xml
-	unzip $PWD/wpilib/resources/cpp.zip -d $PWD/wpilib/
+	unzip -q $PWD/wpilib/resources/cpp.zip -d $PWD/wpilib/
 	rm -rf wpilib/resources
 	#rm -rf cpp.zip
 	rm -rf edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
