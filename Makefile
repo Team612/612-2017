@@ -2,7 +2,7 @@ all:
 	sh build.sh
 
 deploy:
-	sh deploy.sh
+	bash deploy.sh
 
 update:
 	sh .wpilib-download.sh
