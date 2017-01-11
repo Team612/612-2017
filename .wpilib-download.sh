@@ -28,16 +28,19 @@ if [ ! "$version" = "$downloaded_version" ] ; then
 	#rm -rf cpp.zip
 	#rm -rf wpicpp.zip
 	#echo "downloaded_version=$version" > wpilib/version.txt
-	git clone https://github.com/wpilibsuite/allwpilib.git
 	#cp -r allwpilib/wpilibc/ ${PWD}/
-	mv allwpilib wpilib
-	rm -rf wpilib/myRobot
-	rm -rf wpilib/myRobotCpp
-	rm -rf wpilib/wpilibj
-	rm -rf wpilib/wpilibjIntegrationTests
+	wget -r -nd --progress=bar http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
+	mkdir wpilib
+	unzip $PWD/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar -d $PWD/wpilib/
+	rm -rf wpilib/edu
+	rm -rf wpilib/META-INF
+	rm -rf wpilib/plugin.xml
+	unzip $PWD/wpilib/resources/cpp.zip -d $PWD/wpilib/
+	rm -rf wpilib/resources
+	#rm -rf cpp.zip
+	rm -rf edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
 	
 	#cp -r allwpilib/wpilibc/athena/shared wpilib/athena/shared
-	rm -rf allwpilib
 else
 	echo "Already at latest WPILIB version"
 fi
