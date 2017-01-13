@@ -4,7 +4,7 @@ This repository contains the raw make files and scripts for building and deployi
 
 Simply move these files into your repository and place your code in a directory named src/.
 
-Status: needs testing!
+Status: Operational! (Report bugs as Issues)
 
 ## Start Here!
 
@@ -26,7 +26,69 @@ Status: needs testing!
 
 4. Push the merged changes
 
+## Dependencies
+
+General:
+
+  * CMake
+  
+  * FRC Toolchain
+
+Windows:
+  
+  * Cygwin - cmake, make, unzip, wget, openssh
+
 ## User guide
+
+### Linux
+
+How to build code:
+
+1. Open a terminal and `cd` into your code base
+
+1. Make sure the code you want to compile is in src/ and `.build.sh` and `Makefile` are in the directory above src/
+
+1. Type `make`into the terminal
+
+How to deploy code:
+
+**FIRST TIME ONLY**
+
+1. Type `ssh-keygen -t rsa` into the terminal
+
+1. Enter file in which to save the key (/home/demo/.ssh/id_rsa): `roborio`
+
+1. Enter passphrase (empty for no passphrase): [leave blank]
+
+1. After the output, connect to the robot and type `lvuser@roborio-[TEAM]-frc.local`. Be sure to replace [TEAM] with your number.
+
+After this is done, simply type `make deploy`to deploy
+
+### Windows
+
+How to build code:
+
+1. Open Cygwin and type `cd c:/`
+
+1. Use `ls` to list your directory and `cd` to find the directory your code base is in
+
+1. Make sure the code you want to compile is in src/ and `.build.sh` and `Makefile` are in the directory above src/
+
+1. Type `make`into Cygwin
+
+How to deploy code:
+
+**FIRST TIME ONLY**
+
+1. Type `ssh-keygen -t rsa` into the terminal
+
+1. Enter file in which to save the key (/home/demo/.ssh/id_rsa): `roborio`
+
+1. Enter passphrase (empty for no passphrase): [leave blank]
+
+1. After the output, connect to the robot and type `lvuser@roborio-[TEAM]-frc.local`. Be sure to replace [TEAM] with your number.
+
+After this is done, simply type `make deploy`to deploy
 
 ### Commands
 
@@ -34,26 +96,6 @@ Status: needs testing!
     make update - manually update WPILib
     make clean - clean output files
     make deploy - deploy to robot
-    
-### How to deploy
 
-1. Replace team number in TEAM_NAME file with your team number
+### Linux Instructions
 
-2. Connect to robot
-
-3. Perform `make clean`, `make`, and `make deploy`
-
-## Dependencies
-
-General:
-
-  * CMake
-  
-  * JRE (used only to unzip a jar file) 
-
-Windows:
-  
-  * Git bash for Windows (or another program that can run sh files) 
-  
-Linux: 
-  N/A
