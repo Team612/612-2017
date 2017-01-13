@@ -100,6 +100,3 @@ After this is done, simply type `make deploy`to deploy
     make update - manually update WPILib
     make clean - clean output files
     make deploy - deploy to robot
-
-### Linux Instructions
-
