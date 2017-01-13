@@ -5,8 +5,8 @@ deploy:
 	bash deploy.sh
 
 update:
-	sh .wpilib-download.sh 
+	sh .wpilib-download.sh
 	sh .get_ctre.sh
 
 clean:
-	rm .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile
+	rm -rf CMakeFiles/ .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile

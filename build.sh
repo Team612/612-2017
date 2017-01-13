@@ -55,7 +55,13 @@ echo "build.sh: Generating Makefiles..."
 cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=./arm.cmake robot.cmake .. > /dev/null
 
 # run make for the Makefile now
-source make.settings > /dev/null 2>&1
+os=$(uname)
+if [ "$os" -eq "Cygwin" ]; then
+    echo "build.sh: Recognized building for Windows..."
+elif [ "$os" -eq "GNU/Linux" ]; then
+    echo "build.sh: Recognized building for *nix"
+    source make.settings > /dev/null 2>&1
+fi
 make VERBOSE=1 -j $PARALLELBUILD
 
 # Delete cmake files to keep Eclipse working
