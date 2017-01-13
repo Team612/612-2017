@@ -60,7 +60,9 @@ How to deploy code:
 
 1. Enter passphrase (empty for no passphrase): [leave blank]
 
-1. After the output, connect to the robot and type `lvuser@roborio-[TEAM]-frc.local`. Be sure to replace [TEAM] with your number.
+1. After the output, connect to the robot and type `lvuser@roborio-[TEAM]-frc.local`. Be sure to replace [TEAM] with your number
+
+1. Write your team number in the TEAM_NAME file. Make sure it is only one line and contains no extra spaces.
 
 After this is done, simply type `make deploy`to deploy
 
@@ -87,6 +89,8 @@ How to deploy code:
 1. Enter passphrase (empty for no passphrase): [leave blank]
 
 1. After the output, connect to the robot and type `lvuser@roborio-[TEAM]-frc.local`. Be sure to replace [TEAM] with your number.
+
+1. Write your team number in the TEAM_NAME file. Make sure it is only one line and contains no extra spaces.
 
 After this is done, simply type `make deploy`to deploy
 
