@@ -27,38 +27,17 @@ if [ $mDNS -ne 0 ]; then
             echo "Connection to roboRIO failed on all points!"
         else
             ssh "lvuser@10.$team_ip.2" "rm ~/FRCUserProgram && exit"
-            expect "assword:"
-            send "\r"
-            interact
 
-            scp "FRCUserProgram" "lvuser@10.$team_ip.2:~/FRCUserProgram"
-            expect "assword:"
-            send "\r"
-            send "exit"
-            interact
+            scp ".build/FRCUserProgram" "lvuser@10.$team_ip.2:~/FRCUserProgram"
         fi
     else
         ssh "lvuser@172.22.11.2" "rm ~/FRCUserProgram && exit"
-        expect "assword:"
-        send "\r"
-        interact
 
-        scp "FRCUserProgram" "lvuser@172.22.11.2:~/FRCUserProgram"
-        expect "assword:"
-        send "\r"
-        send "exit"
-        interact
+        scp ".build/FRCUserProgram" "lvuser@172.22.11.2:~/FRCUserProgram"
     fi
 else
     ssh "lvuser@roboRIO-$team-FRC.local" "rm ~/FRCUserProgram && exit"
-    expect "assword:"
-    send "\r"
-    interact
 
-    scp "FRCUserProgram" "lvuser@roboRIO-$team-FRC.local:~/FRCUserProgram"
-    expect "assword:"
-    send "\r"
-    send "exit"
-    interact
+    scp ".build/FRCUserProgram" "lvuser@roboRIO-$team-FRC.local:~/FRCUserProgram"
 fi
 echo "deploy.sh: Exiting deploy process..."
