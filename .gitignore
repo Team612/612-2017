@@ -1,3 +1,9 @@
+# cmake
+.build/CMakeCache.txt
+.build/Makefile
+.build/cmake_install.cmake
+index.html.*
+
 # Compiled Object files
 *.slo
 *.lo
@@ -27,3 +33,16 @@
 *.exe
 *.out
 *.app
+
+# WPI
+wpilib/*
+index.html.1
+
+#FRC User Program
+FRCUserProgram
+
+#Compressed files
+*.zip
+
+#CTRE
+CTRE/
