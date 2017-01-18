@@ -1,0 +1,3 @@
+[submodule "lib/ADIS16448-RoboRIO-Driver"]
+	path = lib/ADIS16448-RoboRIO-Driver
+	url = ../../juchong/ADIS16448-RoboRIO-Driver
