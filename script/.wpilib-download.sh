@@ -20,6 +20,8 @@ downloaded_version=$(cat wpilib/versions.txt)
 
 printf "Version: $version Current: $downloaded_version\n"
 
+echo "WPILib Download: $PWD"
+
 if [ ! "$version" = "$downloaded_version" ] ; then
 	wget -r -nd --progress=bar http://first.wpi.edu/FRC/roborio/release/eclipse/plugins/edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
     rm -rf wpilib/

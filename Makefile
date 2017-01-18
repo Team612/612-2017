@@ -1,12 +1,12 @@
 all:
-	sh build.sh
+	sh script/build.sh
 
 deploy:
-	bash deploy.sh
+	bash script/deploy.sh
 
 update:
-	sh .wpilib-download.sh
-	sh .get_ctre.sh
+	sh script/.wpilib-download.sh
+	sh script/.get_ctre.sh
 
 clean:
-	rm -rf CMakeFiles/ .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile
+	rm -rf .build/CMakeFiles/ .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile
