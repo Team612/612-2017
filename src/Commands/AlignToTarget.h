@@ -1,8 +1,7 @@
 
 
 
-#ifndef ALIGNTOTARGET_H
-#define ALIGNTOTARGET_H
+#pragma once
 
 
 #include "Commands/Subsystem.h"
@@ -30,4 +29,3 @@ private:
 	
 };
 
-#endif
