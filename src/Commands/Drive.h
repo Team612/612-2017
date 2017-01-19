@@ -1,9 +1,7 @@
 
 
 
-#ifndef DRIVE_H
-#define DRIVE_H
-
+#pragma once
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
@@ -32,4 +30,3 @@ private:
 
 };
 
-#endif
