@@ -1,8 +1,7 @@
 
 
 
-#ifndef CLIMB_H
-#define CLIMB_H
+#pragma once
 
 
 #include "Commands/Subsystem.h"
@@ -29,4 +28,3 @@ private:
 
 };
 
-#endif
