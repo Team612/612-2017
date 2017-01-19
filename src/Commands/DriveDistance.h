@@ -1,8 +1,6 @@
 
 
-
-#ifndef DRIVEDISTANCE_H
-#define DRIVEDISTANCE_H
+#pragma once
 
 
 #include "Commands/Subsystem.h"
@@ -34,4 +32,3 @@ private:
 
 };
 
-#endif
