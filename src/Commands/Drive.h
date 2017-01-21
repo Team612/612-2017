@@ -1,21 +1,10 @@
-
-
-
 #pragma once
 
 #include "Commands/Command.h"
 
-
-/**
- *
- *
- * @author ExampleAuthor
- */
 class Drive: public Command {
 public:
-
 	Drive();
-
 
 	virtual void Initialize();
 	virtual void Execute();
@@ -24,7 +13,5 @@ public:
 	virtual void Interrupted();
 
 private:
-
-
 
 };

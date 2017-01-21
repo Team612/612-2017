@@ -1,23 +1,11 @@
-
-
-
 #pragma once
 
-
-#include "Commands/Subsystem.h"
+#include "Commands/Command.h"
 #include "../Robot.h"
 
-/**
- *
- *
- * @author ExampleAuthor
- */
 class AlignToTarget: public Command {
 public:
-  
 	AlignToTarget();
-
-
 
 	virtual void Initialize();
 	virtual void Execute();
@@ -26,6 +14,5 @@ public:
 	virtual void Interrupted();
 
 private:
-	
-};
 
+};

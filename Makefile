@@ -1,5 +1,5 @@
 all:
-	sh script/build.sh
+	bash script/build.sh
 
 deploy:
 	bash script/deploy.sh

@@ -1,23 +1,12 @@
-
-
-
 #pragma once
 
 
-#include "Commands/Subsystem.h"
+#include "Commands/Command.h"
 #include "../Robot.h"
 
-/**
- *
- *
- * @author ExampleAuthor
- */
 class Shoot: public Command {
 public:
-
 	Shoot();
-
-
 
 	virtual void Initialize();
 	virtual void Execute();
@@ -27,8 +16,4 @@ public:
 
 private:
 
-
-
-
 };
-
