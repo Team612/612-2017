@@ -7,7 +7,7 @@ echo "deploy.sh: Beginning deploy process..."
 team=$(cat TEAM_NAME)
 printf "Team $team\n"
 team_ip=""
-os=$(uname)
+os=$(uname | tr '[:upper:]' '[:lower:]')
 
 if [ ${#team} -eq 4 ]; then
     team_ip="${team:0:2}.${team:2}"
@@ -24,7 +24,7 @@ if [ ! -f ".build/FRCUserProgram" ]; then
     exit 1
 fi
 
-if [ ! "$os" = "Cygwin" ]; then
+if [[ ! "$os" == *"cygwin"* ]]; then
     ping -c 4 "roboRIO-$team-FRC.local" ; mDNS=$?
     if [ $mDNS -ne 0 ]; then
         echo "roboRIO not found on mDNS, falling back to static USB..."
