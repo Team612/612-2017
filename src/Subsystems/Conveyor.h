@@ -6,6 +6,6 @@
 class Conveyor: public Subsystem {
 private:
 public:
-	Conveyor();
-	void InitDefaultCommand();
+    Conveyor();
+    void InitDefaultCommand();
 };

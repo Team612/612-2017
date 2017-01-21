@@ -5,9 +5,9 @@
 
 class Drivetrain: public Subsystem {
 private:
-	std::shared_ptr<Encoder> left_encoder;
-	std::shared_ptr<Encoder> right_encoder;
+    std::shared_ptr<Encoder> left_encoder;
+    std::shared_ptr<Encoder> right_encoder;
 public:
-	Drivetrain();
-	void InitDefaultCommand();
+    Drivetrain();
+    void InitDefaultCommand();
 };

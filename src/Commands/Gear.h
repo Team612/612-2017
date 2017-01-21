@@ -4,7 +4,7 @@
 
 class Gear: public CommandGroup {
 public:
-	Gear();
+    Gear();
 
 private:
 

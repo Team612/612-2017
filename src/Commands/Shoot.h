@@ -6,13 +6,13 @@
 
 class Shoot: public Command {
 public:
-	Shoot();
+    Shoot();
 
-	virtual void Initialize();
-	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
-	virtual void Interrupted();
+    virtual void Initialize();
+    virtual void Execute();
+    virtual bool IsFinished();
+    virtual void End();
+    virtual void Interrupted();
 
 private:
 

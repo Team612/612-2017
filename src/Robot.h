@@ -14,20 +14,20 @@
 
 class Robot : public IterativeRobot {
 public:
-	std::unique_ptr<Command> autonomousCommand;
-	static std::unique_ptr<OI> oi;
-	LiveWindow *lw = LiveWindow::GetInstance();
+    std::unique_ptr<Command> autonomousCommand;
+    static std::unique_ptr<OI> oi;
+    LiveWindow *lw = LiveWindow::GetInstance();
     static std::shared_ptr<Shooter> shooter;
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Conveyor> conveyor;
     static std::shared_ptr<Climber> climber;
 
-	virtual void RobotInit();
-	virtual void DisabledInit();
-	virtual void DisabledPeriodic();
-	virtual void AutonomousInit();
-	virtual void AutonomousPeriodic();
-	virtual void TeleopInit();
-	virtual void TeleopPeriodic();
-	virtual void TestPeriodic();
+    virtual void RobotInit();
+    virtual void DisabledInit();
+    virtual void DisabledPeriodic();
+    virtual void AutonomousInit();
+    virtual void AutonomousPeriodic();
+    virtual void TeleopInit();
+    virtual void TeleopPeriodic();
+    virtual void TestPeriodic();
 };

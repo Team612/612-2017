@@ -5,13 +5,13 @@
 
 class DriveDistance: public Command {
 public:
-	DriveDistance(double distance);
+    DriveDistance(double distance);
 
-	virtual void Initialize();
-	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
-	virtual void Interrupted();
+    virtual void Initialize();
+    virtual void Execute();
+    virtual bool IsFinished();
+    virtual void End();
+    virtual void Interrupted();
 
 private:
     double m_distance;

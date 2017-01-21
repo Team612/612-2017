@@ -5,13 +5,13 @@
 
 class MoveBalls: public Command {
 public:
-	MoveBalls();
+    MoveBalls();
 
-	virtual void Initialize();
-	virtual void Execute();
-	virtual bool IsFinished();
-	virtual void End();
-	virtual void Interrupted();
+    virtual void Initialize();
+    virtual void Execute();
+    virtual bool IsFinished();
+    virtual void End();
+    virtual void Interrupted();
 
 private:
 

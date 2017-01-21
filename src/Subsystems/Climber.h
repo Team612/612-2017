@@ -7,6 +7,6 @@
 class Climber: public Subsystem {
 private:
 public:
-	Climber();
-	void InitDefaultCommand();
+    Climber();
+    void InitDefaultCommand();
 };

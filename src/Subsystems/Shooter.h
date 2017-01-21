@@ -6,9 +6,9 @@
 
 class Shooter: public Subsystem {
 private:
-	std::shared_ptr<CANTalon> talon;
+    std::shared_ptr<CANTalon> talon;
 
 public:
-	Shooter();
-	void InitDefaultCommand();
+    Shooter();
+    void InitDefaultCommand();
 };

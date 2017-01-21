@@ -8,12 +8,12 @@ std::unique_ptr<OI> Robot::oi;
 
 
 void Robot::RobotInit() {
-	RobotMap::init();
+    RobotMap::init();
     shooter.reset(new Shooter());
     drivetrain.reset(new Drivetrain());
     conveyor.reset(new Conveyor());
     climber.reset(new Climber());
-	oi.reset(new OI());
+    oi.reset(new OI());
   }
 
 void Robot::DisabledInit(){
@@ -21,33 +21,33 @@ void Robot::DisabledInit(){
 }
 
 void Robot::DisabledPeriodic() {
-	Scheduler::GetInstance()->Run();
+    Scheduler::GetInstance()->Run();
 }
 
 void Robot::AutonomousInit() {
-	if (autonomousCommand.get() != nullptr)
-		autonomousCommand->Start();
+    if (autonomousCommand.get() != nullptr)
+        autonomousCommand->Start();
 }
 
 void Robot::AutonomousPeriodic() {
-	Scheduler::GetInstance()->Run();
+    Scheduler::GetInstance()->Run();
 }
 
 void Robot::TeleopInit() {
-	// This makes sure that the autonomous stops running when
-	// teleop starts running. If you want the autonomous to
-	// continue until interrupted by another command, remove
-	// these lines or comment it out.
-	if (autonomousCommand.get() != nullptr)
-		autonomousCommand->Cancel();
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // these lines or comment it out.
+    if (autonomousCommand.get() != nullptr)
+        autonomousCommand->Cancel();
 }
 
 void Robot::TeleopPeriodic() {
-	Scheduler::GetInstance()->Run();
+    Scheduler::GetInstance()->Run();
 }
 
 void Robot::TestPeriodic() {
-	lw->Run();
+    lw->Run();
 }
 
 START_ROBOT_CLASS(Robot)

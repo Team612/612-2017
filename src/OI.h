@@ -4,12 +4,12 @@
 
 class OI {
 private:
-	std::shared_ptr<frc::XboxController> gunner;
-	std::shared_ptr<frc::XboxController> driver;
+    std::shared_ptr<frc::XboxController> gunner;
+    std::shared_ptr<frc::XboxController> driver;
 
 public:
-	OI();
+    OI();
 
-	std::shared_ptr<XboxController> getdriver();
-	std::shared_ptr<XboxController> getgunner();
+    std::shared_ptr<XboxController> getdriver();
+    std::shared_ptr<XboxController> getgunner();
 };
