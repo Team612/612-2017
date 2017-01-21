@@ -33,22 +33,22 @@ void RobotMap::init() {
 
     shootertalon_shoot.reset(new TalonSRX(0));
     lw->AddActuator("Shooter", "talon_shoot", std::static_pointer_cast<TalonSRX>(shootertalon_shoot));
-    
+
     drivetraintalon_drive_fl.reset(new Talon(4));
     lw->AddActuator("Drivetrain", "talon_drive_fl", std::static_pointer_cast<Talon>(drivetraintalon_drive_fl));
-    
+
     drivetraintalon_drive_rl.reset(new Talon(1));
     lw->AddActuator("Drivetrain", "talon_drive_rl", std::static_pointer_cast<Talon>(drivetraintalon_drive_rl));
-    
+
     drivetraintalon_drive_fr.reset(new Talon(2));
     lw->AddActuator("Drivetrain", "talon_drive_fr", std::static_pointer_cast<Talon>(drivetraintalon_drive_fr));
-    
+
     drivetraintalon_drive_rr.reset(new Talon(3));
     lw->AddActuator("Drivetrain", "talon_drive_rr", std::static_pointer_cast<Talon>(drivetraintalon_drive_rr));
-    
+
     drivetraindrivetrain_drive.reset(new RobotDrive(drivetraintalon_drive_fl, drivetraintalon_drive_rl,
               drivetraintalon_drive_fr, drivetraintalon_drive_rr));
-    
+
     drivetraindrivetrain_drive->SetSafetyEnabled(true);
         drivetraindrivetrain_drive->SetExpiration(0.1);
         drivetraindrivetrain_drive->SetSensitivity(0.5);

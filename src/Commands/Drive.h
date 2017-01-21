@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "Commands/Subsystem.h"
-#include "../Robot.h"
+#include "Commands/Command.h"
+
 
 /**
  *
@@ -15,7 +15,6 @@ class Drive: public Command {
 public:
 
 	Drive();
-
 
 
 	virtual void Initialize();
@@ -29,4 +28,3 @@ private:
 
 
 };
-
