@@ -13,3 +13,4 @@ Chantilly Robotics Team 612 robot code repository for 2017 game FIRST Steamworks
 |Andrew O'Rourke                          |atorourke        |
 |Nayana Suvarna                           |nls5260          |
 |David Fiumano                            |DavidFiumano     |
+|Jeffrey Wang                             |Jeffrey-Wang     |
