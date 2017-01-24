@@ -9,6 +9,7 @@
 #include "Subsystems/Conveyor.h"
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
+#include "Timer.h"
 
 #include "OI.h"
 
@@ -21,6 +22,7 @@ public:
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Conveyor> conveyor;
     static std::shared_ptr<Climber> climber;
+    static std::shared_ptr<Command> AutoDrive;
 
     virtual void RobotInit();
     virtual void DisabledInit();

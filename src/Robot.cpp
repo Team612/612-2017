@@ -5,6 +5,7 @@ std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Conveyor> Robot::conveyor;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
+std::shared_ptr<Command> Robot::AutoDrive;
 
 
 void Robot::RobotInit() {
@@ -27,10 +28,13 @@ void Robot::DisabledPeriodic() {
 void Robot::AutonomousInit() {
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
+        AutoDrive->Start();
+
 }
 
 void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
+
 }
 
 void Robot::TeleopInit() {
