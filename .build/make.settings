@@ -1,0 +1,6 @@
+# This is a rudimentary way to determine the  number of cores on your computer
+# for the build system.  This information is used to pass onto:
+# make -j $(PARALLELBUILD)
+
+PARALLELBUILD = 2
+

@@ -1,0 +1,54 @@
+
+#build/deploy stuff
+roborio
+roborio.pub
+wget-log
+
+# cmake
+.build/CMakeCache.txt
+.build/Makefile
+.build/cmake_install.cmake
+index.html.*
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# WPI
+wpilib/*
+index.html.1
+
+#FRC User Program
+FRCUserProgram
+
+#Compressed files
+*.zip
+
+#CTRE
+CTRE/
