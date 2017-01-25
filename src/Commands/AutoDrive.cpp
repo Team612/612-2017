@@ -2,11 +2,13 @@
 
 AutoDrive::AutoDrive(float time, float speed) {
 
+    myTime = time;
+    mySpeed = speed;
     SetTimeout((double)time);
 }
 
 void AutoDrive::Initialize() {
-    RobotMap::drive-> ArcadeDrive(speed,0.0f);
+    RobotMap::drive-> ArcadeDrive(mySpeed,0.0f);
 }
 
 void AutoDrive::Execute() {
