@@ -12,5 +12,4 @@ public:
   void End() override;
   void Interrupted() override;
 private:
-  frc::Timer driveTimer();
 };

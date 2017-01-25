@@ -1,17 +1,16 @@
 #include "AutoDrive.h"
 
-AutoDrive::AutoDrive(double time) {
+AutoDrive::AutoDrive(float time) {
 
+    SetTimeout((double)time);
 }
 
 void AutoDrive::Initialize() {
-
+    RobotMap::drive-> ArcadeDrive(1,0);
 }
 
 void AutoDrive::Execute() {
-  RobotMap::drive-> ArcadeDrive(1,0);
-//argument for num of seconds moving forward
-//if statement checks if timer has exceeded that time, if so then stop motors & reset timer object
+
 }
 
 bool AutoDrive::IsFinished() {
@@ -20,8 +19,10 @@ bool AutoDrive::IsFinished() {
 
 void AutoDrive::End() {
 
+    printf("Info: End auto driving.\n");
+		RobotMap::drive-> ArcadeDrive(0,0);
 }
 
 void AutoDrive::Interrupted() {
-
+		RobotMap::drive-> ArcadeDrive(0,0);
 }
