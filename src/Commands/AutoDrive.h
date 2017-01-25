@@ -5,7 +5,7 @@
 
 class AutoDrive: public Command {
 public:
-  AutoDrive(double time);
+  AutoDrive(float time);
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;
