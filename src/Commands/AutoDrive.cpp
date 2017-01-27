@@ -2,8 +2,8 @@
 
 AutoDrive::AutoDrive(float time, float speed) {
 
-    myTime = time;
-    mySpeed = speed;
+    _time = time; //sets timeout time equal to the time inputted (seconds)
+    _speed = speed; //sets drive speed equal to speed inputted
     SetTimeout((double)time);
 }
 
@@ -26,5 +26,6 @@ void AutoDrive::End() {
 }
 
 void AutoDrive::Interrupted() {
+    printf("Info: AutoDrive Interrupted. \n");
 		RobotMap::drive-> ArcadeDrive(0.0f,0.0f);
 }

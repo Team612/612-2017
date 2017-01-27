@@ -13,6 +13,6 @@ public:
   void End() override;
   void Interrupted() override;
 private:
-  float myTime;
-  float mySpeed;
+  float _time; //time to drive (seconds)
+  float _speed; //speed to drive (-1.0f to 1.0f)
 };
