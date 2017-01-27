@@ -1,53 +1,46 @@
-#include "Robot.h"
+#include <WPILib.h>
+#include <Joystick.h>
+#include <SampleRobot.h>
+#include <RobotDrive.h>
+#include <Timer.h>
+#include <CANTalon.h>
+#include <CANSpeedController.h>
+#include <XboxController.h>
 
-std::shared_ptr<Shooter> Robot::shooter;
-std::shared_ptr<Drivetrain> Robot::drivetrain;
-std::shared_ptr<Conveyor> Robot::conveyor;
-std::shared_ptr<Climber> Robot::climber;
-std::unique_ptr<OI> Robot::oi;
+class Robot: public frc::SampleRobot {
+	
+frc::XboxController controller { 1 };
+CANTalon rl { 1 };
+CANTalon rr { 7 };
+CANTalon fl { 3 };
+CANTalon fr { 4 };
+frc::RobotDrive drive {fl,rl,fr,rr};
 
+public:
+	Robot() {
+	
+	}
+		
+	void RobotInit() {
+		
+	}
+		
+	void Autonomous() {
+	
+	}
+	
+	void OperatorControl() override{
+		while(IsOperatorControl() && IsEnabled()) {
+			drive.TankDrive(controller.GetY(frc::GenericHID::kLeftHand),controller.GetY(frc::GenericHID::kRightHand));
+		}
+	}	
+	
+	void Test() override {
+		while(IsEnabled()) {
+			frc::Wait(0.05);
+		}
+	}
+	
+};
 
-void Robot::RobotInit() {
-    RobotMap::init();
-    shooter.reset(new Shooter());
-    drivetrain.reset(new Drivetrain());
-    conveyor.reset(new Conveyor());
-    climber.reset(new Climber());
-    oi.reset(new OI());
-  }
-
-void Robot::DisabledInit(){
-
-}
-
-void Robot::DisabledPeriodic() {
-    Scheduler::GetInstance()->Run();
-}
-
-void Robot::AutonomousInit() {
-    if (autonomousCommand.get() != nullptr)
-        autonomousCommand->Start();
-}
-
-void Robot::AutonomousPeriodic() {
-    Scheduler::GetInstance()->Run();
-}
-
-void Robot::TeleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // these lines or comment it out.
-    if (autonomousCommand.get() != nullptr)
-        autonomousCommand->Cancel();
-}
-
-void Robot::TeleopPeriodic() {
-    Scheduler::GetInstance()->Run();
-}
-
-void Robot::TestPeriodic() {
-    lw->Run();
-}
-
-START_ROBOT_CLASS(Robot)
+START_ROBOT_CLASS(Robot)		
