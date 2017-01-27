@@ -1,7 +1,7 @@
 #include "AutoDrive.h"
 
 AutoDrive::AutoDrive(float time, float speed) {
-
+    this->speed = speed;
     SetTimeout((double)time);
 }
 

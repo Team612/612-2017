@@ -1,16 +1,27 @@
 #pragma once
 
-#include <WPILib.h>
-#include "RobotMap.h"
 
-class AutoDrive: public Command {
+
+#include "WPILib.h"
+
+#include "Commands/Command.h"
+
+
+
+class RunMotor: public Command {
+
 public:
-  AutoDrive(float time, float speed);
+
+  RunMotor(float power);
+
   void Initialize() override;
+
   void Execute() override;
+
   bool IsFinished() override;
+
   void End() override;
+
   void Interrupted() override;
-private:
-  float speed;
+
 };
