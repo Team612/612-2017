@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Commands/Command.h"
 #include <WPILib.h>
 #include "RobotMap.h"
 
@@ -12,5 +13,6 @@ public:
   void End() override;
   void Interrupted() override;
 private:
-  float speed;
+  float _time; //time to drive (seconds)
+  float _speed; //speed to drive (-1.0f to 1.0f)
 };
