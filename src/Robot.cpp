@@ -6,7 +6,7 @@ std::shared_ptr<Conveyor> Robot::conveyor;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
 std::shared_ptr<Command> Robot::AutoDrive;
-
+std::shared_ptr<SystemCheck> Robot::CheckSystem;
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -28,7 +28,7 @@ void Robot::DisabledPeriodic() {
 void Robot::AutonomousInit() {
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
-        AutoDrive->Start();
+    AutoDrive->Start();
 
 }
 
@@ -52,6 +52,10 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TestPeriodic() {
     lw->Run();
+}
+
+void Robot::TestInit() {
+    CheckSystem->Run();
 }
 
 START_ROBOT_CLASS(Robot)
