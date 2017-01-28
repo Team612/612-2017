@@ -6,7 +6,7 @@ deploy:
 
 update:
 	sh script/.wpilib-download.sh
-	sh script/.get_ctre.sh
+	sh script/.get-ctre.sh
 
 clean:
 	rm -rf .build/CMakeFiles/ .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile
