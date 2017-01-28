@@ -9,7 +9,9 @@
 #include "Subsystems/Conveyor.h"
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
+#include "Subsystems/Shooter.h"
 #include "Timer.h"
+#include "CommandGroup/SystemCheck.h"
 
 #include "OI.h"
 
@@ -23,6 +25,8 @@ public:
     static std::shared_ptr<Conveyor> conveyor;
     static std::shared_ptr<Climber> climber;
     static std::shared_ptr<Command> AutoDrive;
+    static std::shared_ptr<SystemCheck> CheckSystem;
+
 
     virtual void RobotInit();
     virtual void DisabledInit();
@@ -31,5 +35,6 @@ public:
     virtual void AutonomousPeriodic();
     virtual void TeleopInit();
     virtual void TeleopPeriodic();
+    virtual void TestInit();
     virtual void TestPeriodic();
 };

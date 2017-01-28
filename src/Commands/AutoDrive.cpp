@@ -8,6 +8,7 @@ AutoDrive::AutoDrive(float time, float speed) {
 }
 
 void AutoDrive::Initialize() {
+
     RobotMap::drive->ArcadeDrive(_speed,0.0f);
 }
 
