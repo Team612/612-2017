@@ -28,7 +28,6 @@ public:
     static std::shared_ptr<SystemCheck> CheckSystem;
     static std::shared_ptr<Command> talontesttest;
 
-
     virtual void RobotInit();
     virtual void DisabledInit();
     virtual void DisabledPeriodic();

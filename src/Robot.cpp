@@ -58,7 +58,7 @@ void Robot::TeleopInit() {
     #ifdef CHECK
         CheckSystem->Start();
     #endif
-    drivecommand->Start();
+    drivecommand->Start(); //TODO: Investigate why default commands don't work
 }
 
 void Robot::TeleopPeriodic() {
@@ -70,7 +70,7 @@ void Robot::TestInit() {
 }
 
 void Robot::TestPeriodic() {
-
+    Scheduler::GetInstance()->Run();
 }
 
 START_ROBOT_CLASS(Robot)
