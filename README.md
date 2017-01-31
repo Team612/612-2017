@@ -6,6 +6,7 @@ Chantilly Robotics Team 612 robot code repository for 2017 game FIRST Steamworks
 |Ahmad Bamba (Captain/Robot Code Head)    |Ahmad-Bamba      |
 |Benjamin Ward (Telemetry SysDev Head)    |WardBenjamin     |
 |Calvin Godfrey (Website Head)            |ggodfrey         |
+|Zach Perkins (Vision Head)               |ZachPerkins1     |
 |Abby Denman                              |AbDen            |
 |Shaun Wu                                 |Alexbay218       |
 |Collin Johnson                           |Johnson-Collin   |
