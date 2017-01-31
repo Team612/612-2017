@@ -23,10 +23,10 @@ public:
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Conveyor> conveyor;
     static std::shared_ptr<Climber> climber;
-    static std::shared_ptr<Command> AutoDrive;
-    static std::shared_ptr<Command> drivecommand;
-    static std::shared_ptr<SystemCheck> CheckSystem;
-    static std::shared_ptr<Command> talontesttest;
+    static std::unique_ptr<Command> AutoDrive;
+    static std::unique_ptr<Command> drivecommand;
+    static std::unique_ptr<Command> CheckSystem;
+    static std::unique_ptr<Command> talontesttest;
 
     virtual void RobotInit();
     virtual void DisabledInit();

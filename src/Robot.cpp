@@ -3,29 +3,32 @@
 #include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
+#include "Commands/Autonomous/Autonomous.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Conveyor> Robot::conveyor;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
-std::shared_ptr<Command> Robot::AutoDrive;
-std::shared_ptr<Command> Robot::drivecommand;
-std::shared_ptr<SystemCheck> Robot::CheckSystem;
-std::shared_ptr<Command> Robot::talontesttest;
+std::unique_ptr<Command> Robot::AutoDrive;
+std::unique_ptr<Command> Robot::drivecommand;
+std::unique_ptr<Command> Robot::CheckSystem;
+std::unique_ptr<Command> Robot::talontesttest;
 
 #define CHECK
 
 void Robot::RobotInit() {
     RobotMap::init();
-    shooter.reset(new Shooter());
-    drivetrain.reset(new Drivetrain());
-    conveyor.reset(new Conveyor());
-    climber.reset(new Climber());
-    oi.reset(new OI());
-    drivecommand.reset(new Drive());
-    CheckSystem.reset(new SystemCheck());
-    talontesttest.reset(new TalonTest(2.f, .5f, TalonENUM::FR));
+    //using pointers the way C++ intended
+    shooter = std::make_shared<Shooter>();
+    drivetrain = std::make_shared<Drivetrain>();
+    conveyor = std::make_shared<Conveyor>();
+    climber = std::make_shared<Climber>();
+    oi = std::make_unique<OI>();
+    drivecommand = std::make_unique<Drive>();
+    CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
+    talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
+    autonomousCommand = std::make_unique<Autonomous>();
   }
 
 void Robot::DisabledInit(){
@@ -45,7 +48,6 @@ void Robot::AutonomousInit() {
 
 void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
-
 }
 
 void Robot::TeleopInit() {
