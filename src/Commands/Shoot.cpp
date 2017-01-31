@@ -1,8 +1,10 @@
 #include "Shoot.h"
+#include "../Robot.h"
 
 Shoot::Shoot(): Command() {
         // Use requires() here to declare subsystem dependencies
     // eg. requires(Robot::chassis.get());
+    Requires(Robot::shooter.get());
 }
 
 // Called just before this Command runs the first time

@@ -17,20 +17,22 @@ void RobotMap::init() {
     talon_shoot.reset(new CANTalon(PORTS::CAN::shoot_talon00));
     lw->AddActuator("Shooter", "talon_shoot", talon_shoot);
 
-    drive_fl.reset(new CANTalon(PORTS::CAN::drive_talon01));
+    drive_fl.reset(new CANTalon(PORTS::CAN::drive_talonFL));
     lw->AddActuator("Drivetrain", "talon_drive_fl", drive_fl);
 
-    drive_rl.reset(new CANTalon(PORTS::CAN::drive_talon02));
+    drive_rl.reset(new CANTalon(PORTS::CAN::drive_talonRL));
     lw->AddActuator("Drivetrain", "talon_drive_rl", drive_rl);
+    drive_rl->SetInverted(true);
 
-    drive_fr.reset(new CANTalon(PORTS::CAN::drive_talon03));
+    drive_fr.reset(new CANTalon(PORTS::CAN::drive_talonFR));
     lw->AddActuator("Drivetrain", "talon_drive_fr", drive_fr);
 
-    drive_rr.reset(new CANTalon(PORTS::CAN::drive_talon04));
+    drive_rr.reset(new CANTalon(PORTS::CAN::drive_talonRR));
     lw->AddActuator("Drivetrain", "talon_drive_rr", drive_rr);
 
     drive.reset(new RobotDrive(drive_fl, drive_rl,
               drive_fr, drive_rr));
+    drive->SetSafetyEnabled(false);
 
     drivetrainleft_encoder.reset(new Encoder(PORTS::DIO::drivetrainleft_encoder00, PORTS::DIO::drivetrainleft_encoder01, false, Encoder::k4X));
     lw->AddSensor("Drivetrain", "left_encoder", drivetrainleft_encoder);

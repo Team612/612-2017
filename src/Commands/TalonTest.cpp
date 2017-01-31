@@ -1,43 +1,47 @@
 #include "TalonTest.h"
 
-TalonTest::TalonTest(float timer, float speed, TalonENUM t) {
-  numSpeed = speed;
-  position = t;
-  SetTimeout((double)timer);
-
+TalonTest::TalonTest(float timer, float speed, TalonENUM t) :
+                    Command("TalonTest", timer){
+    this->speed = speed;
+    position = t;
+    //SetTimeout((double)timer);
+    this->timer = timer;
 }
 
 void TalonTest::Initialize() {
-  switch (position) {
+    printf("Talon test initialize...\n");
+    switch (position) {
     case TalonENUM::SHOOTER:
-      RobotMap::talon_shoot->Set(numSpeed);
-      std::cout<< RobotMap::talon_shoot->Get();
-      break;
+        chosen = RobotMap::talon_shoot;
+        std::cout << "Testing Shooter Talon" << std::endl;
+        break;
     case TalonENUM::FL:
-      RobotMap::drive_fl->Set(numSpeed);
-      std::cout<<  RobotMap::drive_fl->Get();
-      break;
+        chosen = RobotMap::drive_fl;
+        std::cout << "Testing Front Left Talon" << std::endl;
+        break;
     case TalonENUM::RL:
-      RobotMap::drive_rl->Set(numSpeed);
-      std::cout<<  RobotMap::drive_rl->Get();
-      break;
+        chosen = RobotMap::drive_rl;
+        std::cout << "Testing Rear Right Talon" << std::endl;
+        break;
     case TalonENUM::FR:
-      RobotMap::drive_fr->Set(numSpeed);
-      std::cout<<RobotMap::drive_fr->Get();
-      break;
+        chosen = RobotMap::drive_fr;
+        std::cout << "Testing Front Right Talon" << std::endl;
+        break;
     case TalonENUM::RR:
-      RobotMap::drive_rr->Set(numSpeed);
-      std::cout<<RobotMap::drive_rr->Get();
-      break;
+        chosen = RobotMap::drive_rr;
+        std::cout << "Testing Rear Right Talon" << std::endl;
+        break;
     default:
-      std::cout<<"ERROR IN TALON TalonTest.cpp";
-      break;
-
-  }
+        chosen = nullptr;
+        std::cout<<"ERROR IN TALON TalonTest.cpp";
+        break;
+    }
+    //SetTimeout((double)timer);
 }
 
 void TalonTest::Execute() {
-
+    if(chosen != nullptr)
+        chosen->Set(speed);
 
 }
 
@@ -46,9 +50,11 @@ bool TalonTest::IsFinished() {
 }
 
 void TalonTest::End() {
-
+    printf("Info: Test Ended\n");
+    chosen->Set(0);
 }
 
 void TalonTest::Interrupted() {
-
+    printf("WARNING: Test Interrupted\n");
+    chosen->Set(0);
 }

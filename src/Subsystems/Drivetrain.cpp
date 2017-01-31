@@ -8,5 +8,6 @@ Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
 }
 
 void Drivetrain::InitDefaultCommand() {
+    printf("Default command for Drivetrain\n");
     SetDefaultCommand(new Drive());
 }

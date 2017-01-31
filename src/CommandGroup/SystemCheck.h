@@ -5,8 +5,7 @@
 #include "RobotMap.h"
 
 
-class SystemCheck: public CommandGroup
-{
+class SystemCheck: public CommandGroup {
 public:
 	SystemCheck();
 };

@@ -9,7 +9,6 @@
 #include "Subsystems/Conveyor.h"
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
-#include "Subsystems/Shooter.h"
 #include "Timer.h"
 #include "CommandGroup/SystemCheck.h"
 
@@ -25,7 +24,9 @@ public:
     static std::shared_ptr<Conveyor> conveyor;
     static std::shared_ptr<Climber> climber;
     static std::shared_ptr<Command> AutoDrive;
+    static std::shared_ptr<Command> drivecommand;
     static std::shared_ptr<SystemCheck> CheckSystem;
+    static std::shared_ptr<Command> talontesttest;
 
 
     virtual void RobotInit();

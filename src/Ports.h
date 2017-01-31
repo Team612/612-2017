@@ -14,31 +14,31 @@ namespace PORTS {
 
     }
 
-    namespace PWM{
+    namespace PWM {
 
     }
 
-    namespace DIO{
+    namespace DIO {
         const uint32_t drivetrainleft_encoder00 = 0;
         const uint32_t drivetrainleft_encoder01 = 1;
         const uint32_t drivetrainright_encoder00 = 2;
         const uint32_t drivetrainright_encoder01 = 3;
     }
 
-    namespace I2C{
+    namespace I2C {
 
     }
 
-    namespace CAN{
-        const uint32_t shoot_talon00 = 0;
-        const uint32_t drive_talon01 = 1;
-        const uint32_t drive_talon02 = 2;
-        const uint32_t drive_talon03 = 3;
-        const uint32_t drive_talon04 = 4;
+    namespace CAN {
+        const uint32_t shoot_talon00 = 6;
+        const uint32_t drive_talonFR = 7;
+        const uint32_t drive_talonFL = 1;
+        const uint32_t drive_talonRR = 3;
+        const uint32_t drive_talonRL = 5;
 
     }
+
     namespace MXP{
 
     }
-
 }
