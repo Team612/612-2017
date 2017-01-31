@@ -1,5 +1,5 @@
 #pragma once
-#include "Robot.h"
+#include "../../Robot.h"
 #include <WPILib.h>
 #include "RobotMap.h"
 #include "CANTalon.h"

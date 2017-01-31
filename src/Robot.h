@@ -10,7 +10,7 @@
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
 #include "Timer.h"
-#include "CommandGroup/SystemCheck.h"
+#include "Commands/Test/SystemCheck.h"
 
 #include "OI.h"
 

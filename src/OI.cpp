@@ -2,13 +2,13 @@
 #include "Ports.h"
 
 #include "SmartDashboard/SmartDashboard.h"
-#include "Commands/AlignToTarget.h"
-#include "Commands/Climb.h"
-#include "Commands/Drive.h"
-#include "Commands/DriveDistance.h"
-#include "Commands/Gear.h"
-#include "Commands/MoveBalls.h"
-#include "Commands/Shoot.h"
+#include "Commands/Vision/AlignToTarget.h"
+#include "Commands/Climber/Climb.h"
+#include "Commands/Drive/Drive.h"
+#include "Commands/Drive/DriveDistance.h"
+#include "Commands/Gear/Gear.h"
+#include "Commands/Internal/MoveBalls.h"
+#include "Commands/Shooter/Shoot.h"
 
 OI::OI() {
     gunner.reset(new frc::XboxController(PORTS::OI::gunner_joyport));

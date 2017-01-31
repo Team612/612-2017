@@ -1,8 +1,8 @@
 #include "Robot.h"
 
-#include "Commands/Drive.h"
-#include "CommandGroup/SystemCheck.h"
-#include "Commands/TalonTest.h"
+#include "Commands/Drive/Drive.h"
+#include "Commands/Test/SystemCheck.h"
+#include "Commands/Test/TalonTest.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;

@@ -1,18 +1,17 @@
 #pragma once
 
 #include "Commands/Command.h"
-#include "../Robot.h"
+#include "../../Robot.h"
 
-class AlignToTarget: public Command {
+class Climb: public Command {
 public:
-    AlignToTarget();
+    Climb();
 
     virtual void Initialize();
     virtual void Execute();
     virtual bool IsFinished();
     virtual void End();
     virtual void Interrupted();
-
 private:
 
 };

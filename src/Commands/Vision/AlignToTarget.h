@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Commands/Subsystem.h"
-#include "../Robot.h"
+#include "Commands/Command.h"
+#include "../../Robot.h"
 
-class DriveDistance: public Command {
+class AlignToTarget: public Command {
 public:
-    DriveDistance(double distance);
+    AlignToTarget();
 
     virtual void Initialize();
     virtual void Execute();
@@ -14,5 +14,5 @@ public:
     virtual void Interrupted();
 
 private:
-    double m_distance;
+
 };

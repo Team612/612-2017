@@ -1,8 +1,8 @@
-#include "Robot.h"
+#include "../../Robot.h"
 #include "SystemCheck.h"
 #include "Commands/WaitCommand.h"
-#include "Commands/EncoderTest.h"
-#include "Commands/TalonTest.h"
+#include "EncoderTest.h"
+#include "TalonTest.h"
 
 SystemCheck::SystemCheck() {
     AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::SHOOTER));
