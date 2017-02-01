@@ -14,5 +14,8 @@ public:
     virtual void Interrupted();
 
 private:
-    double m_distance;
+    final double SPEED; //A constant determining speed
+    double distance;
+    double leftInitialDistance;
+    double rightInitialDistance;
 };
