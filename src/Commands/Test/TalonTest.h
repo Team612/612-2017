@@ -19,5 +19,5 @@ private:
     float speed;
     TalonENUM position;
     std::shared_ptr<CANTalon> chosen;
-    float timer;
+    //float timer;
 };

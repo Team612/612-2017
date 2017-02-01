@@ -16,4 +16,6 @@ public:
   void Interrupted() override;
 private:
   Encode difEncoder;
+  std::shared_ptr<Encoder> encodes;
+  //float timer;
 };
