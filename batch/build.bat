@@ -1,8 +1,3 @@
-@echo off
-
-SET LIB="wpilib\"
-SET CTRE="CTRE\include"
-
 call batch\.compiler-download.bat
 
 REM Exit if FRC C++ Toolchain not found
@@ -10,7 +5,7 @@ if exist Error.txt (
     ECHO batch\build.bat: Compiler not found
     ECHO batch\build.bat: Exiting...
     del Error.txt /Q
-    EXIT /b 1
+    GOTO error
 )
 
 ECHO build.bat: Checking internet...
@@ -23,12 +18,12 @@ if errorlevel 1 (
     if not exist CTRE call batch\.get-ctre.bat
     if exist CTRE.txt (
         del CTRE.txt /Q
-        EXIT /b 1
+        GOTO error
     )
     if not exist wpilib call batch\.wpilib-download.bat
     if exist wpilib.txt (
         del wpilib.txt /Q
-        EXIT /b 1
+        GOTO error
     )
     REM exit early if unable to get required materials
 )
@@ -54,10 +49,16 @@ if exist FRCUserProgram (
     ECHO Build successfully!
     CD ..
     PAUSE
-    EXIT
+    GOTO end
 ) else (
     ECHO Build failed!
     CD ..
     PAUSE
-    EXIT /b 1
+    GOTO error
 )
+
+:end
+EXIT
+
+:error
+EXIT /b 1

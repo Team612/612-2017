@@ -11,4 +11,4 @@ update:
 	start batch\.wpilib-download.bat
 
 clean:
-	rm -rf .build/CMakeFiles/ .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile 
+	del .build\cmake_install.cmake .build\CMakeCache.txt .build\FRCUserProgram .build\Makefile /Q
