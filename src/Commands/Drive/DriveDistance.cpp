@@ -10,9 +10,11 @@ DriveDistance::DriveDistance(double distance): Command() { //Should the distance
 void DriveDistance::Initialize() {
     printf("DriveDistance init\n");
     Requires(Robot::drivetrain.get());
-    RobotMap::drive->ArcadeDrive(SPEED,0.0f);
+
     leftInitialDistance = drivetrainleft_encoder->GetDistance();
     rightInitialDistance = drivetrainright_encoder->GetDistance();
+
+    RobotMap::drive->ArcadeDrive(SPEED,0.0f);
 }
 
 void DriveDistance::Execute() {
@@ -27,9 +29,14 @@ bool DriveDistance::IsFinished() {
 }
 
 void DriveDistance::End() {
+    printf("Info: Completed a DriveDistance of " + distance);
     RobotMap::drive->ArcadeDrive(0.0f,0.0f);
 }
 
 void DriveDistance::Interrupted() {
+    AvgDist = ((drivetrainleft_encoder->GetDistance() - leftInitialDistance) +
+               (drivetrainright_encoder->GetDistance() - rightInitialDistance))
+               / 2;
+    printf("Error: DriveDistance interrupted! Covered a distance of " + AvgDist);
     RobotMap::drive->ArcadeDrive(0.0f,0.0f);
 }
