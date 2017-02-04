@@ -1,13 +1,13 @@
 
 #pragma once
+#include "Commands/Vision/AlignToTarget.h"
+#include "Commands/Autonomous/AutoDrive.h"
+#include "Commands/CommandGroup.h"
+#include "Commands/Drive/DriveDistance.h"
 
-#include "WPILib.h"
-#include "Commands/Subsystem.h"
-
-class name: public frc::Subsystem {
+class OneGearAuto: public CommandGroup {
 public:
-     name();
-     void InitDefaultCommand() override;
+     OneGearAuto();
 
 private:
 

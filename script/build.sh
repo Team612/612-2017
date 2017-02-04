@@ -69,7 +69,7 @@ fi
 if [ "$1" = "-v" ]; then
     make VERBOSE=1 -j $PARALLELBUILD
 else
-    make -j $PARALLELBUILD
+    make 
 fi
 
 # Delete cmake files to keep Eclipse working
