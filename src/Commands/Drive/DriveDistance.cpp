@@ -2,8 +2,8 @@
 
 //Drive a certain distance.
 //This command requires both drivetrain encoders to have SetDistancePerPulse() be properly set.
-DriveDistance::DriveDistance(double distance): Command() { //Should the distance input be in initialize?
-    printf("DriveDistance constructor\n");                 //Becuase IDK if we can call it again with a new distance mid-match
+DriveDistance::DriveDistance(double distance): Command() {
+    printf("DriveDistance constructor\n");
     this->distance = distance;
 }
 
