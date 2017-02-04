@@ -28,7 +28,7 @@ REM lol downloading the non-windows even though this is windows
 :get-ctre
 mkdir ctre_full
 CD ctre_full
-unzip ..\CTRE_FRCLibs_NON-WINDOWS.zip
+unzip ../CTRE_FRCLibs_NON-WINDOWS.zip
 ECHO ^.get-ctre^.bat: Cleaning up^.^.^.
 CD ..
 ECHO D | xcopy ctre_full\cpp CTRE /s/e
