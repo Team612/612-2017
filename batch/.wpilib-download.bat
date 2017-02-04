@@ -29,7 +29,7 @@ REM if there was no error, unzip
 :wpilib-download
 mkdir wpilib
 CD wpilib
-unzip ..\edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
+unzip ../edu.wpi.first.wpilib.plugins.cpp_2017.1.1.jar
 rmdir edu /S /Q
 rmdir META-INF /S /Q
 rmdir plugin.xml /S /Q
