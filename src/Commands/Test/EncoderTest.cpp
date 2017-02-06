@@ -2,18 +2,22 @@
 
 EncoderTest::EncoderTest(float timer, Encode e) {
   difEncoder = e;
+  //this->timer = timer;
   SetTimeout((double)timer);
 }
 
 void EncoderTest::Initialize() {
   switch (difEncoder) {
     case Encode::L:
-      std::cout<<  RobotMap::drivetrainleft_encoder->Get();
+      encodes = RobotMap::drivetrainleft_encoder;
+      std::cout<<  encodes;
       break;
     case Encode::R:
-      std::cout<<  RobotMap::drivetrainright_encoder->Get();
+      encodes = RobotMap::drivetrainright_encoder;
+      std::cout<<  encodes;
       break;
     default:
+      encodes = nullptr;
       std::cout << "ERROR IN EncoderTest.cpp";
       break;
   }
