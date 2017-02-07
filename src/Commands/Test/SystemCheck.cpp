@@ -5,8 +5,10 @@
 #include "TalonTest.h"
 
 SystemCheck::SystemCheck() {
-    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::SHOOTER));
-    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::SHOOTER));
+    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::SHOOTER_LEFT));
+    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::SHOOTER_LEFT));
+    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::SHOOTER_RIGHT));
+    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::SHOOTER_RIGHT));
     AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::FL));
     AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::FL));
     AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::RL));
