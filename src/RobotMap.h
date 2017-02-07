@@ -12,6 +12,7 @@ public:
     static std::shared_ptr<CANTalon> drive_rr;
     static std::shared_ptr<CANTalon> conveyor_talon;
     static std::shared_ptr<CANTalon> climber_talon;
+    static std::shared_ptr<CANTalon> intake_talon;
     static std::shared_ptr<RobotDrive> drive;
     static std::shared_ptr<Encoder> drivetrainleft_encoder;
     static std::shared_ptr<Encoder> drivetrainright_encoder;

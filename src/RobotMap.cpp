@@ -9,6 +9,7 @@ std::shared_ptr<CANTalon> RobotMap::drive_fr;
 std::shared_ptr<CANTalon> RobotMap::drive_rr;
 std::shared_ptr<CANTalon> RobotMap::conveyor_talon;
 std::shared_ptr<CANTalon> RobotMap::climber_talon;
+std::shared_ptr<CANTalon> RobotMap::intake_talon;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 std::shared_ptr<Encoder> RobotMap::drivetrainleft_encoder;
 std::shared_ptr<Encoder> RobotMap::drivetrainright_encoder;
@@ -37,6 +38,9 @@ void RobotMap::init() {
 
     climber_talon.reset(new CANTalon(PORTS::CAN::climber_talon));
     lw->AddActuator("Climber", "conveyor_talon", climber_talon);
+
+    intake_talon.reset(new CANTalon(PORTS::CAN::intake_talon));
+    lw->AddActuator("Intake", "intake_talon", intake_talon);
 
     drive.reset(new RobotDrive(drive_fl, drive_rl,
               drive_fr, drive_rr));

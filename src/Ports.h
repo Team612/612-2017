@@ -29,7 +29,7 @@ namespace PORTS {
 
     }
 
-    namespace CAN {
+    namespace CAN { //TODO update once the board actually is ready
         const uint32_t shoot_talon00 = 6;
         const uint32_t drive_talonFR = 7;
         const uint32_t drive_talonFL = 1;
@@ -37,6 +37,7 @@ namespace PORTS {
         const uint32_t drive_talonRL = 5;
         const uint32_t conveyor_talon = 8;
         const uint32_t climber_talon = 6;
+        const uint32_t intake_talon = 10; //This is 7 on the soda branch, not possible for both to be right
 
 
     }
