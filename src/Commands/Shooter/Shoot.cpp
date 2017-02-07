@@ -31,11 +31,11 @@ bool Shoot::IsFinished() {
 
 // Called once after isFinished returns true
 void Shoot::End() {
-    RobotMap::talon_shoot->Set(0.0)
+    RobotMap::talon_shoot->Set(0.0);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void Shoot::Interrupted() {
-    RobotMap::talon_shoot->Set(0.0)
+    RobotMap::talon_shoot->Set(0.0);
 }
