@@ -4,8 +4,8 @@ TalonTest::TalonTest(float timer, float speed, TalonENUM t) :
                     Command("TalonTest", timer){
     this->speed = speed;
     position = t;
-    //SetTimeout((double)timer);
-    this->timer = timer;
+    SetTimeout((double)timer);
+    //this->timer = timer;
 }
 
 void TalonTest::Initialize() {
