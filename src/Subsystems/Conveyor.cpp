@@ -9,7 +9,6 @@ void Conveyor::InitDefaultCommand() {
 
 }
 
-void Conveyor::Move(float speed)
-{
+void Conveyor::Move(float speed) {
     RobotMap::conveyor_talon->Set(speed);
 }
