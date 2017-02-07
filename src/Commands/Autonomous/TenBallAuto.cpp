@@ -1,9 +1,9 @@
-#include "Commands/Autonomous/OneGearAuto.h"
+#include "Commands/Autonomous/TenBallAuto.h"
 
-OneGearAuto::OneGearAuto() {
+TenBallAuto::TenBallAuto() {
 
     AddSequential(new DriveDistance(1.5));
     AddSequential(new AlignToTarget());
-    AddSequential(new Shoot());
-    
+    AddSequential(new AutoShoot());
+
 }
