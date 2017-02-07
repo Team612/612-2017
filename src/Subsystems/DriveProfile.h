@@ -7,8 +7,8 @@ Drive profile is all the different dimensions on the robot
 */
 public:
     DriveProfile();
-    DriveProfile(double ntr, double etw, double wd, double ww, double wmr, bool te, int lte, int rte);
-    DriveProfile(double ntr, double etw, double wd, double ww, double wmr, bool te, int lte, int rte, double f, double p, double i, double d);
+    DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr, bool te, int lte, int rte);
+    DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr, bool te, int lte, int rte, double f, double p, double i, double d);
     double NativeToRPM;          //encoder native units per 100ms * NativeToRPM = encoder RPM
     double EncoderToWheel;       //encoder RPM * EncoderToWheel = wheel rpm
     double WheelDiameter;        //wheel diameter in meters
