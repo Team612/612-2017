@@ -35,6 +35,8 @@ namespace PORTS {
         const uint32_t drive_talonFL = 1;
         const uint32_t drive_talonRR = 3;
         const uint32_t drive_talonRL = 5;
+        const uint32_t conveyor_talon = 8;
+        
 
     }
 

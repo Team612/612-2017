@@ -7,6 +7,7 @@ std::shared_ptr<CANTalon> RobotMap::drive_fl;
 std::shared_ptr<CANTalon> RobotMap::drive_rl;
 std::shared_ptr<CANTalon> RobotMap::drive_fr;
 std::shared_ptr<CANTalon> RobotMap::drive_rr;
+std::shared_ptr<CANTalon> RobotMap::conveyor_talon;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 std::shared_ptr<Encoder> RobotMap::drivetrainleft_encoder;
 std::shared_ptr<Encoder> RobotMap::drivetrainright_encoder;
@@ -29,6 +30,9 @@ void RobotMap::init() {
 
     drive_rr.reset(new CANTalon(PORTS::CAN::drive_talonRR));
     lw->AddActuator("Drivetrain", "talon_drive_rr", drive_rr);
+
+    conveyor_talon.reset(new CANTalon(PORTS::CAN::conveyor_talon));
+    lw->AddActuator("Shooter", "conveyor_talon", conveyor_talon);
 
     drive.reset(new RobotDrive(drive_fl, drive_rl,
               drive_fr, drive_rr));

@@ -10,6 +10,7 @@ public:
     static std::shared_ptr<CANTalon> drive_rl;
     static std::shared_ptr<CANTalon> drive_fr;
     static std::shared_ptr<CANTalon> drive_rr;
+    static std::shared_ptr<CANTalon> conveyor_talon;
     static std::shared_ptr<RobotDrive> drive;
     static std::shared_ptr<Encoder> drivetrainleft_encoder;
     static std::shared_ptr<Encoder> drivetrainright_encoder;
