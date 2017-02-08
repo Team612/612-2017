@@ -1,12 +1,12 @@
 #pragma once
-
+//TODO update TalonTest commmand to accomodate the two talons
 #include "WPILib.h"
 #include "Commands/Command.h"
 #include "RobotMap.h"
 #include "LiveWindow/LiveWindow.h"
 
 #include "Subsystems/Climber.h"
-#include "Subsystems/Conveyor.h"
+#include "Subsystems/Intake.h"
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
 #include "Timer.h"
@@ -21,7 +21,7 @@ public:
     LiveWindow *lw = LiveWindow::GetInstance();
     static std::shared_ptr<Shooter> shooter;
     static std::shared_ptr<Drivetrain> drivetrain;
-    static std::shared_ptr<Conveyor> conveyor;
+    static std::shared_ptr<Intake> intake;
     static std::shared_ptr<Climber> climber;
     static std::unique_ptr<Command> AutoDrive;
     static std::unique_ptr<Command> drivecommand;

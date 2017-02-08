@@ -7,7 +7,7 @@
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
-std::shared_ptr<Conveyor> Robot::conveyor;
+std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::AutoDrive;
@@ -22,7 +22,7 @@ void Robot::RobotInit() {
     //using pointers the way C++ intended
     shooter = std::make_shared<Shooter>();
     drivetrain = std::make_shared<Drivetrain>();
-    conveyor = std::make_shared<Conveyor>();
+    intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
     drivecommand = std::make_unique<Drive>();
