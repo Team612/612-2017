@@ -28,7 +28,7 @@ void Robot::RobotInit() {
     drivecommand = std::make_unique<Drive>();
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
-    autonomousCommand = std::make_unique<Autonomous>();
+    autonomousCommand = std::make_unique<Autonomous>("THIS IS A PLACE HOLDER FOR RIGHT NOW");
   }
 
 void Robot::DisabledInit(){
