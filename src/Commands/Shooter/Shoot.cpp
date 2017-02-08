@@ -6,8 +6,13 @@ Shoot::Shoot(): Command() {
     // eg. requires(Robot::chassis.get());
     Requires(Robot::shooter.get());
     RobotMap::talon_shoot->SetPID(0.22, 0, 0, 0.1097);
+    //get values from connected cimcoder
+    RobotMap::talon_shoot->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    //allows SetSetpoint to apply to speed from cimcoder and not from
     RobotMap::talon_shoot->SetControlMode(frc::CANSpeedController::ControlMode::kSpeed);
-
+    RobotMap::talon_shoot->SetSensorDirection(false);
+    RobotMap::talon_shoot->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+    RobotMap::talon_shoot->SelectProfileSlot(0);
 }
 
 // Called just before this Command runs the first time
