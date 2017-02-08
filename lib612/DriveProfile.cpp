@@ -31,3 +31,16 @@ DriveProfile::DriveProfile(double ntr, double etw, double wd, double ww, double 
     I = i;
     D = d;
 }
+
+DriveProfile::CalcMaxVelocity() {
+    double pi = 3.141592653;
+    WheelMaxVelocity = (WheelDiameter*pi)*(WheelMaxRPM/60);
+}
+
+DriveProfile::CalcMaxAccel(double TimeToMax) {
+    WheelMaxAcceleration = WheelMaxVelocity/TimeToMax;
+}
+
+DriveProfile::CalcMaxJerk(double TimeToMax) {
+    WheelMaxJerk = WheelMaxAcceleration/TimeToMax;
+}

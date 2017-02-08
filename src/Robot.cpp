@@ -4,6 +4,7 @@
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "../lib612/DriveProfile.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -14,6 +15,7 @@ std::unique_ptr<Command> Robot::AutoDrive;
 std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::talontesttest;
+DriveProfile *devbot = new *DriveProfile(0,0,0,0,0,0,0,0,0,true,0,0);
 
 #define CHECK
 
@@ -64,6 +66,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+    frc::SmartDashboard::PutNumber("fl position", drivetrain.drive_fl.GetPosition());
     Scheduler::GetInstance()->Run();
 }
 
