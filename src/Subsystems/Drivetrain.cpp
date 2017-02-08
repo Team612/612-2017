@@ -64,10 +64,33 @@ void Drivetrain::Init() {
         drive_rr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
         drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
     }
+    //SetDistancePerPulse()
+    double DistancePerWheelRotation = pi*profile->WheelDiameter;
+    double WheelRotationsPerPulse = profile->NativeToRPM * profile->EncoderToWheel
+    double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
+    if(profile->TwoEncoder) {
+        if(profile->LeftTalonEncoder == 0) {
+            drive_fl->SetDistancePerPulse(DistancePerPulse);
+        }
+        else {
+            drive_rl->SetDistancePerPulse(DistancePerPulse);
+        }
+        if(profile->RightTalonEncoder == 0) {
+            drive_fr->SetDistancePerPulse(DistancePerPulse);
+        }
+        else {
+            drive_rr->SetDistancePerPulse(DistancePerPulse);
+        }
+    }
+    else {
+        drive_fl->SetDistancePerPulse(DistancePerPulse);
+        drive_rl->SetDistancePerPulse(DistancePerPulse);
+        drive_fr->SetDistancePerPulse(DistancePerPulse);
+        drive_rr->SetDistancePerPulse(DistancePerPulse);
+    }
 }
 
 void Drivetrain::SetVelocity(double l, double r) {
-    double pi = 3.141592653;
     double TargetLeft = (60*(l/profile->WheelFriction))/(profile->WheelDiameter*pi);
     if(std::abs(TargetLeft) > profile->WheelMaxRPM) {
         TargetLeft = (std::abs(TargetLeft)/TargetLeft)*profile->WheelMaxRPM;

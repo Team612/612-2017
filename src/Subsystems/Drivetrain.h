@@ -14,6 +14,7 @@ private:
     std::shared_ptr<CANTalon> drive_rr;
     DriveProfile* profile;
     bool Debug; //if true, debuging is on
+    double pi = 3.141592653;
 public:
     Drivetrain();
     Drivetrain(DriveProfile* dp);
