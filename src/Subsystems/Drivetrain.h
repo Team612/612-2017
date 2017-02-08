@@ -3,7 +3,7 @@
 #include "Commands/Subsystem.h"
 #include "WPILib.h"
 #include "CANTalon.h"
-#include "DriveProfile.h"
+#include "../../lib612/DriveProfile.h"
 #include "../Ports.h"
 
 class Drivetrain: public Subsystem {
