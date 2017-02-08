@@ -41,7 +41,7 @@ bool Shoot::IsFinished() {
 
 // Called once after isFinished returns true
 void Shoot::End() {
-    printf("Info: Shoot ended\n")
+    printf("Info: Shoot ended\n");
     RobotMap::talon_shoot_left->Set(0.0);
     RobotMap::talon_shoot_right->Set(PORTS::CAN::left_shoot_talon);
 }
@@ -49,7 +49,7 @@ void Shoot::End() {
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void Shoot::Interrupted() {
-    printf("Warning: Shoot Interrupted!\n")
+    printf("Warning: Shoot Interrupted!\n");
     RobotMap::talon_shoot_left->Set(0.0);
     RobotMap::talon_shoot_right->Set(PORTS::CAN::left_shoot_talon);
 }
