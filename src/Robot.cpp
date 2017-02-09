@@ -56,7 +56,9 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-
+    if(frc::SmartDashboard::GetBoolean("system check", false)){
+        CheckSystem->Start();
+    }
     drivecommand->Start(); //TODO: Investigate why default commands don't work
 }
 
@@ -65,9 +67,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
-    if(frc::SmartDashboard::GetBoolean("system check", false) == true){
-    CheckSystem->Start();
-  }
+
 
 }
 
