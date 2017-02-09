@@ -4,6 +4,7 @@
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "../lib612/DriveProfile.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
