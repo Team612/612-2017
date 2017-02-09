@@ -15,7 +15,7 @@ std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::talontesttest;
 
-#define CHECK
+
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -49,7 +49,6 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
 }
-
 void Robot::TeleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -57,9 +56,7 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    #ifdef CHECK
-        CheckSystem->Start();
-    #endif
+
     drivecommand->Start(); //TODO: Investigate why default commands don't work
 }
 
@@ -68,6 +65,9 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
+    if(frc::SmartDashboard::GetBoolean("system check", false) == true){
+    CheckSystem->Start();
+  }
 
 }
 
