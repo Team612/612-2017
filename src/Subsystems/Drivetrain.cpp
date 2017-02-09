@@ -66,7 +66,8 @@ void Drivetrain::Init() {
     }
     //SetDistancePerPulse()
     double DistancePerWheelRotation = pi*profile->WheelDiameter;
-    double WheelRotationsPerPulse = profile->NativeToRPM * profile->EncoderToWheel;
+    double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
+    double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
     double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
     RobotMap::drivetrainleft_encoder->SetDistancePerPulse(DistancePerPulse);
     RobotMap::drivetrainright_encoder->SetDistancePerPulse(DistancePerPulse);
