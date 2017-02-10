@@ -7,15 +7,13 @@
 #include "../Ports.h"
 
 class Drivetrain: public Subsystem {
-private:
+public:
     std::shared_ptr<CANTalon> drive_fl;
     std::shared_ptr<CANTalon> drive_rl;
     std::shared_ptr<CANTalon> drive_fr;
     std::shared_ptr<CANTalon> drive_rr;
     DriveProfile* profile;
     bool Debug; //if true, debuging is on
-    double pi = 3.141592653;
-public:
     Drivetrain();
     Drivetrain(DriveProfile* dp);
     Drivetrain(DriveProfile* dp, bool d);
@@ -25,4 +23,6 @@ public:
     double GetLeftVelocity();
     double GetRightVelocity();
     void InitDefaultCommand();
+private:
+    double pi = 3.141592653;
 };
