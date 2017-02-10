@@ -9,7 +9,7 @@ void Climb::Initialize() {
 }
 
 void Climb::Execute() {
-
+    Robot::climber->Climb(0.4f);
 }
 
 bool Climb::IsFinished() {

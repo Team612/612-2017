@@ -64,6 +64,13 @@ void Drivetrain::Init() {
         drive_rr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
         drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
     }
+    //SetDistancePerPulse()
+    double DistancePerWheelRotation = pi*profile->WheelDiameter;
+    double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
+    double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
+    double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
+    RobotMap::drivetrainleft_encoder->SetDistancePerPulse(DistancePerPulse);
+    RobotMap::drivetrainright_encoder->SetDistancePerPulse(DistancePerPulse);
 }
 
 void Drivetrain::SetVelocity(double l, double r) {

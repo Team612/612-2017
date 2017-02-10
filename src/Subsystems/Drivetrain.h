@@ -23,4 +23,6 @@ public:
     double GetLeftVelocity();
     double GetRightVelocity();
     void InitDefaultCommand();
+private:
+    double pi = 3.141592653;
 };
