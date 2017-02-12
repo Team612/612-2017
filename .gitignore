@@ -46,3 +46,6 @@ FRCUserProgram
 
 #CTRE
 CTRE/
+
+#pathfinder
+!bin/*.so

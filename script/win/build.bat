@@ -1,9 +1,9 @@
-call batch\.compiler-download.bat
+call batch\win\.compiler-download.bat
 
 REM Exit if FRC C++ Toolchain not found
 if exist Error.txt (
-    ECHO batch\build.bat: Compiler not found
-    ECHO batch\build.bat: Exiting...
+    ECHO batch\win\build.bat: Compiler not found
+    ECHO batch\win\build.bat: Exiting...
     del Error.txt /Q
     GOTO error
 )
@@ -15,12 +15,12 @@ if errorlevel 1 (
     ECHO build.bat: Offline
 ) else (
     ECHO build.bat: Online
-    if not exist CTRE call batch\.get-ctre.bat
+    if not exist CTRE call batch\win\.get-ctre.bat
     if exist CTRE.txt (
         del CTRE.txt /Q
         GOTO error
     )
-    if not exist wpilib call batch\.wpilib-download.bat
+    if not exist wpilib call batch\win\.wpilib-download.bat
     if exist wpilib.txt (
         del wpilib.txt /Q
         GOTO error
