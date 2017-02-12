@@ -11,6 +11,7 @@ namespace lib612 {
             NULLMODE
         };
 
+        //Robot mode based only on the driverstation
         Mode GetRobotMode() {
             if (frc::DriverStation::GetInstance().IsAutonomous())
                 return Mode::AUTONOMOUS;
@@ -36,7 +37,7 @@ namespace lib612 {
                 frc::SmartDashboard::PutString("Mode", "Test");
                 break;
             default:
-                std::cout << "There is fundemental disorder in the universe (Networking.h " << __LINE__ << ")\n";
+                std::cout << "There is fundamental disorder in the universe (Networking.h " << __LINE__ << ")\n";
             }
             frc::SmartDashboard::PutNumber("Location", frc::DriverStation::GetInstance().GetLocation());
             frc::SmartDashboard::PutNumber("Match Time", frc::DriverStation::GetInstance().GetMatchTime());
