@@ -15,9 +15,9 @@ namespace lib612 {
             if (frc::DriverStation::GetInstance().IsAutonomous())
                 return Mode::AUTONOMOUS;
             else if (frc::DriverStation::GetInstance().IsTest())
-                return Mode::TELEOPERATED;
-            else if (frc::DriverStation::GetInstance().IsOperatorControl())
                 return Mode::TEST;
+            else if (frc::DriverStation::GetInstance().IsOperatorControl())
+                return Mode::TELEOPERATED;
             else
                 return Mode::NULLMODE;
         }

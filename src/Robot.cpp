@@ -59,7 +59,7 @@ void Robot::TeleopInit() {
     if(frc::SmartDashboard::GetBoolean("system check", false)){
         CheckSystem->Start();
     }
-    drivecommand->Start(); //TODO: Investigate why default commands don't work
+    drivecommand->Start(); //TODO: Investigate why default commands don't work'
 }
 
 void Robot::TeleopPeriodic() {
