@@ -6,7 +6,7 @@ language: cpp
 compiler:
   - gcc
 # Change this to your needs
-script: ./script/build.sh
+script: ./script/unix/build.sh
 deploy:
   provider: releases
   file: ./.build/FRCUserProgram #should auto install all dependencies.

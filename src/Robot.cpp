@@ -4,6 +4,8 @@
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "lib612/DriveProfile.h"
+#include "Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -14,8 +16,6 @@ std::unique_ptr<Command> Robot::AutoDrive;
 std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::talontesttest;
-
-#define CHECK
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -49,7 +49,6 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
 }
-
 void Robot::TeleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -57,17 +56,19 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    #ifdef CHECK
+    if(frc::SmartDashboard::GetBoolean("system check", false)){
         CheckSystem->Start();
-    #endif
+    }
     drivecommand->Start(); //TODO: Investigate why default commands don't work
 }
 
 void Robot::TeleopPeriodic() {
+    lib612::Networking::UpdateAll();
     Scheduler::GetInstance()->Run();
 }
 
 void Robot::TestInit() {
+
 
 }
 

@@ -35,16 +35,16 @@ if check_internetone || check_internettwo; then
 
 	if [ ! -d "$LIB" ]; then
     	echo "build.sh: Downloading Libraries..."
-    	sh script/.wpilib-download.sh
+    	sh script/unix/.wpilib-download.sh
     fi
 
     echo "build.sh: Checking for CTRE..."
     if [ ! -d "$CTRE" ]; then
-        sh script/.get-ctre.sh
+        sh script/unix/.get-ctre.sh
     fi
 
     echo "build.sh: Downloading Compiler..."
-    bash script/.compiler-download.sh
+    bash script/unix/.compiler-download.sh
 fi
 
 # run cmake to generate Makefile contents

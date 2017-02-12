@@ -1,14 +1,14 @@
 all:
-    start batch\build.bat
+    start batch\win\build.bat
 
 deploy:
-    start batch\deploy.bat
+    start batch\win\deploy.bat
 
 update:
     del CTRE /Q
     del wpilib /Q
-    start batch\.get-ctre.bat
-    start batch\.wpilib-download.bat
+    start batch\win\.get-ctre.bat
+    start batch\win\.wpilib-download.bat
 
 clean:
     del .build\cmake_install.cmake .build\CMakeCache.txt .build\FRCUserProgram .build\Makefile /Q

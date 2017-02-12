@@ -15,5 +15,6 @@ public:
     virtual void Interrupted();
 
 private:
-
+    double OPTIMAL_RPM = 7500;
+    double IDLE = 300;
 };

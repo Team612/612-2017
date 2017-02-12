@@ -7,7 +7,7 @@
 #include "Commands/Drive/Drive.h"
 #include "Commands/Drive/DriveDistance.h"
 #include "Commands/Gear/Gear.h"
-#include "Commands/Internal/MoveBalls.h"
+#include "Commands/Internal/IntakeFuel.h"
 #include "Commands/Shooter/Shoot.h"
 
 OI::OI() {
@@ -17,7 +17,7 @@ OI::OI() {
 
 
     // SmartDashboard Buttons
-    SmartDashboard::PutData("MoveBalls", new MoveBalls());
+    SmartDashboard::PutData("MoveBalls", new IntakeFuel());
     SmartDashboard::PutData("Climb", new Climb());
     //SmartDashboard::PutData("DriveDistance", new DriveDistance());
     SmartDashboard::PutData("Gear", new Gear());

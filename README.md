@@ -15,3 +15,7 @@ Chantilly Robotics Team 612 robot code repository for 2017 game FIRST Steamworks
 |Nayana Suvarna                           |nls5260          |
 |David Fiumano                            |DavidFiumano     |
 |Jeffrey Wang                             |Jeffrey-Wang     |
+|Noah Helms                               |nrh-git          |
+|Helen Shi                                |shixiaoqing      |
+|Sachi Chitre                             |sachi31          |
+|Kaitlin Lennox                           |kaitlinl02       |
