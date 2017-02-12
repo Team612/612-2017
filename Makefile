@@ -1,15 +1,15 @@
 all:
-	bash script/build.sh
+	bash script/unix/build.sh
 
 verbose:
-	bash script/build.sh -v
+	bash script/unix/build.sh -v
 
 deploy:
-	bash script/deploy.sh
+	bash script/unix/deploy.sh
 
 update:
-	sh script/.wpilib-download.sh
-	sh script/.get-ctre.sh
+	sh script/unix/.wpilib-download.sh
+	sh script/unix/.get-ctre.sh
 
 clean:
 	rm -rf .build/CMakeFiles/ .build/cmake_install.cmake .build/CMakeCache.txt .build/FRCUserProgram .build/Makefile

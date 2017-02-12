@@ -4,7 +4,7 @@
 #make
 
 echo "deploy.sh: Beginning deploy process..."
-team=$(cat TEAM_NAME)
+read team
 printf "Team $team\n"
 team_ip=""
 os=$(uname | tr '[:upper:]' '[:lower:]')
@@ -17,6 +17,9 @@ elif [ ${#team} -eq 3 ]; then
     team_ip="${team:0:1}.${team:1}"
     printf "Team IP 10.$team_ip.20\n"
     printf "Operating system: $os\n"
+else
+    printf "Invalid team name!"
+    exit 1
 fi
 
 if [ ! -f ".build/FRCUserProgram" ]; then

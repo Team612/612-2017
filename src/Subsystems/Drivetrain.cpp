@@ -7,7 +7,7 @@ Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
     Init();
 }
 
-Drivetrain::Drivetrain(DriveProfile* dp) : Subsystem("Drivetrain") {
+Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
     Debug = false;
     drive_fl->SetPID(profile->P, profile->I, profile->D, profile->F);
@@ -17,7 +17,7 @@ Drivetrain::Drivetrain(DriveProfile* dp) : Subsystem("Drivetrain") {
     Init();
 }
 
-Drivetrain::Drivetrain(DriveProfile* dp, bool d) : Subsystem("Drivetrain") {
+Drivetrain::Drivetrain(lib612::DriveProfile* dp, bool d) : Subsystem("Drivetrain") {
     profile = dp;
     Debug = d;
     drive_fl->SetPID(profile->P, profile->I, profile->D, profile->F);

@@ -7,7 +7,7 @@ SET(CMAKE_EXE_LINKER_FLAGS "-L${CMAKE_CURRENT_LIST_DIR}/wpilib/lib -L${CMAKE_CUR
 
 #including other libraries
 include_directories("${CMAKE_CURRENT_LIST_DIR}/lib/ADIS16448-RoboRIO-Driver/C++/include")
-include_directories("${CMAKE_CURRENT_LIST_DIR}/lib/Pathfinder")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/lib/")
 #are these necessary?
 include_directories("${CMAKE_CURRENT_LIST_DIR}/wpilib/include/")
 include_directories(${CMAKE_CURRENT_LIST_DIR}/CTRE/include/)
