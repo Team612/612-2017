@@ -5,7 +5,6 @@
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "lib612/DriveProfile.h"
-#include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -63,7 +62,6 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-    lib612::Networking::UpdateAll();
     Scheduler::GetInstance()->Run();
 }
 
