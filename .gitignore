@@ -53,3 +53,4 @@ CTRE/
 #clion
 .idea/
 cmake-build-debug
+.idea/*

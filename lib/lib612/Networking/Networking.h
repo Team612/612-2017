@@ -2,8 +2,17 @@
 #include "DriverStation.h"
 #include "WPILib.h"
 
+#include <vector>
+#include <functional>
+
 namespace lib612 {
     namespace Networking {
+        std::vector<std::function<void(void)>> update_functions;
+
+        void AddFunction(std::function<void(void)> fn) {
+
+        }
+
         enum class Mode {
             AUTONOMOUS,
             TELEOPERATED,
@@ -42,6 +51,12 @@ namespace lib612 {
             frc::SmartDashboard::PutNumber("Location", frc::DriverStation::GetInstance().GetLocation());
             frc::SmartDashboard::PutNumber("Match Time", frc::DriverStation::GetInstance().GetMatchTime());
             frc::SmartDashboard::PutNumber("Battery", frc::DriverStation::GetInstance().GetBatteryVoltage());
+
+            if(update_functions.size() > 0) {
+                for (auto function : update_functions) {
+                    function();
+                }
+            }
         }
     }
 }

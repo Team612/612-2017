@@ -2,10 +2,7 @@
 #include <cmath>
 #include "../RobotMap.h"
 #include "../Commands/Drive/Drive.h"
-
-Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
-    Init();
-}
+#include "lib612/Networking/Networking.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
@@ -104,6 +101,7 @@ void Drivetrain::SetVelocity(double l, double r) {
         drive_fr->SetSetpoint(TargetRight);
         drive_rr->SetSetpoint(TargetRight);
     }
+
 }
 
 void Drivetrain::InitDefaultCommand() {
