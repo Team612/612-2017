@@ -15,13 +15,11 @@ void DriveDistance::Initialize() {
     printf("DriveDistance init\n");
     Requires(Robot::drivetrain.get());
 
-    leftInitialDistance = RobotMap::drivetrainleft_encoder->GetDistance();
-    rightInitialDistance = RobotMap::drivetrainright_encoder->GetDistance();
-
-
+    leftInitialDistance = RobotMap::drive_ml->GetPosition();
+    rightInitialDistance = RobotMap::drive_mr->GetPosition();
 
     GetPIDController()->SetSetpoint(distance);
-  	GetPIDController()->SetInputRange(0.0, distance);
+    GetPIDController()->SetInputRange(0.0, distance);
     GetPIDController()->Enable();
 }
 
@@ -44,8 +42,8 @@ void DriveDistance::Interrupted() {
 }
 
 double DriveDistance::ReturnPIDInput() {
-    double AvgDist = ((RobotMap::drivetrainleft_encoder->GetDistance() - leftInitialDistance) +
-                      (RobotMap::drivetrainright_encoder->GetDistance() - rightInitialDistance))
+    double AvgDist = ((RobotMap::drive_ml->GetPosition() - leftInitialDistance) +
+                      (RobotMap::drive_mr->GetPosition() - rightInitialDistance))
                       / 2; //Average of both sides
     return AvgDist;
 }

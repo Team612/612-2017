@@ -5,7 +5,7 @@ Climb::Climb(): Command() {
 }
 
 void Climb::Initialize() {
-
+    RobotMap::climber->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 }
 
 void Climb::Execute() {
