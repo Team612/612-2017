@@ -4,6 +4,10 @@
 #include "../Commands/Drive/Drive.h"
 #include "lib612/Networking/Networking.h"
 
+Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
+    Init();
+}
+
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
     Debug = false;
