@@ -1,7 +1,6 @@
 #include "DriveDistance.h"
 
 //Drive a certain distance.
-//This command requires both drivetrain encoders to have SetDistancePerPulse() be properly set.
 DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 0.0, 0.0) {
     printf("DriveDistance constructor\n");
     this->distance = distance;
@@ -9,6 +8,7 @@ DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 
     GetPIDController()->SetContinuous(true); //?
     GetPIDController()->SetOutputRange(-1, 1);
     GetPIDController()->SetPercentTolerance(0.05);
+    Requires(Robot::drivetrain.get());
 }
 
 void DriveDistance::Initialize() {
@@ -33,12 +33,12 @@ bool DriveDistance::IsFinished() {
 
 void DriveDistance::End() {
     printf("Info: Completed DriveDistance");
-    Robot::drivetrain->SetVelocity(0.0f, 0.0f);
+    Robot::drivetrain->SetVelocity(0.0, 0.0);
 }
 
 void DriveDistance::Interrupted() {
     printf("Warning: DriveDistance interrupted!");
-    Robot::drivetrain->SetRPM(0.0f, 0.0f);
+    Robot::drivetrain->SetVelocity(0.0, 0.0);
 }
 
 double DriveDistance::ReturnPIDInput() {
