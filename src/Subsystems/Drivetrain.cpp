@@ -3,10 +3,6 @@
 #include "../RobotMap.h"
 #include "../Commands/Drive/Drive.h"
 
-Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
-    Init();
-}
-
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
     Debug = false;

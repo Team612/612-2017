@@ -1,3 +1,4 @@
+#include <Robot.h>
 #include "AutoDrive.h"
 #include "WPILib.h"
 
@@ -10,7 +11,7 @@ AutoDrive::AutoDrive(float time, float speed) {
 
 void AutoDrive::Initialize() {
 
-    RobotMap::drive->ArcadeDrive(_speed,0.0f);
+    Robot::drivetrain->SetVelocity(_speed, _speed);
 }
 
 void AutoDrive::Execute() {

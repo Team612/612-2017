@@ -55,7 +55,7 @@ void RobotMap::init() {
               drive_fr, drive_rr));
     drive->SetSafetyEnabled(false);
 
-    drivetrainleft_encoder.reset(new Encoder(PORTS::DIO::drivetrainleft_encoder00, PORTS::DIO::drivetrainleft_encoder01, false, Encoder::k4X));
+    /*drivetrainleft_encoder.reset(new Encoder(PORTS::DIO::drivetrainleft_encoder00, PORTS::DIO::drivetrainleft_encoder01, false, Encoder::k4X));
     lw->AddSensor("Drivetrain", "left_encoder", drivetrainleft_encoder);
     drivetrainleft_encoder->SetDistancePerPulse(1.0);
     drivetrainleft_encoder->SetPIDSourceType(PIDSourceType::kRate);
@@ -65,5 +65,5 @@ void RobotMap::init() {
     drivetrainright_encoder->SetPIDSourceType(PIDSourceType::kRate);
     lw->AddSensor("Shooter", "shooter_encoder", shooter_encoder);
     shooter_encoder->SetDistancePerPulse(1.0);
-    shooter_encoder->SetPIDSourceType(PIDSourceType::kRate);
+    shooter_encoder->SetPIDSourceType(PIDSourceType::kRate);*/
 }
