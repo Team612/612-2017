@@ -8,6 +8,8 @@ Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
     Init();
 }
 
+
+
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
     Debug = false;
@@ -72,6 +74,15 @@ void Drivetrain::Init() {
     double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
     RobotMap::drivetrainleft_encoder->SetDistancePerPulse(DistancePerPulse);
     RobotMap::drivetrainright_encoder->SetDistancePerPulse(DistancePerPulse);
+
+    //update Smart Dashboard
+    lib612::Networking::AddFunction([this](){
+        frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P );
+        frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
+        frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
+        frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
+
+    });
 }
 
 void Drivetrain::SetVelocity(double l, double r) {

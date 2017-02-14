@@ -7,10 +7,10 @@
 
 namespace lib612 {
     namespace Networking {
-        std::vector<std::function<void(void)>> update_functions;
+        static  std::vector<std::function<void(void)>> update_functions;
 
-        void AddFunction(std::function<void(void)> fn) {
-
+      inline void AddFunction(std::function<void(void)> fn) {
+            update_functions.push_back(fn);
         }
 
         enum class Mode {
@@ -21,7 +21,7 @@ namespace lib612 {
         };
 
         //Robot mode based only on the driverstation
-        Mode GetRobotMode() {
+      inline  Mode GetRobotMode() {
             if (frc::DriverStation::GetInstance().IsAutonomous())
                 return Mode::AUTONOMOUS;
             else if (frc::DriverStation::GetInstance().IsTest())
@@ -32,7 +32,7 @@ namespace lib612 {
                 return Mode::NULLMODE;
         }
 
-        void UpdateAll() {
+      inline  void UpdateAll() {
             frc::SmartDashboard::PutBoolean("Enabled", frc::DriverStation::GetInstance().IsEnabled());
             //switch cases for GetRobotMode//
             switch (GetRobotMode()) {
