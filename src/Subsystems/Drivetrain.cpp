@@ -62,16 +62,16 @@ void Drivetrain::SetRPM(double l, double r) {
 }
 
 void Drivetrain::SetThrottle(double l, double r) {
-    double left, right;
-    if(abs(l) > 1) {
-        if (l < 0)
+    double left = l, right = r;
+    if(abs(left) > 1) {
+        if (left < 0)
             left = -1;
         else
             left = 1;
     }
 
-    if(abs(r) > 1) {
-        if (r < 0)
+    if(abs(right) > 1) {
+        if (right < 0)
             right = -1;
         else
             right = 1;
