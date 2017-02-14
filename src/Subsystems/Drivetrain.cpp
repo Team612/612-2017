@@ -1,11 +1,19 @@
 #include "Drivetrain.h"
-#include <cmath>
-#include "../RobotMap.h"
 #include "../Commands/Drive/Drive.h"
 #include "lib612/Networking/Networking.h"
+#include "../RobotMap.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
+
+    //Make sure we're using the actual talon objects and not making our out copies
+    drive_mr = RobotMap::drive_mr;
+    drive_fr = RobotMap::drive_fr;
+    drive_rr = RobotMap::drive_rr;
+    drive_ml = RobotMap::drive_ml;
+    drive_fl = RobotMap::drive_fl;
+    drive_rl = RobotMap::drive_rl;
+
     drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
     drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
     drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
@@ -35,6 +43,10 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
 
 void Drivetrain::SetDriveProfile(lib612::DriveProfile& dp) {
     *profile = dp;
+}
+
+void Drivetrain::SetDriveProfile(lib612::DriveProfile* dp) {
+    profile = dp;
 }
 
 void Drivetrain::SetVelocity(double l, double r) {
@@ -81,6 +93,14 @@ void Drivetrain::SetThrottle(double l, double r) {
 
 lib612::DriveProfile* Drivetrain::GetCurrentProfile() {
     return profile;
+}
+
+double Drivetrain::GetLeftVelocity() {
+    return drive_ml->GetSetpoint();
+}
+
+double Drivetrain::GetRightVelocity() {
+    return drive_mr->GetSetpoint();
 }
 
 void Drivetrain::InitDefaultCommand() {

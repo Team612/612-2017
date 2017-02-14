@@ -1,6 +1,5 @@
 #include <Robot.h>
 #include "AutoDrive.h"
-#include "WPILib.h"
 
 AutoDrive::AutoDrive(float time, float speed) {
 
@@ -30,5 +29,5 @@ void AutoDrive::End() {
 
 void AutoDrive::Interrupted() {
     printf("Info: AutoDrive Interrupted.\n");
-    Robot::drivetrain->SetThrottle(0.0f, 0.0f);
+    Robot::drivetrain->SetThrottle(0.0, 0.0);
 }
