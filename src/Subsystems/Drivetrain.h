@@ -25,7 +25,7 @@ public:
     void SetThrottle(double l, double r); //convert value of -1 to 1 to
     double GetLeftVelocity();
     double GetRightVelocity();
-    void InitDefaultCommand();
+    void InitDefaultCommand() override;
     lib612::DriveProfile* GetCurrentProfile();
 private:
     double pi = 3.141592653;
