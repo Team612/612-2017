@@ -16,7 +16,7 @@ public:
     static std::shared_ptr<CANTalon> climber;
     static std::shared_ptr<CANTalon> intake_talon_left;
     static std::shared_ptr<CANTalon> intake_talon_right;
-    static std::shared_ptr<RobotDrive> drive;
+    //static std::shared_ptr<RobotDrive> drive;
 
     static void init();
 };

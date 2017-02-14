@@ -12,7 +12,7 @@ std::shared_ptr<CANTalon> RobotMap::drive_rr;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_left;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_right;
 std::shared_ptr<CANTalon> RobotMap::climber;
-std::shared_ptr<RobotDrive> RobotMap::drive;
+//std::shared_ptr<RobotDrive> RobotMap::drive;
 
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
@@ -42,7 +42,7 @@ void RobotMap::init() {
     climber.reset(new CANTalon(PORTS::CAN::climber));
     lw->AddActuator("Climber", "climber", climber);
 
-    drive.reset(new RobotDrive(drive_fl, drive_rl,
+    /*drive.reset(new RobotDrive(drive_fl, drive_rl,
               drive_fr, drive_rr));
-    drive->SetSafetyEnabled(false);
+    drive->SetSafetyEnabled(false);*/
 }

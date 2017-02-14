@@ -30,8 +30,11 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
         frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
-
     });
+}
+
+void Drivetrain::SetDriveProfile(lib612::DriveProfile& dp) {
+    *profile = dp;
 }
 
 void Drivetrain::SetVelocity(double l, double r) {
@@ -56,6 +59,28 @@ void Drivetrain::SetRPM(double l, double r) {
     drive_mr->SetSetpoint(TargetRight);
     drive_fr->Set(drive_mr->GetDeviceID());
     drive_rr->Set(drive_mr->GetDeviceID());
+}
+
+void Drivetrain::SetThrottle(double l, double r) {
+    double left, right;
+    if(abs(l) > 1) {
+        if (l < 0)
+            left = -1;
+        else
+            left = 1;
+    }
+
+    if(abs(r) > 1) {
+        if (r < 0)
+            right = -1;
+        else
+            right = 1;
+    }
+    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM); //Set the RPM to a percentage of the maximum RPM
+}
+
+lib612::DriveProfile* Drivetrain::GetCurrentProfile() {
+    return profile;
 }
 
 void Drivetrain::InitDefaultCommand() {

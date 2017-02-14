@@ -17,13 +17,15 @@ public:
     lib612::DriveProfile* profile;
     //Drivetrain();
     Drivetrain(lib612::DriveProfile* dp);
-    void Init();
-    void SetDriveProfile(lib612::DriveProfile dp);
+    //void Init();
+    void SetDriveProfile(lib612::DriveProfile& dp);
     void SetVelocity(double l, double r); //sets velocity of both sides in meters per second (tangentially)
     void SetRPM(double l, double r);      //sets rpm of both sides
+    void SetThrottle(double l, double r); //convert value of -1 to 1 to
     double GetLeftVelocity();
     double GetRightVelocity();
     void InitDefaultCommand();
+    lib612::DriveProfile* GetCurrentProfile();
 private:
     double pi = 3.141592653;
 };
