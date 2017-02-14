@@ -14,8 +14,5 @@ void Climber::InitDefaultCommand() {
 void Climber::Climb(float speed) {
     RobotMap::climber_talon_left->Set(speed);
     RobotMap::climber_talon_right->Set(speed);
-    lib612::Networking::AddFunction([&speed](){
-      frc::SmartDashboard::PutNumber("Speed of Left & Right Climber", speed);
-    });
-
+    
 }
