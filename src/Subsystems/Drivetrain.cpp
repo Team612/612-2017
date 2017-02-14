@@ -2,9 +2,7 @@
 #include <cmath>
 #include "../RobotMap.h"
 #include "../Commands/Drive/Drive.h"
-
-Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
-}
+#include "lib612/Networking/Networking.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
@@ -20,10 +18,20 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 
     //SetDistancePerPulse()
-    double DistancePerWheelRotation = pi*profile->WheelDiameter;
-    double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
-    double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
-    double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
+    //TODO: Are these being used?
+    //double DistancePerWheelRotation = pi*profile->WheelDiameter;
+    //double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
+    //double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
+    //double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
+
+    //update Smart Dashboard
+    lib612::Networking::AddFunction([this](){
+        frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P );
+        frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
+        frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
+        frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
+
+    });
 }
 
 void Drivetrain::SetVelocity(double l, double r) {
@@ -41,8 +49,7 @@ void Drivetrain::SetRPM(double l, double r) {
     if(std::abs(TargetRight) > profile->WheelMaxRPM) {
         TargetLeft = (std::abs(TargetRight)/TargetRight)*profile->WheelMaxRPM; //If TargetRight is greater that WheelMaxRPM, Set TargetRight to WheelMaxRPM with correct sign
     }
-    TargetLeft = (TargetLeft/profile->EncoderToWheel/profile->NativeToRPM);   //Convert to native encoder units (also using EncoderToWheel for gearbox)
-    TargetRight = (TargetRight/profile->EncoderToWheel/profile->NativeToRPM); //Convert to native encoder units (also using EncoderToWheel for gearbox)
+
     drive_ml->SetSetpoint(TargetLeft);
     drive_fl->Set(drive_ml->GetDeviceID());
     drive_rl->Set(drive_ml->GetDeviceID());

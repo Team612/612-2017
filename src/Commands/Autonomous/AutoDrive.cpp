@@ -1,4 +1,5 @@
 #include "AutoDrive.h"
+#include "WPILib.h"
 
 AutoDrive::AutoDrive(float time, float speed) {
 

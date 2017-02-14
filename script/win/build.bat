@@ -1,9 +1,11 @@
-call batch\win\.compiler-download.bat
+IF EXIST "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
+
+call script\win\.compiler-download.bat
 
 REM Exit if FRC C++ Toolchain not found
 if exist Error.txt (
-    ECHO batch\win\build.bat: Compiler not found
-    ECHO batch\win\build.bat: Exiting...
+    ECHO script\win\build.bat: Compiler not found
+    ECHO script\win\build.bat: Exiting...
     del Error.txt /Q
     GOTO error
 )
@@ -15,12 +17,12 @@ if errorlevel 1 (
     ECHO build.bat: Offline
 ) else (
     ECHO build.bat: Online
-    if not exist CTRE call batch\win\.get-ctre.bat
+    if not exist CTRE call script\win\.get-ctre.bat
     if exist CTRE.txt (
         del CTRE.txt /Q
         GOTO error
     )
-    if not exist wpilib call batch\win\.wpilib-download.bat
+    if not exist wpilib call script\win\.wpilib-download.bat
     if exist wpilib.txt (
         del wpilib.txt /Q
         GOTO error
@@ -35,6 +37,8 @@ rmdir CMakeFiles\ /S /Q
 
 ECHO build.bat: Generating Makefiles...
 cmake .. -G "NMake Makefiles" -DCMAKE_TOOLCHAIN_FILE=arm.cmake -DCMAKE_TOOLCHAIN_FILE=robot.cmake
+
+SET CL=/MP
 
 nmake
 

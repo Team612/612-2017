@@ -15,7 +15,7 @@ public:
     std::shared_ptr<CANTalon> drive_mr;
     std::shared_ptr<CANTalon> drive_rr;
     lib612::DriveProfile* profile;
-    Drivetrain();
+    //Drivetrain();
     Drivetrain(lib612::DriveProfile* dp);
     void Init();
     void SetDriveProfile(lib612::DriveProfile dp);

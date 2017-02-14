@@ -49,3 +49,8 @@ CTRE/
 
 #pathfinder
 !bin/*.so
+
+#clion
+.idea/
+cmake-build-debug
+.idea/*
