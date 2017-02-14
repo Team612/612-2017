@@ -7,7 +7,7 @@ DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 
     this->distance = distance;
 
     GetPIDController()->SetContinuous(true); //?
-    GetPIDController()->SetOutputRange(-Robot::drivetrain->GetCurrentProfile()->WheelMaxRPM, Robot::drivetrain->GetCurrentProfile()->WheelMaxRPM);
+    GetPIDController()->SetOutputRange(-1, 1);
     GetPIDController()->SetPercentTolerance(0.05);
 }
 
@@ -38,7 +38,7 @@ void DriveDistance::End() {
 
 void DriveDistance::Interrupted() {
     printf("Warning: DriveDistance interrupted!");
-    Robot::drivetrain->SetVelocity(0.0f, 0.0f);
+    Robot::drivetrain->SetRPM(0.0f, 0.0f);
 }
 
 double DriveDistance::ReturnPIDInput() {

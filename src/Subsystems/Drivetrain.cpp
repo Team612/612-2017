@@ -73,24 +73,6 @@ void Drivetrain::SetRPM(double l, double r) {
     drive_rr->Set(drive_mr->GetDeviceID());
 }
 
-void Drivetrain::SetThrottle(double l, double r) {
-    double left = l, right = r;
-    if(abs(left) > 1) {
-        if (left < 0)
-            left = -1;
-        else
-            left = 1;
-    }
-
-    if(abs(right) > 1) {
-        if (right < 0)
-            right = -1;
-        else
-            right = 1;
-    }
-    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM); //Set the RPM to a percentage of the maximum RPM
-}
-
 lib612::DriveProfile* Drivetrain::GetCurrentProfile() {
     return profile;
 }

@@ -11,7 +11,7 @@ void Drive::Initialize() {
 }
 
 void Drive::Execute() {
-    Robot::drivetrain->SetThrottle(-Robot::oi->getdriver()->GetY(frc::GenericHID::kLeftHand), -Robot::oi->getdriver()->GetY(frc::GenericHID::kRightHand));
+    Robot::drivetrain->SetVelocity(-Robot::oi->getdriver()->GetY(frc::GenericHID::kLeftHand), -Robot::oi->getdriver()->GetY(frc::GenericHID::kRightHand));
     //motor feed safety
     frc::Wait(0.05);
 }
@@ -22,11 +22,11 @@ bool Drive::IsFinished() {
 
 void Drive::End() {
     printf("Info: Drive ended!\n");
-    Robot::drivetrain->SetThrottle(static_cast<double>(0), static_cast<double>(0));
+    Robot::drivetrain->SetVelocity(static_cast<double>(0), static_cast<double>(0));
 
 }
 
 void Drive::Interrupted() {
     printf("ERROR: Drive interrupted!\n");
-    Robot::drivetrain->SetThrottle(static_cast<double>(0), static_cast<double>(0));
+    Robot::drivetrain->SetVelocity(static_cast<double>(0), static_cast<double>(0));
 }

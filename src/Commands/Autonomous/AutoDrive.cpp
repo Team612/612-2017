@@ -10,7 +10,7 @@ AutoDrive::AutoDrive(float time, float speed) {
 }
 
 void AutoDrive::Initialize() {
-    Robot::drivetrain->SetThrottle(_speed, _speed);
+    Robot::drivetrain->SetVelocity(_speed, _speed);
 }
 
 void AutoDrive::Execute() {
@@ -24,10 +24,10 @@ bool AutoDrive::IsFinished() {
 void AutoDrive::End() {
 
     printf("Info: End auto driving.\n");
-    Robot::drivetrain->SetThrottle(0.0, 0.0);
+    Robot::drivetrain->SetVelocity(0.0, 0.0);
 }
 
 void AutoDrive::Interrupted() {
     printf("Info: AutoDrive Interrupted.\n");
-    Robot::drivetrain->SetThrottle(0.0, 0.0);
+    Robot::drivetrain->SetVelocity(0.0, 0.0);
 }
