@@ -14,15 +14,17 @@ AutoTenBall::AutoTenBall(): PIDCommand("AutoTenBall", Robot::drivetrain->GetCurr
     stage3FirstRun = false;
 
     GetPIDController()->SetContinuous(true); //?
-    GetPIDController()->SetOutputRange(-1, 1);
+    GetPIDController()->SetOutputRange(-1, 3);
     GetPIDController()->SetPercentTolerance(0.05);
 }
 
 void AutoTenBall::Initialize() {
-    printf("Info: Init AutoTenBall.\n")
+    printf("Info: Init AutoTenBall.\n");
     stage1 = true;
     leftInitialDistance = RobotMap::drive_ml->GetPosition();
     rightInitialDistance = RobotMap::drive_mr->GetPosition();
+
+    RobotMap::shooter->Set(-IDLE);
 
     GetPIDController()->SetSetpoint(DISTANCE);
     GetPIDController()->SetInputRange(0.0, DISTANCE);
@@ -33,11 +35,17 @@ void AutoTenBall::Execute() {
     if (stage1) return;
     else if (stage2) {
         if (stage2FirstRun){
+            leftInitialDistance = RobotMap::drive_ml->GetPosition();
+            rightInitialDistance = RobotMap::drive_mr->GetPosition();
+
+            GetPIDController()->SetSetpoint(ROTATE);
+            GetPIDController()->SetInputRange(0.0, ROTATE);
 
             stage2FirstRun = false;
         }
     }
     else if (stage3) {
+        // something something auto align?
         if (stage3FirstRun) {
             RobotMap::shooter->Set(OPTIMAL_RPM);
 
@@ -64,7 +72,7 @@ void AutoTenBall::Interrupted() {
     RobotMap::shooter->Set(0.0);
 }
 
-double AutoTenBall::ReturnPIDInput(); {
+double AutoTenBall::ReturnPIDInput() {
     if (GetPIDController()->OnTarget()) {
         if (stage1) {
             stage1 = false;
@@ -73,6 +81,7 @@ double AutoTenBall::ReturnPIDInput(); {
         } else if (stage2) {
             stage2 = false;
             stage3 = true;
+            stage3FirstRun = true;
         }
     }
     if (stage1) {

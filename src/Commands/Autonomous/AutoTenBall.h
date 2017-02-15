@@ -20,10 +20,12 @@ private:
   bool stage2FirstRun; // Configure PID for rotation
   bool stage3; // Shoot Balls
   bool stage3FirstRun; // Disable PID and start timeout
+  
   double DISTANCE; //Encoder native units
   double ROTATE; //Also encoder native units
   double leftInitialDistance;
   double rightInitialDistance;
   double SHOOT_TIME;
-  double OPTIMAL_RPM;
+  double OPTIMAL_RPM; // Shooter
+  double IDLE; // Shooter
 };
