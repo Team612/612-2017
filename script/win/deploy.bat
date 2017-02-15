@@ -19,7 +19,30 @@ if defined WINSCP (
 :deploy
 ECHO Enter roborio ip address
 SET /p ADDRESS=Usually roborio-TEAM-frc.local, 10.TE.AM.X, or 172.22.11.2 for Static USB:
-winscp /command "open lvuser@%ADDRESS%" "rm FRCUserProgram" "put .build\FRCUserProgram /home/lvuser/" "chmod 754 FRCUserProgram" "exit"
+SET REMOTE_PATH=/home/lvuser/FRCUserProgram
+winscp /command ^
+    "open lvuser@%ADDRESS%" ^
+    "ls %REMOTE_PATH%'" ^
+    "exit"
+if %ERRORLEVEL% neq 0 (
+    GOTO filenotthere
+) else (
+    GOTO scp
+)
+
+:filenotthere
+winscp /command ^
+    "open lvuser@%ADDRESS%" ^
+    "rm FRCUserProgram" ^
+    "exit"
+GOTO scp
+
+:scp
+winscp /command ^
+    "open lvuser@%ADDRESS%" ^
+    "put .build\FRCUserProgram /home/lvuser/" ^
+    "chmod 754 FRCUserProgram" ^
+    "exit"
 ECHO deploy.bat: deployed successfully!
 PAUSE
 GOTO end
