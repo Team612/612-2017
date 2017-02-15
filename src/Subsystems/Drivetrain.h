@@ -9,20 +9,23 @@
 class Drivetrain: public Subsystem {
 public:
     std::shared_ptr<CANTalon> drive_fl;
+    std::shared_ptr<CANTalon> drive_ml;
     std::shared_ptr<CANTalon> drive_rl;
     std::shared_ptr<CANTalon> drive_fr;
+    std::shared_ptr<CANTalon> drive_mr;
     std::shared_ptr<CANTalon> drive_rr;
     lib612::DriveProfile* profile;
-    bool Debug; //if true, debuging is on
-    Drivetrain();
+    //Drivetrain();
     Drivetrain(lib612::DriveProfile* dp);
-    Drivetrain(lib612::DriveProfile* dp, bool d);
-    void Init();
-    void SetDriveProfile(lib612::DriveProfile dp);
-    void SetVelocity(double l, double r); //in meters per second (tangentially)
+    //void Init();
+    void SetDriveProfile(lib612::DriveProfile& dp);
+    void SetDriveProfile(lib612::DriveProfile* dp);
+    void SetVelocity(double l, double r); //sets velocity of both sides in meters per second (tangentially)
+    void SetRPM(double l, double r);      //sets rpm of both sides
     double GetLeftVelocity();
     double GetRightVelocity();
-    void InitDefaultCommand();
+    void InitDefaultCommand() override;
+    lib612::DriveProfile* GetCurrentProfile();
 private:
     double pi = 3.141592653;
 };

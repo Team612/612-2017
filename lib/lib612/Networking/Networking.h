@@ -2,8 +2,17 @@
 #include "DriverStation.h"
 #include "WPILib.h"
 
+#include <vector>
+#include <functional>
+
 namespace lib612 {
     namespace Networking {
+        static  std::vector<std::function<void(void)>> update_functions;
+
+        inline void AddFunction(std::function<void(void)> fn) {
+            update_functions.push_back(fn);
+        }
+
         enum class Mode {
             AUTONOMOUS,
             TELEOPERATED,
@@ -12,7 +21,7 @@ namespace lib612 {
         };
 
         //Robot mode based only on the driverstation
-        Mode GetRobotMode() {
+        inline  Mode GetRobotMode() {
             if (frc::DriverStation::GetInstance().IsAutonomous())
                 return Mode::AUTONOMOUS;
             else if (frc::DriverStation::GetInstance().IsTest())
@@ -23,7 +32,7 @@ namespace lib612 {
                 return Mode::NULLMODE;
         }
 
-        void UpdateAll() {
+        inline  void UpdateAll() {
             frc::SmartDashboard::PutBoolean("Enabled", frc::DriverStation::GetInstance().IsEnabled());
             //switch cases for GetRobotMode//
             switch (GetRobotMode()) {
@@ -42,6 +51,12 @@ namespace lib612 {
             frc::SmartDashboard::PutNumber("Location", frc::DriverStation::GetInstance().GetLocation());
             frc::SmartDashboard::PutNumber("Match Time", frc::DriverStation::GetInstance().GetMatchTime());
             frc::SmartDashboard::PutNumber("Battery", frc::DriverStation::GetInstance().GetBatteryVoltage());
+
+            if(update_functions.size() > 0) {
+                for (auto function : update_functions) {
+                    function();
+                }
+            }
         }
     }
 }

@@ -1,10 +1,10 @@
+#include <lib612/DriveProfile.h>
 #include "Robot.h"
 
 #include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
-#include "lib612/Networking/Networking.h"
 #include "lib612/DriveProfile.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
@@ -21,11 +21,11 @@ void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(0, 0, 0, 0, 0, 0, true, 0, 0)); //dummy values
+    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
-    drivecommand = std::make_unique<Drive>();
+    drivecommand = std::make_unique<Drive>(); //TODO: Real values
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
     autonomousCommand = std::make_unique<Autonomous>();
