@@ -15,12 +15,15 @@ public:
   double ReturnPIDInput();
   void UsePIDOutput(double output);
 private:
-  bool stage1;
-  bool stage2;
-  bool stage2FirstRun;
-  bool stage3;
-  bool finished;
-  double DISTANCE;
+  bool stage1; // Drive forward
+  bool stage2; // Rotate counter-clockwise
+  bool stage2FirstRun; // Configure PID for rotation
+  bool stage3; // Shoot Balls
+  bool stage3FirstRun; // Disable PID and start timeout
+  double DISTANCE; //Encoder native units
+  double ROTATE; //Also encoder native units
   double leftInitialDistance;
   double rightInitialDistance;
+  double SHOOT_TIME;
+  double OPTIMAL_RPM;
 };
