@@ -6,8 +6,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -I${CMAKE_CURRENT_LIST_DIR}/w
 SET(CMAKE_EXE_LINKER_FLAGS "-L${CMAKE_CURRENT_LIST_DIR}/wpilib/lib -L${CMAKE_CURRENT_LIST_DIR}/bin/libpathfinder -Wl,-rpath,/opt/GenICam_v2_3/bin/Linux_armv7-a")
 
 #including other libraries
-include_directories("${CMAKE_CURRENT_LIST_DIR}/lib/ADIS16448-RoboRIO-Driver/C++/include")
 include_directories("${CMAKE_CURRENT_LIST_DIR}/lib/")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/lib/ADIS16448-RoboRIO-Driver/C++/include")
 #are these necessary?
 include_directories("${CMAKE_CURRENT_LIST_DIR}/wpilib/include/")
 include_directories(${CMAKE_CURRENT_LIST_DIR}/CTRE/include/)

@@ -1,79 +1,36 @@
 #include "Drivetrain.h"
-#include <cmath>
-#include "../RobotMap.h"
 #include "../Commands/Drive/Drive.h"
 #include "lib612/Networking/Networking.h"
-
-Drivetrain::Drivetrain() : Subsystem("Drivetrain") {
-    Init();
-}
-
-
+#include "../RobotMap.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
-    Debug = false;
-    drive_fl->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_rl->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_fr->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_rr->SetPID(profile->P, profile->I, profile->D, profile->F);
-    Init();
-}
 
-Drivetrain::Drivetrain(lib612::DriveProfile* dp, bool d) : Subsystem("Drivetrain") {
-    profile = dp;
-    Debug = d;
-    drive_fl->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_rl->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_fr->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_rr->SetPID(profile->P, profile->I, profile->D, profile->F);
-    Init();
-}
+    //Make sure we're using the actual talon objects and not making our out copies
+    drive_mr = RobotMap::drive_mr;
+    drive_fr = RobotMap::drive_fr;
+    drive_rr = RobotMap::drive_rr;
+    drive_ml = RobotMap::drive_ml;
+    drive_fl = RobotMap::drive_fl;
+    drive_rl = RobotMap::drive_rl;
 
-void Drivetrain::Init() {
-    if(profile->TwoEncoder) {
-        if(profile->LeftTalonEncoder == 0) {
-            drive_fl->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-            drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-            drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-            drive_rl->Set(drive_fl->GetDeviceID());
-        }
-        else {
-            drive_rl->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-            drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-            drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-            drive_fl->Set(drive_rl->GetDeviceID());
-        }
-        if(profile->RightTalonEncoder == 0) {
-            drive_fr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-            drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-            drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-            drive_rr->Set(drive_fr->GetDeviceID());
-        }
-        else {
-            drive_rr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-            drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-            drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-            drive_fr->Set(drive_rr->GetDeviceID());
-        }
-    }
-    else {
-        drive_fl->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-        drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-        drive_rl->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-        drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-        drive_fr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-        drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-        drive_rr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-        drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    }
+    drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
+    drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
+    drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+    drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+    drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+
     //SetDistancePerPulse()
-    double DistancePerWheelRotation = pi*profile->WheelDiameter;
-    double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
-    double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
-    double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
-    RobotMap::drivetrainleft_encoder->SetDistancePerPulse(DistancePerPulse);
-    RobotMap::drivetrainright_encoder->SetDistancePerPulse(DistancePerPulse);
+    //TODO: Are these being used?
+    //double DistancePerWheelRotation = pi*profile->WheelDiameter;
+    //double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
+    //double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
+    //double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
 
     //update Smart Dashboard
     lib612::Networking::AddFunction([this](){
@@ -81,42 +38,51 @@ void Drivetrain::Init() {
         frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
         frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
-
     });
 }
 
+void Drivetrain::SetDriveProfile(lib612::DriveProfile& dp) {
+    *profile = dp;
+}
+
+void Drivetrain::SetDriveProfile(lib612::DriveProfile* dp) {
+    profile = dp;
+}
+
 void Drivetrain::SetVelocity(double l, double r) {
-    double TargetLeft = (60*(l/profile->WheelFriction))/(profile->WheelDiameter*pi);
+    double TargetLeft = (60*(l/profile->WheelFriction))/(profile->WheelDiameter*pi); //Converts l to left wheel rpm
+    double TargetRight = (60*(r/profile->WheelFriction))/(profile->WheelDiameter*pi); //Converts r to right wheel rpm
+    SetRPM(TargetLeft, TargetRight);
+}
+
+void Drivetrain::SetRPM(double l, double r) {
+    double TargetLeft = l;
+    double TargetRight = r;
     if(std::abs(TargetLeft) > profile->WheelMaxRPM) {
-        TargetLeft = (std::abs(TargetLeft)/TargetLeft)*profile->WheelMaxRPM;
+        TargetLeft = (std::abs(TargetLeft)/TargetLeft)*profile->WheelMaxRPM; //If TargetLeft is greater that WheelMaxRPM, Set TargetLeft to WheelMaxRPM with correct sign
     }
-    double TargetRight = (60*(r/profile->WheelFriction))/(profile->WheelDiameter*pi);
     if(std::abs(TargetRight) > profile->WheelMaxRPM) {
-        TargetLeft = (std::abs(TargetRight)/TargetRight)*profile->WheelMaxRPM;
-    }
-    TargetLeft = TargetLeft/profile->NativeToRPM; //Convert to native encoder units
-    TargetRight = TargetRight/profile->NativeToRPM; //Convert to native encoder units
-    if(profile->TwoEncoder) {
-        if(profile->LeftTalonEncoder == 0) {
-            drive_fl->SetSetpoint(TargetLeft);
-        }
-        else {
-            drive_rl->SetSetpoint(TargetLeft);
-        }
-        if(profile->RightTalonEncoder == 0) {
-            drive_fr->SetSetpoint(TargetRight);
-        }
-        else {
-            drive_rr->SetSetpoint(TargetRight);
-        }
-    }
-    else {
-        drive_fl->SetSetpoint(TargetLeft);
-        drive_rl->SetSetpoint(TargetLeft);
-        drive_fr->SetSetpoint(TargetRight);
-        drive_rr->SetSetpoint(TargetRight);
+        TargetLeft = (std::abs(TargetRight)/TargetRight)*profile->WheelMaxRPM; //If TargetRight is greater that WheelMaxRPM, Set TargetRight to WheelMaxRPM with correct sign
     }
 
+    drive_ml->SetSetpoint(TargetLeft);
+    drive_fl->Set(drive_ml->GetDeviceID());
+    drive_rl->Set(drive_ml->GetDeviceID());
+    drive_mr->SetSetpoint(TargetRight);
+    drive_fr->Set(drive_mr->GetDeviceID());
+    drive_rr->Set(drive_mr->GetDeviceID());
+}
+
+lib612::DriveProfile* Drivetrain::GetCurrentProfile() {
+    return profile;
+}
+
+double Drivetrain::GetLeftVelocity() {
+    return drive_ml->GetSetpoint();
+}
+
+double Drivetrain::GetRightVelocity() {
+    return drive_mr->GetSetpoint();
 }
 
 void Drivetrain::InitDefaultCommand() {
