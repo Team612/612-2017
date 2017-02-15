@@ -5,7 +5,7 @@
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
-#include "lib612/DriveProfile.h"
+#include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -37,6 +37,12 @@ void Robot::DisabledInit(){
 
 void Robot::DisabledPeriodic() {
     Scheduler::GetInstance()->Run();
+}
+
+void Robot::RobotPeriodic() {
+    //update dashboard while robot is enabled in all modes
+    if(IsEnabled())
+        lib612::Networking::UpdateAll();
 }
 
 void Robot::AutonomousInit() {
