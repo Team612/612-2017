@@ -11,6 +11,8 @@
 #include <WPILib.h>
 #include <XboxController.h>
 
+#include <cmath>
+
 using namespace frc;
 
 class Robot: public IterativeRobot {
@@ -42,56 +44,65 @@ public:
 	XboxController *driver;
 	XboxController* gunner;
 
-	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -3200.0 / 5, INTAKE = 1000; // TODO: Intake value is garbage
+	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
 
 	void RobotInit() {
 		driver = new XboxController(0);
 		gunner = new XboxController(1);
 
-		shooter1 = new CANTalon(0);
+//		shooter1 = new CANTalon(4);
 		//shooter2 = new CANTalon(0);
-		intake1 = new CANTalon(1);
+		intake1 = new CANTalon(4);
 		//intake2 = new CANTalon(1);
 
-        shooter1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-        shooter1->SetControlMode(frc::CANSpeedController::ControlMode::kSpeed);
-        shooter1->SetSensorDirection(false);
-        shooter1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
-        shooter1->ConfigPeakOutputVoltage(+12.0f, 0.0f);
-        shooter1->SelectProfileSlot(0);
-        shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
+//		//shooter1->SetInverted(true);
+//		shooter1->SelectProfileSlot(0);
+//		shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
+//		shooter1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+//		shooter1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+//		//shooter1->SetSensorDirection(false);
+//        shooter1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+//        shooter1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
+
 
         //shooter2->SetControlMode(CANSpeedController::ControlMode::kFollower);
         //shooter2->Set(0); // SAME AS ID FOR SHOOTER 1
 
-        intake1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-        intake1->SetControlMode(frc::CANSpeedController::ControlMode::kSpeed);
-        intake1->SetSensorDirection(false);
-        intake1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
-        intake1->ConfigPeakOutputVoltage(+12.0f, 0.0f);
-        intake1->SelectProfileSlot(0);
-        intake1->SetPID(0.12, 0.001, 5, 0.08);
+		intake1->SelectProfileSlot(0);
+		intake1->SetPID(0.12, 0.001, 5, 0.08);
+		intake1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+		intake1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+		intake1->SetSensorDirection(false);
+		intake1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+		intake1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
 
         //intake2->SetControlMode(CANSpeedController::ControlMode::kFollower);
         //intake2->Set(1); // SAME AS ID FOR INTAKE 1
 
-		left1 = new CANTalon(2);
-		left2 = new CANTalon(3);
-		left3 = new CANTalon(4);
-
-		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		left2->Set(2); // SAME AS ID FOR LEFT 1
-		left3->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		left3->Set(2); // SAME AS ID FOR LEFT 1
-
-		right1 = new CANTalon(5);
-		right2 = new CANTalon(6);
-		right3 = new CANTalon(7);
-
-		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		right2->Set(5); // SAME AS ID FOR RIGHT 1
-		right3->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		right3->Set(5); // SAME AS ID FOR RIGHT 1
+//		left1 = new CANTalon(1);
+//		left2 = new CANTalon(2);
+//		left3 = new CANTalon(3);
+//		left1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
+//		left1->SetInverted(true);
+//		//left1->SetInverted(true);
+//		//left1->SetInverted(true);
+//
+//		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+//		left2->Set(1); // SAME AS ID FOR LEFT 1
+//		left3->SetControlMode(CANSpeedController::ControlMode::kFollower);
+//		left3->Set(1); // SAME AS ID FOR LEFT 1
+//
+//		right1 = new CANTalon(23);//4
+//		right2 = new CANTalon(7);//7
+//		right3 = new CANTalon(6);//6
+//		right1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
+//		right1->SetInverted(true);
+//
+//
+//		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+//		right2->Set(23); // SAME AS ID FOR RIGHT 1
+//		right3->SetControlMode(CANSpeedController::ControlMode::kFollower);
+//		right3->Set(23); // SAME AS ID FOR RIGHT 1
 	}
 
 	void AutonomousInit() override {}
@@ -99,19 +110,46 @@ public:
 
 	void TeleopInit()
 	{
-		if(gunner->GetAButton())
-			shooter1->Set(SHOOTER_SHOOT);
-		else
-			shooter1->Set(SHOOTER_IDLE);
 
-		if(gunner->GetBButton())
-			intake1->Set(INTAKE);
-		else
-			intake1->Set(0);
 	}
 
-	void TeleopPeriodic() {
 
+	void TeleopPeriodic() {
+//		double a = driver->GetY(frc::GenericHID::kLeftHand);
+//		double b = driver->GetY(frc::GenericHID::kRightHand);
+//		//std::printf("%f, %f\n", a, b);
+//		//std::printf("%f, %f\n", abs(a), abs(b));
+//			if(a > 0.1f || a < -0.1f){
+//				left1->Set(a);
+//
+//			}
+//			else{
+//				left1->Set(0);
+//
+//			}
+//			if(b > 0.1f || b < -0.1f){
+//				right1->Set(b);
+//
+//				}
+//			else{
+//				right1->Set(0);
+//			}
+//		std::printf("%d\n", gunner->GetAButton() ? 1 : 0);
+//
+////		int multiplier = gunner->GetBButton() ? -1 : 1;
+//		int multiplier = 1;
+//
+//		if(gunner->GetAButton())
+//			shooter1->SetSetpoint(multiplier * SHOOTER_SHOOT);
+//		else
+//			shooter1->SetSetpoint(multiplier * SHOOTER_IDLE);
+
+
+		std::printf("%d\n", gunner->GetBButton() ? 1 : 0);
+		if(gunner->GetBButton())
+			intake1->SetSetpoint(INTAKE);
+		else
+			intake1->SetSetpoint(0);
 	}
 };
 
