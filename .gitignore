@@ -1,0 +1,10 @@
+.idea
+cmake-build-debug
+wpilib
+CTRE
+*.out
+*.exe
+FRCUserProgram
+FRC
+CMakeCache.txt
+make.settings
