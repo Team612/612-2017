@@ -41,6 +41,8 @@ public:
 	CANTalon* right1;
 	CANTalon* right2;
 	CANTalon* right3;
+	CANTalon* climber1;
+	CANTalon* climber2;
 	XboxController *driver;
 	XboxController* gunner;
 
@@ -53,6 +55,8 @@ public:
 //		shooter1 = new CANTalon(4);
 		//shooter2 = new CANTalon(0);
 		intake1 = new CANTalon(4);
+		climber1 = new CANTalon(6);
+		climber2 = new CANTalon(7);
 		//intake2 = new CANTalon(1);
 
 //		//shooter1->SetInverted(true);
@@ -108,8 +112,7 @@ public:
 	void AutonomousInit() override {}
 	void AutonomousPeriodic() {}
 
-	void TeleopInit()
-	{
+	void TeleopInit() {
 
 	}
 
@@ -145,11 +148,13 @@ public:
 //			shooter1->SetSetpoint(multiplier * SHOOTER_IDLE);
 
 
-		std::printf("%d\n", gunner->GetBButton() ? 1 : 0);
+		//std::printf("%d\n", gunner->GetBButton() ? 1 : 0);
 		if(gunner->GetBButton())
 			intake1->SetSetpoint(INTAKE);
 		else
 			intake1->SetSetpoint(0);
+		climber1->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
+		climber2->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
 	}
 };
 
