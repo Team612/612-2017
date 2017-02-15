@@ -21,7 +21,7 @@ void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1));
+    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
