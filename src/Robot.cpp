@@ -46,7 +46,7 @@ public:
     XboxController* driver;
     XboxController* gunner;
 
-    double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
+    double SHOOTER_SHOOT = 3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
 
     void RobotInit() {
         driver = new XboxController(0);
@@ -59,7 +59,7 @@ public:
         climber2 = new CANTalon(7);
         intake2 = new CANTalon(3);
 
-        shooter1->SetInverted(true);
+        shooter1->SetInverted(false);
         shooter1->SelectProfileSlot(0);
         shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
         shooter1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
@@ -147,8 +147,6 @@ public:
         else
             shooter1->SetSetpoint(SHOOTER_IDLE);
 
-        shooter2->Set(1); //update shooter2
-
         //std::printf("%d\n", gunner->GetBButton() ? 1 : 0);
         if(gunner->GetBButton())
             intake1->SetSetpoint(INTAKE);
@@ -156,7 +154,6 @@ public:
             intake1->SetSetpoint(-INTAKE / 3);
         else
             intake1->Set(0);
-        intake2->Set(4);
         climber1->Set(gunner->GetXButton() ? -1.0f : (gunner->GetYButton() ? -0.2f : 0));
         //climber2->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
     }

@@ -25,12 +25,12 @@ winscp /command ^
     "ls %REMOTE_PATH%'" ^
     "exit"
 if %ERRORLEVEL% neq 0 (
-    GOTO filenotthere
-) else (
     GOTO scp
+) else (
+    GOTO filethere
 )
 
-:filenotthere
+:filethere
 winscp /command ^
     "open lvuser@%ADDRESS%" ^
     "rm FRCUserProgram" ^
@@ -44,14 +44,15 @@ winscp /command ^
     "chmod 754 FRCUserProgram" ^
     "exit"
 ECHO deploy.bat: deployed successfully!
+ECHO deploy.bat: remember to restart the robot code on the driver station!
 PAUSE
 GOTO end
 
 :noscp
 REM only runs if winscp isn't found in the path
-ECHO .deploy.bat: It looks like WinSCP has not been added to your PATH
-ECHO .deploy.bat: Deploying to the robot from FRC++ Build Tools requires WinSCP
-ECHO .deploy.bat: If you do not have the intention of deploying using WinSCP, simply copy FRCUserProgram in the .build folder to /home/lvuser on the roborio with your method of choice.
+ECHO deploy.bat: It looks like WinSCP has not been added to your PATH
+ECHO deploy.bat: Deploying to the robot from FRC++ Build Tools requires WinSCP
+ECHO deploy.bat: If you do not have the intention of deploying using WinSCP, simply copy FRCUserProgram in the .build folder to /home/lvuser on the roborio with your method of choice.
 GOTO end
 
 :end
