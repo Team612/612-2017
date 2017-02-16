@@ -22,9 +22,7 @@ void Robot::RobotInit() {
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
-    drivecommand = std::make_unique<Drive>(); //TODO: Real values
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
-    talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
     autonomousCommand = std::make_unique<Autonomous>();
 }
 
