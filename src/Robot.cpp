@@ -5,6 +5,7 @@
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -20,7 +21,7 @@ void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1));
+    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
@@ -36,6 +37,12 @@ void Robot::DisabledInit(){
 
 void Robot::DisabledPeriodic() {
     Scheduler::GetInstance()->Run();
+}
+
+void Robot::RobotPeriodic() {
+    //update dashboard while robot is enabled in all modes
+    if(IsEnabled())
+        lib612::Networking::UpdateAll();
 }
 
 void Robot::AutonomousInit() {

@@ -4,26 +4,31 @@
 #include "../RobotMap.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
+    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
-    drive_mr = RobotMap::drive_mr;
-    drive_fr = RobotMap::drive_fr;
-    drive_rr = RobotMap::drive_rr;
-    drive_ml = RobotMap::drive_ml;
-    drive_fl = RobotMap::drive_fl;
-    drive_rl = RobotMap::drive_rl;
+    this->drive_mr.reset(RobotMap::drive_mr.get());
+    this->drive_fr.reset(RobotMap::drive_fr.get());
+    this->drive_rr.reset(RobotMap::drive_rr.get());
+    this->drive_ml.reset(RobotMap::drive_ml.get());
+    this->drive_fl.reset(RobotMap::drive_fl.get());
+    this->drive_rl.reset(RobotMap::drive_rl.get());
 
-    drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
-    drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    //check if null
+    if(this->drive_mr == nullptr || this->drive_fr == nullptr || this->drive_rr == nullptr || this->drive_ml == nullptr || this->drive_fl == nullptr || this->drive_rl == nullptr)
+        std::cout << "Yolo one of these are nullo lolololo" << std::endl;
+
+    this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
+    this->drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
+    this->drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 
     //SetDistancePerPulse()
     //TODO: Are these being used?
@@ -33,12 +38,14 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     //double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
 
     //update Smart Dashboard
+    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
     lib612::Networking::AddFunction([this](){
         frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P );
         frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
         frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
     });
+    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
 }
 
 void Drivetrain::SetDriveProfile(lib612::DriveProfile& dp) {
