@@ -8,7 +8,7 @@
 class Wiggle: public Command {
     //I made a copious number of variables because I like the wiggles
     //Seriously, the command is designed around this meme
-private:
+public:
     enum Direction {LEFT, RIGHT};
     Direction dir; //direction to focus wiggling in
     Direction wiggle_next; //used internally for wiggle switching
@@ -22,7 +22,6 @@ private:
     double time_spent_wiggling;
     double time_of_next_wiggle;
 
-public:
     Wiggle(Direction dir, double rate = 2, double wiggle_time = 3, double speed = 5);
     void Initialize() override;
     void Execute() override;
