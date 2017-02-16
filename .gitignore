@@ -4,7 +4,8 @@ wpilib
 CTRE
 *.out
 *.exe
-FRCUserProgram
-FRC
-CMakeCache.txt
-make.settings
+.build/FRCUserProgram
+.build/FRC
+.build/CMakeCache.txt
+.build/make.settings
+.build/Makefile
