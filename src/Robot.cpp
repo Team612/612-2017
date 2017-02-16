@@ -32,9 +32,9 @@ public:
 	*/
 
 	CANTalon* shooter1;
-	//CANTalon* shooter2;
+	CANTalon* shooter2;
 	CANTalon* intake1;
-	//CANTalon* intake2;
+	CANTalon* intake2;
 	CANTalon* left1;
 	CANTalon* left2;
 	CANTalon* left3;
@@ -43,34 +43,34 @@ public:
 	CANTalon* right3;
 	CANTalon* climber1;
 	CANTalon* climber2;
-	XboxController *driver;
+	XboxController* driver;
 	XboxController* gunner;
 
-	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
+	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
 
 	void RobotInit() {
 		driver = new XboxController(0);
 		gunner = new XboxController(1);
 
-//		shooter1 = new CANTalon(4);
-		//shooter2 = new CANTalon(0);
+		shooter1 = new CANTalon(1);
+		shooter2 = new CANTalon(2);
 		intake1 = new CANTalon(4);
 		climber1 = new CANTalon(6);
 		climber2 = new CANTalon(7);
-		//intake2 = new CANTalon(1);
+		intake2 = new CANTalon(3);
 
-//		//shooter1->SetInverted(true);
-//		shooter1->SelectProfileSlot(0);
-//		shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
-//		shooter1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-//		shooter1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-//		//shooter1->SetSensorDirection(false);
-//        shooter1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
-//        shooter1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
+		shooter1->SetInverted(true);
+		shooter1->SelectProfileSlot(0);
+		shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
+		shooter1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
+		shooter1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+		shooter1->SetSensorDirection(false);
+        shooter1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+        shooter1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
 
 
-        //shooter2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-        //shooter2->Set(0); // SAME AS ID FOR SHOOTER 1
+        shooter2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+        shooter2->Set(1); // SAME AS ID FOR SHOOTER 1
 
 		intake1->SelectProfileSlot(0);
 		intake1->SetPID(0.12, 0.001, 5, 0.08);
@@ -80,8 +80,8 @@ public:
 		intake1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
 		intake1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
 
-        //intake2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-        //intake2->Set(1); // SAME AS ID FOR INTAKE 1
+        intake2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+        intake2->Set(4); // SAME AS ID FOR INTAKE 1
 
 //		left1 = new CANTalon(1);
 //		left2 = new CANTalon(2);
@@ -139,22 +139,26 @@ public:
 //			}
 //		std::printf("%d\n", gunner->GetAButton() ? 1 : 0);
 //
-////		int multiplier = gunner->GetBButton() ? -1 : 1;
-//		int multiplier = 1;
-//
-//		if(gunner->GetAButton())
-//			shooter1->SetSetpoint(multiplier * SHOOTER_SHOOT);
-//		else
-//			shooter1->SetSetpoint(multiplier * SHOOTER_IDLE);
+////		int multiplier = gunner->GetBButton() ? -1 : 1
+		//int multiplier = 1;
+        std::cout << -gunner->GetY(frc::GenericHID::kLeftHand) << std::endl;
+		if(-gunner->GetY(frc::GenericHID::kLeftHand) > 0.1)
+			shooter1->SetSetpoint(SHOOTER_SHOOT);
+		else
+			shooter1->SetSetpoint(SHOOTER_IDLE);
 
+        shooter2->Set(1); //update shooter2
 
 		//std::printf("%d\n", gunner->GetBButton() ? 1 : 0);
 		if(gunner->GetBButton())
 			intake1->SetSetpoint(INTAKE);
-		else
-			intake1->SetSetpoint(0);
-		climber1->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
-		climber2->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
+		else if(gunner->GetAButton())
+			intake1->SetSetpoint(-INTAKE / 3);
+        else
+            intake1->Set(0);
+        intake2->Set(4);
+		climber1->Set(gunner->GetXButton() ? -1.0f : (gunner->GetYButton() ? -0.2f : 0));
+		//climber2->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
 	}
 };
 
