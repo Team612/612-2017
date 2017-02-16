@@ -1,10 +1,11 @@
-#include "lib612/DriveProfile.h"
+#include <lib612/DriveProfile.h>
 #include "Robot.h"
 
 #include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
@@ -12,7 +13,11 @@ std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
+std::unique_ptr<Command> Robot::AutoDrive;
+std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
+std::unique_ptr<Command> Robot::talontesttest;
+std::unique_ptr<Command> Robot::wiggle;
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -22,9 +27,12 @@ void Robot::RobotInit() {
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
+    drivecommand = std::make_unique<Drive>(); //TODO: Real values
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
+    talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
     autonomousCommand = std::make_unique<Autonomous>();
-}
+    wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
+  }
 
 void Robot::DisabledInit(){
 
@@ -44,6 +52,7 @@ void Robot::AutonomousInit() {
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
     //AutoDrive->Start();
+
 }
 
 void Robot::AutonomousPeriodic() {
@@ -56,8 +65,9 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    if(frc::SmartDashboard::GetBoolean("debug", false))
+    if(frc::SmartDashboard::GetBoolean("system check", false)){
         CheckSystem->Start();
+    }
 }
 
 void Robot::TeleopPeriodic() {
@@ -65,6 +75,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
+
 
 }
 
