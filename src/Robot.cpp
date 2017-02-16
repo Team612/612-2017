@@ -29,7 +29,7 @@ void Robot::RobotInit() {
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
     autonomousCommand = std::make_unique<Autonomous>();
-  }
+}
 
 void Robot::DisabledInit(){
 
@@ -49,7 +49,6 @@ void Robot::AutonomousInit() {
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
     //AutoDrive->Start();
-
 }
 
 void Robot::AutonomousPeriodic() {
@@ -62,10 +61,8 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    if(frc::SmartDashboard::GetBoolean("system check", false)){
+    if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
-    }
-    drivecommand->Start(); //TODO: Investigate why default commands don't work
 }
 
 void Robot::TeleopPeriodic() {
@@ -73,7 +70,6 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
-
 
 }
 
