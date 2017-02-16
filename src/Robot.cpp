@@ -12,10 +12,7 @@ std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
-std::unique_ptr<Command> Robot::AutoDrive;
-std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
-std::unique_ptr<Command> Robot::talontesttest;
 
 void Robot::RobotInit() {
     RobotMap::init();
