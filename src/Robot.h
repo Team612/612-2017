@@ -1,5 +1,5 @@
 #pragma once
-//TODO update TalonTest commmand to accomodate the two talons
+//TODO update TalonTest command to accommodate the two talons
 #include "WPILib.h"
 #include "Commands/Command.h"
 #include "RobotMap.h"
@@ -22,8 +22,6 @@ public:
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Intake> intake;
     static std::shared_ptr<Climber> climber;
-    static std::unique_ptr<Command> AutoDrive;
-    static std::unique_ptr<Command> drivecommand;
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
