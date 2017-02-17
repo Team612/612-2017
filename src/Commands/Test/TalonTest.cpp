@@ -56,8 +56,8 @@ void TalonTest::Initialize() {
         std::cout<<"ERROR: Unexpected TalonENUM IN TalonTest.cpp";
         break;
     }
-    OriginalControlMode = chosen->GetControlMode();
-    chosen->SetControlMode(CANTalon::TalonControlMode::kThrottle);
+    OriginalControlMode = chosen->GetTalonControlMode();
+    chosen->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     //SetTimeout((double)timer);
 }
 
@@ -73,12 +73,12 @@ bool TalonTest::IsFinished() {
 
 void TalonTest::End() {
     printf("Info: Test Ended\n");
-    chosen->SetControlMode(OriginalControlMode);
+    chosen->SetTalonControlMode(OriginalControlMode);
     chosen->Set(0);
 }
 
 void TalonTest::Interrupted() {
     printf("WARNING: Test Interrupted\n");
-    chosen->SetControlMode(OriginalControlMode);
+    chosen->SetTalonControlMode(OriginalControlMode);
     chosen->Set(0);
 }
