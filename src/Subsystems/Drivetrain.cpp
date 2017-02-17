@@ -72,10 +72,10 @@ void Drivetrain::SetRPM(double l, double r) {
         TargetLeft = (std::abs(TargetRight)/TargetRight)*profile->WheelMaxRPM; //If TargetRight is greater that WheelMaxRPM, Set TargetRight to WheelMaxRPM with correct sign
     }
 
-    drive_ml->SetSetpoint(TargetLeft);
+    drive_ml->SetSetpoint(TargetLeft/profile->NativeToRPM);
     drive_fl->Set(drive_ml->GetDeviceID());
     drive_rl->Set(drive_ml->GetDeviceID());
-    drive_mr->SetSetpoint(TargetRight);
+    drive_mr->SetSetpoint(TargetRight/profile->NativeToRPM);
     drive_fr->Set(drive_mr->GetDeviceID());
     drive_rr->Set(drive_mr->GetDeviceID());
 }
