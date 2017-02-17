@@ -7,6 +7,16 @@ AutoTenBall::AutoTenBall(): PIDCommand("AutoTenBall", Robot::drivetrain->GetCurr
     SetTimeout(10000); // Placeholder until stage3FirstRun
     Requires(Robot::drivetrain.get());
     Requires(Robot::shooter.get());
+
+    //Assists calculations
+    double DistancePerWheelRotation = pi*Robot::drivetrain->GetCurrentProfile()->WheelDiameter;
+    double WheelRotationsPerPulse = Robot::drivetrain->GetCurrentProfile()->NativeToRPM *
+                                    Robot::drivetrain->GetCurrentProfile()->EncoderToWheel * (60/0.1);
+    double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
+
+    DISTANCE = DISTANCE_METERS / DistancePerPulse;
+    ROTATE = (ROTATE_RADIANS * Robot::drivetrain->GetCurrentProfile()->WheelWidth / 2) / DistancePerPulse;
+
     stage1 = false;
     stage2 = false;
     stage2FirstRun = false;
