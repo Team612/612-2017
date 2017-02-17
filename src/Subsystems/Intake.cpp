@@ -8,6 +8,10 @@ Intake::Intake() : Subsystem("Intake") {
                                          frc::SmartDashboard::GetNumber("Intake I", 0.001),
                                          frc::SmartDashboard::GetNumber("Intake D", 5),
                                          frc::SmartDashboard::GetNumber("Intake ff", 0.08));
+    RobotMap::intake_talon_right->SetSensorDirection(false);
+    RobotMap::intake_talon_right->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+    RobotMap::intake_talon_right->ConfigPeakOutputVoltage(+12.0f, -12.0f);
+
     RobotMap::intake_talon_left->SetControlMode(frc::CANSpeedController::ControlMode::kFollower);
     RobotMap::intake_talon_left->Set(RobotMap::intake_talon_right->GetDeviceID());
 }
