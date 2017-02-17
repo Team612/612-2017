@@ -7,6 +7,7 @@
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
+#include <chrono>
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -30,23 +31,36 @@ void Robot::RobotInit() {
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     initial_current = RobotMap::pdp->GetTotalCurrent();
     std::cout << "Info: Starting current: " << initial_current << std::endl;
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
+    lib612::Networking::AddFunction([](){
+        std::cout << "Test" << std::endl;
+        auto now = std::chrono::system_clock::now();
+        auto to_time_t = std::chrono::system_clock::to_time_t(now);
+        std::stringstream s;
+        s << std::ctime(&to_time_t);
+        SmartDashboard::PutString("Random time", s.str());
+    });
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
   }
 
-void Robot::DisabledInit(){
-
+void Robot::DisabledInit() {
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::DisabledPeriodic() {
-    Scheduler::GetInstance()->Run();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
+    //Scheduler::GetInstance()->Run();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::RobotPeriodic() {
-    //update dashboard while robot is enabled in all modes
-    if(IsEnabled())
-        lib612::Networking::UpdateAll();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
+    lib612::Networking::UpdateAll();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::AutonomousInit() {
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
     //AutoDrive->Start();
@@ -54,31 +68,36 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     Scheduler::GetInstance()->Run();
 }
 void Robot::TeleopInit() {
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    if(frc::SmartDashboard::GetBoolean("system check", false)){
+    if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
-    }
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TeleopPeriodic() {
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     Scheduler::GetInstance()->Run();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TestInit() {
-
-
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TestPeriodic() {
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     Scheduler::GetInstance()->Run();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 START_ROBOT_CLASS(Robot)
