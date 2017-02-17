@@ -45,6 +45,7 @@ public:
     CANTalon* climber2;
     XboxController* driver;
     XboxController* gunner;
+    Servo* servo;
 
     double SHOOTER_SHOOT = 3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
 
@@ -58,6 +59,8 @@ public:
         climber1 = new CANTalon(6);
         climber2 = new CANTalon(7);
         intake2 = new CANTalon(3);
+
+        servo = new Servo(0);
 
         shooter1->SetInverted(false);
         shooter1->SelectProfileSlot(0);
@@ -156,6 +159,7 @@ public:
             intake1->Set(0);
         climber1->Set(gunner->GetXButton() ? -1.0f : (gunner->GetYButton() ? -0.2f : 0));
         //climber2->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
+        servo->Set(gunner->GetBumper(frc::GenericHID::kLeftHand) ? 1.0f : 0);
     }
 };
 
