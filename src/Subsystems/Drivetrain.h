@@ -22,6 +22,7 @@ public:
     void SetDriveProfile(lib612::DriveProfile* dp);
     void SetVelocity(double l, double r); //sets velocity of both sides in meters per second (tangentially)
     void SetRPM(double l, double r);      //sets rpm of both sides
+    void Throttle(double lpercent, double rpercent);
     double GetLeftVelocity();
     double GetRightVelocity();
     void InitDefaultCommand() override;

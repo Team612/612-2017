@@ -11,9 +11,9 @@ void Drive::Initialize() {
 }
 
 void Drive::Execute() {
-    Robot::drivetrain->SetVelocity(-Robot::oi->getdriver()->GetY(frc::GenericHID::kLeftHand), -Robot::oi->getdriver()->GetY(frc::GenericHID::kRightHand));
+    Robot::drivetrain->Throttle(-Robot::oi->getdriver()->GetY(frc::GenericHID::kLeftHand), -Robot::oi->getdriver()->GetY(frc::GenericHID::kRightHand));
     //motor feed safety
-    frc::Wait(0.05);
+    frc::Wait(0.005);
 }
 
 bool Drive::IsFinished() {
