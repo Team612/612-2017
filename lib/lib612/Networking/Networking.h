@@ -7,7 +7,7 @@
 
 namespace lib612 {
     namespace Networking {
-        static  std::vector<std::function<void(void)>> update_functions;
+        static std::vector<std::function<void(void)>> update_functions;
 
         inline void AddFunction(std::function<void(void)> fn) {
             update_functions.push_back(fn);
@@ -32,7 +32,7 @@ namespace lib612 {
                 return Mode::NULLMODE;
         }
 
-        inline  void UpdateAll() {
+        inline void UpdateAll() {
             frc::SmartDashboard::PutBoolean("Enabled", frc::DriverStation::GetInstance().IsEnabled());
             //switch cases for GetRobotMode//
             switch (GetRobotMode()) {
