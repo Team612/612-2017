@@ -49,7 +49,7 @@ void Robot::DisabledInit() {
 
 void Robot::DisabledPeriodic() {
     std::cout << "Robot.cpp: " << __LINE__ << std::endl;
-    //Scheduler::GetInstance()->Run();
+    Scheduler::GetInstance()->Run();
     std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
