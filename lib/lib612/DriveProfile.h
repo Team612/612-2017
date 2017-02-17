@@ -7,8 +7,8 @@ namespace lib612 {
     Drive profile is all the different dimensions on the robot
     */
     public:
-        DriveProfile();
-        DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr);
+        DriveProfile() = delete;
+        //DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr);
         DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr, double f, double p, double i, double d);
         double CalcMaxVelocity();              //max velocity is calculated, returned, and stored in WheelMaxVelocity
         double CalcMaxAccel(double TimeToMax); //max acceleration is calculated, returned, and stored in WheelMaxAcceleration

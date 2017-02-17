@@ -1,19 +1,6 @@
 #include "DriveProfile.h"
 
 namespace lib612 {
-    DriveProfile::DriveProfile() {
-
-    }
-
-    DriveProfile::DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr) {
-        NativeToRPM = ntr;
-        EncoderToWheel = etw;
-        WheelDiameter = wd;
-        WheelWidth = ww;
-        WheelFriction = wf;
-        WheelMaxRPM = wmr;
-    }
-
     DriveProfile::DriveProfile(double ntr, double etw, double wd, double ww, double wf, double wmr, double f, double p, double i, double d) {
         NativeToRPM = ntr;
         EncoderToWheel = etw;

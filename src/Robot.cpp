@@ -1,8 +1,12 @@
 #include <lib612/DriveProfile.h>
 #include "Robot.h"
 
+#include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
+#include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "Commands/Drive/Wiggle.h"
+#include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -10,16 +14,19 @@ std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
+std::unique_ptr<Command> Robot::wiggle;
 
 void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1));
+    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
+    autonomousCommand = std::make_unique<Autonomous>();
+    wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
   }
 
 void Robot::DisabledInit(){
@@ -28,6 +35,12 @@ void Robot::DisabledInit(){
 
 void Robot::DisabledPeriodic() {
     Scheduler::GetInstance()->Run();
+}
+
+void Robot::RobotPeriodic() {
+    //update dashboard while robot is enabled in all modes
+    if(IsEnabled())
+        lib612::Networking::UpdateAll();
 }
 
 void Robot::AutonomousInit() {

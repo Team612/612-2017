@@ -20,12 +20,18 @@ void RobotMap::init() {
     shooter.reset(new CANTalon(PORTS::CAN::shooter));
     lw->AddActuator("Shooter", "shooter", shooter);
 
+    drive_ml.reset(new CANTalon(PORTS::CAN::drive_talonML));
+    lw->AddActuator("Drivetrain", "talon_drive_ml", drive_ml);
+
     drive_fl.reset(new CANTalon(PORTS::CAN::drive_talonFL));
     lw->AddActuator("Drivetrain", "talon_drive_fl", drive_fl);
 
     drive_rl.reset(new CANTalon(PORTS::CAN::drive_talonRL));
     lw->AddActuator("Drivetrain", "talon_drive_rl", drive_rl);
-    drive_rl->SetInverted(true);
+    //drive_rl->SetInverted(true);
+
+    drive_mr.reset(new CANTalon(PORTS::CAN::drive_talonMR));
+    lw->AddActuator("Drivetrain", "talon_drive_mr", drive_mr);
 
     drive_fr.reset(new CANTalon(PORTS::CAN::drive_talonFR));
     lw->AddActuator("Drivetrain", "talon_drive_fr", drive_fr);

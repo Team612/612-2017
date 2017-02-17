@@ -1,5 +1,5 @@
 #pragma once
-//TODO update TalonTest commmand to accomodate the two talons
+
 #include "WPILib.h"
 #include "Commands/Command.h"
 #include "RobotMap.h"
@@ -23,14 +23,17 @@ public:
     static std::shared_ptr<Intake> intake;
     static std::shared_ptr<Climber> climber;
     static std::unique_ptr<Command> CheckSystem;
+    static std::unique_ptr<Command> talontesttest;
+    static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
 
-    virtual void RobotInit();
-    virtual void DisabledInit();
-    virtual void DisabledPeriodic();
-    virtual void AutonomousInit();
-    virtual void AutonomousPeriodic();
-    virtual void TeleopInit();
-    virtual void TeleopPeriodic();
-    virtual void TestInit();
-    virtual void TestPeriodic();
+    virtual void RobotInit() override;
+    virtual void RobotPeriodic() override;
+    virtual void DisabledInit() override;
+    virtual void DisabledPeriodic() override;
+    virtual void AutonomousInit() override;
+    virtual void AutonomousPeriodic() override;
+    virtual void TeleopInit() override;
+    virtual void TeleopPeriodic() override;
+    virtual void TestInit() override;
+    virtual void TestPeriodic() override;
 };
