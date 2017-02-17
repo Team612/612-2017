@@ -13,10 +13,7 @@ std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
-std::unique_ptr<Command> Robot::AutoDrive;
-std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
-std::unique_ptr<Command> Robot::talontesttest;
 std::unique_ptr<Command> Robot::wiggle;
 
 void Robot::RobotInit() {
@@ -27,9 +24,7 @@ void Robot::RobotInit() {
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     oi = std::make_unique<OI>();
-    drivecommand = std::make_unique<Drive>(); //TODO: Real values
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
-    talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
   }
