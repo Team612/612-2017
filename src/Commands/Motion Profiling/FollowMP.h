@@ -7,8 +7,8 @@
 class FollowMP: public Command {
 public:
     FollowMP(lib612::MotionProfile* mp);
-    
-    int currentTimeMark;
+
+    unsigned int currentTimeMark;
     frc::Timer timer;
     lib612::MotionProfile* profile;
     virtual void Initialize();
