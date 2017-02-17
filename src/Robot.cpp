@@ -46,6 +46,7 @@ public:
     XboxController* driver;
     XboxController* gunner;
     Servo* servo;
+    RobotDrive* drive;
 
     double SHOOTER_SHOOT = 3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
 
@@ -87,30 +88,31 @@ public:
         intake2->SetControlMode(CANSpeedController::ControlMode::kFollower);
         intake2->Set(4); // SAME AS ID FOR INTAKE 1
 
-//		left1 = new CANTalon(1);
-//		left2 = new CANTalon(2);
-//		left3 = new CANTalon(3);
+		left1 = new CANTalon(1);
+		left2 = new CANTalon(2);
+		left3 = new CANTalon(3);
 //		left1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
 //		left1->SetInverted(true);
 //		//left1->SetInverted(true);
 //		//left1->SetInverted(true);
 //
-//		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-//		left2->Set(1); // SAME AS ID FOR LEFT 1
-//		left3->SetControlMode(CANSpeedController::ControlMode::kFollower);
-//		left3->Set(1); // SAME AS ID FOR LEFT 1
+		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		left2->Set(left1->GetDeviceID()); // SAME AS ID FOR LEFT 1
+		left3->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		left3->Set(left1->GetDeviceID()); // SAME AS ID FOR LEFT 1
 //
-//		right1 = new CANTalon(23);//4
-//		right2 = new CANTalon(7);//7
-//		right3 = new CANTalon(6);//6
+		right1 = new CANTalon(23);//4
+		right2 = new CANTalon(7);//7
+		right3 = new CANTalon(6);//6
 //		right1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
 //		right1->SetInverted(true);
 //
 //
-//		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-//		right2->Set(23); // SAME AS ID FOR RIGHT 1
-//		right3->SetControlMode(CANSpeedController::ControlMode::kFollower);
-//		right3->Set(23); // SAME AS ID FOR RIGHT 1
+		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		right2->Set(right1->GetDeviceID()); // SAME AS ID FOR RIGHT 1
+		right3->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		right3->Set(right1->GetDeviceID()); // SAME AS ID FOR RIGHT 1
+        drive = new RobotDrive(left1, right1);
     }
 
     void AutonomousInit() override {}
@@ -122,6 +124,7 @@ public:
 
 
     void TeleopPeriodic() {
+        drive->TankDrive(driver->GetY(frc::GenericHID::kLeftHand), driver->GetY(frc::GenericHID::kRightHand));
 //		double a = driver->GetY(frc::GenericHID::kLeftHand);
 //		double b = driver->GetY(frc::GenericHID::kRightHand);
 //		//std::printf("%f, %f\n", a, b);
