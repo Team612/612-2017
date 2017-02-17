@@ -15,6 +15,7 @@ std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
+double Robot::initial_current;
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -27,6 +28,8 @@ void Robot::RobotInit() {
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
+    initial_current = RobotMap::pdp->GetTotalCurrent();
+    std::cout << "Info: Starting current: " << initial_current << std::endl;
   }
 
 void Robot::DisabledInit(){
@@ -79,3 +82,9 @@ void Robot::TestPeriodic() {
 }
 
 START_ROBOT_CLASS(Robot)
+
+/*
+ * Controls:
+ * Gunner - X: full climb, Y: partial climb, Left bumper: grab, Right Bumper: Auto Align, Left Stick Y: Shoot, B: intake, A: slow outtake
+ * Driver - Tank Drive
+ */

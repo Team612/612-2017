@@ -15,7 +15,7 @@ namespace PORTS {
     }
 
     namespace PWM {
-
+        const int servo = 0;
     }
 
     namespace DIO {
@@ -36,11 +36,13 @@ namespace PORTS {
         const uint32_t intake_talon_left = 10; //This is 7 on the soda branch, not possible for both to be right
         const uint32_t intake_talon_right = 8;
         const uint32_t climber = 6;
+    }
 
+    namespace MXP {
 
     }
 
-    namespace MXP{
-
+    namespace PDP {
+        const int module = 0; //TODO What is this?
     }
 }
