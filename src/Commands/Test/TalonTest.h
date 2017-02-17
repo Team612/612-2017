@@ -3,6 +3,7 @@
 #include <WPILib.h>
 #include "RobotMap.h"
 #include "CANTalon.h"
+#include <stdio.h>
 
 enum class TalonENUM {SHOOTER, FL, FR, MR, ML, RL, RR, CLIMBER, INTAKE_L, INTAKE_R};
 

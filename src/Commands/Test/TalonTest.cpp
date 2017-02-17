@@ -14,43 +14,43 @@ void TalonTest::Initialize() {
     case TalonENUM::SHOOTER:
         chosen = RobotMap::shooter;
         std::cout << "Testing Shooter Talon" << std::endl;
-
+        break;
     case TalonENUM::FL:
         chosen = RobotMap::drive_fl;
         std::cout << "Testing Front Left Talon" << std::endl;
-
+        break;
     case TalonENUM::ML:
         chosen = RobotMap::drive_ml;
         std::cout << "Testing Middle Left Talon" << std::endl;
-
+        break;
     case TalonENUM::RL:
         chosen = RobotMap::drive_rl;
         std::cout << "Testing Rear Left Talon" << std::endl;
-
+        break;
     case TalonENUM::FR:
         chosen = RobotMap::drive_fr;
         std::cout << "Testing Front Right Talon" << std::endl;
-
+        break;
     case TalonENUM::MR:
         chosen = RobotMap::drive_mr;
         std::cout << "Testing Middle Right Talon" << std::endl;
-
+        break;
     case TalonENUM::RR:
         chosen = RobotMap::drive_rr;
         std::cout << "Testing Rear Right Talon" << std::endl;
-
+        break;
     case TalonENUM::CLIMBER:
         chosen = RobotMap::climber;
         std::cout << "Testing Climber Talon" << std::endl;
-
+        break;
     case TalonENUM::INTAKE_L:
         chosen = RobotMap::intake_talon_left;
         std::cout << "Testing Left Intake Talon" << std::endl;
-
+        break;
     case TalonENUM::INTAKE_R:
         chosen = RobotMap::intake_talon_right;
         std::cout << "Testing Right Intake Talon" << std::endl;
-
+        break;
     default:
         chosen = nullptr;
         std::cout<<"ERROR: Unexpected TalonENUM IN TalonTest.cpp";
@@ -62,9 +62,10 @@ void TalonTest::Initialize() {
 }
 
 void TalonTest::Execute() {
-    if(chosen != nullptr)
+    if(chosen != nullptr) {
         chosen->Set(speed);
-
+        printf("Encoder test: " << std::to_string(chosen->GetAnalogIn()).c_str() << "\n");
+    }
 }
 
 bool TalonTest::IsFinished() {
