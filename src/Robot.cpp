@@ -57,6 +57,7 @@ public:
         shooter2 = new CANTalon(2);
         intake1 = new CANTalon(4);
         climber1 = new CANTalon(6);
+        climber1->SetInverted(true);
         climber2 = new CANTalon(7);
         intake2 = new CANTalon(3);
 
@@ -157,10 +158,16 @@ public:
             intake1->SetSetpoint(-INTAKE / 3);
         else
             intake1->Set(0);
-        climber1->Set(gunner->GetXButton() ? -1.0f : (gunner->GetYButton() ? -0.2f : 0));
+        climber1->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
         //climber2->Set(gunner->GetXButton() ? 1.0f : (gunner->GetYButton() ? 0.2f : 0));
         servo->Set(gunner->GetBumper(frc::GenericHID::kLeftHand) ? 1.0f : 0);
     }
 };
 
 START_ROBOT_CLASS(Robot)
+
+/*
+ * Controls:
+ * Gunner - X: full climb, Y: partial climb, Left bumper: grab, Right Bumper: Auto Align, Left Stick Y: Shoot, B: intake, A: slow outtake
+ * Driver - Tank Drive
+ */
