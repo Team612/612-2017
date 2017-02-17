@@ -4,7 +4,7 @@
 #include "RobotMap.h"
 #include "CANTalon.h"
 
-enum class TalonENUM {SHOOTER, FL, FR, RL, RR};
+enum class TalonENUM {SHOOTER, FL, FR, MR, ML, RL, RR, CLIMBER, INTAKE_L, INTAKE_R};
 
 class TalonTest: public Command {
 public:
