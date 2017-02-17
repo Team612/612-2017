@@ -1,5 +1,6 @@
 #include "Autonomous.h"
 #include "AutoDrive.h"
+#include "AutoTenBall.h"
 
 Autonomous::Autonomous() {
     auto chosen_mode = frc::SmartDashboard::GetString("Chosen Autonomous Mode", "");
@@ -10,7 +11,7 @@ Autonomous::Autonomous() {
     } else if(chosen_mode == "1 Gear Auto") {
 
     } else if(chosen_mode == "10 Ball Auto") {
-
+        AddSequential(new AutoTenBall());
     } else if(chosen_mode == "Full Gear Auto") {
 
     } else if(chosen_mode == "The Polymath") {
