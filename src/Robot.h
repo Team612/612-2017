@@ -25,6 +25,7 @@ public:
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
+    static double initial_current;
 
     virtual void RobotInit() override;
     virtual void RobotPeriodic() override;

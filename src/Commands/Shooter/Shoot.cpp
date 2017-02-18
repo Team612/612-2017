@@ -24,7 +24,7 @@ void Shoot::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-    if (Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
+    if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
         RobotMap::shooter->Set(OPTIMAL_RPM);
     } else {
         RobotMap::shooter->Set(-IDLE);

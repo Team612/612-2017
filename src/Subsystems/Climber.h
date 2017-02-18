@@ -4,11 +4,12 @@
 #include "../RobotMap.h"
 #include "WPILib.h"
 
-
 class Climber: public Subsystem {
 private:
 public:
     Climber();
     void InitDefaultCommand();
-    void Climb(float speed); //drive climber at speed
+    void Move(float speed); //drive climber at speed
+    void Block();
+    void Grab(double position);
 };
