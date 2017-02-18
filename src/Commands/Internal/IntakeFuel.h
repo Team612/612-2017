@@ -6,10 +6,12 @@
 
 class IntakeFuel: public Command {
 public:
-    IntakeFuel();
+    IntakeFuel(bool intake);
     void Initialize() override;
     void Execute() override;
     bool IsFinished() override;
     void End() override;
     void Interrupted() override;
+private:
+    bool in;
 };

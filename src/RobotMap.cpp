@@ -13,6 +13,8 @@ std::shared_ptr<CANTalon> RobotMap::drive_rr;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_left;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_right;
 std::shared_ptr<CANTalon> RobotMap::climber_l;
+std::shared_ptr<Servo> RobotMap::grabber;
+std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 //std::shared_ptr<RobotDrive> RobotMap::drive;
 
 void RobotMap::init() {
@@ -51,6 +53,11 @@ void RobotMap::init() {
 
     climber_l.reset(new CANTalon(PORTS::CAN::climber_l));
     lw->AddActuator("Climber", "climber_l", climber_l);
+
+    pdp.reset(new PowerDistributionPanel(PORTS::PDP::module));
+
+    grabber.reset(new Servo(PORTS::PWM::servo));
+    lw->AddActuator("Climber", "grabber", grabber);
 
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
               drive_fr, drive_rr));

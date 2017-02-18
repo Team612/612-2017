@@ -17,6 +17,9 @@ public:
     static std::shared_ptr<CANTalon> climber_l;
     static std::shared_ptr<CANTalon> intake_talon_left;
     static std::shared_ptr<CANTalon> intake_talon_right;
+    static std::shared_ptr<Servo> grabber;
+
+    static std::shared_ptr<PowerDistributionPanel> pdp;
     //static std::shared_ptr<RobotDrive> drive;
 
     static void init();

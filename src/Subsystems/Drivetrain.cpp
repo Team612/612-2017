@@ -4,7 +4,6 @@
 #include "../RobotMap.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
-    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
@@ -30,22 +29,21 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 
-    //SetDistancePerPulse()
     //TODO: Are these being used?
+    //SetDistancePerPulse()
     //double DistancePerWheelRotation = pi*profile->WheelDiameter;
     //double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
     //double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
     //double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
 
     //update Smart Dashboard
-    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
     lib612::Networking::AddFunction([this](){
-        frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P );
-        frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
-        frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
-        frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
+        frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P);
+        frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I);
+        frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D);
+        frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F);
+        frc::SmartDashboard::PutNumber("Robot Current", RobotMap::pdp->GetTotalCurrent());
     });
-    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
 }
 
 void Drivetrain::SetDriveProfile(lib612::DriveProfile& dp) {
@@ -90,6 +88,22 @@ double Drivetrain::GetLeftVelocity() {
 
 double Drivetrain::GetRightVelocity() {
     return drive_mr->GetSetpoint();
+}
+
+void Drivetrain::Throttle(double lpercent, double rpercent) {
+    double left = lpercent, right = rpercent;
+    //deal with dumb people who set motors to more than 100%
+    if(left > 0)
+        left = abs(left) > 1 ? 1 : left;
+    else
+        left = abs(left) > 1 ? -1 : left;
+
+    if(right > 0)
+        right = abs(right) > 1 ? 1 : right;
+    else
+        right = abs(right) > 1 ? -1 : right;
+
+    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
 }
 
 void Drivetrain::InitDefaultCommand() {
