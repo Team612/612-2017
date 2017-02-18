@@ -48,7 +48,8 @@ void Wiggle::Execute() {
 }
 
 bool Wiggle::IsFinished() {
-    return IsTimedOut();
+    //return IsTimedOut();
+    return true;
 }
 
 void Wiggle::End() {
