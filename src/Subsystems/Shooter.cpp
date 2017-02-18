@@ -21,5 +21,5 @@ void Shooter::InitDefaultCommand() {
 
 void Shooter::Spin(float speed) {
     RobotMap::shoot_l->Set(speed);
-    RobotMap::shoot_r->Set(PORTS::CAN::shoot_r);
+    RobotMap::shoot_r->Set(PORTS::CAN::shoot_l);
 }
