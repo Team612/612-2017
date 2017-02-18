@@ -10,9 +10,7 @@ namespace lib612 {
         static std::vector<std::function<void(void)>> update_functions = { };
 
         inline void AddFunction(std::function<void(void)> fn) {
-            std::cout << "Network.h: " << __LINE__ << std::endl;
             update_functions.push_back(fn);
-            std::cout << "Network.h: " << __LINE__ << std::endl;
         }
 
         enum class Mode {
@@ -35,7 +33,6 @@ namespace lib612 {
         }
 
         inline  void UpdateAll() {
-            std::cout << "Networking.h: " << __LINE__ << std::endl;
             frc::SmartDashboard::PutBoolean("Enabled", frc::DriverStation::GetInstance().IsEnabled());
             //switch cases for GetRobotMode//
             switch (GetRobotMode()) {
@@ -55,13 +52,9 @@ namespace lib612 {
             frc::SmartDashboard::PutNumber("Match Time", frc::DriverStation::GetInstance().GetMatchTime());
             frc::SmartDashboard::PutNumber("Battery", frc::DriverStation::GetInstance().GetBatteryVoltage());
 
-            std::cout << "Networking.h: " << __LINE__ << std::endl;
-
             for (auto function : update_functions) {
-                //std::cout << "I am running" << std::endl;
-                std::cout << "Networking.h: " << __LINE__ << std::endl;
+                std::cout << "SD update" << std::endl;
                 function();
-                std::cout << "Networking.h: " << __LINE__ << std::endl;
             }
         }
     }

@@ -10,17 +10,18 @@
 #include "Commands/Shooter/Shoot.h"
 #include "Commands/Climber/Grab.h"
 
+#include "lib612/Networking/Networking.h"
+
 OI::OI() {
     gunner.reset(new frc::XboxController(PORTS::OI::gunner_joyport));
-    auto grab_button = std::make_unique<JoystickButton>(dynamic_cast<frc::GenericHID*>(gunner.get()), 5); //left bumper
+    auto grab_button = std::make_unique<JoystickButton>(gunner.get(), 5); //left bumper
     grab_button->WhenPressed(new Grab());
-    auto align_button = std::make_unique<JoystickButton>(dynamic_cast<frc::GenericHID*>(gunner.get()), 6); //right bumper
+    auto align_button = std::make_unique<JoystickButton>(gunner.get(), 6); //right bumper
     align_button->WhenPressed(new AlignToTarget());
-    auto intake_button = std::make_unique<JoystickButton>(dynamic_cast<frc::GenericHID*>(gunner.get()), 2); //B button
+    auto intake_button = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
     intake_button->WhileHeld(new IntakeFuel(true));
-    auto intake_clear_button = std::make_unique<JoystickButton>(dynamic_cast<frc::GenericHID*>(gunner.get()), 2); //A button
+    auto intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button
     intake_clear_button->WhileHeld(new IntakeFuel(false));
-
     driver.reset(new frc::XboxController(PORTS::OI::driver_joyport));
 
 
