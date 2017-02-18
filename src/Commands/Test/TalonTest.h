@@ -3,8 +3,9 @@
 #include <WPILib.h>
 #include "RobotMap.h"
 #include "CANTalon.h"
+#include <stdio.h>
 
-enum class TalonENUM {SHOOTER, FL, FR, RL, RR};
+enum class TalonENUM {SHOOTER, FL, FR, MR, ML, RL, RR, CLIMBER, INTAKE_L, INTAKE_R};
 
 class TalonTest: public Command {
 public:
@@ -19,5 +20,6 @@ private:
     float speed;
     TalonENUM position;
     std::shared_ptr<CANTalon> chosen;
+    CANTalon::TalonControlMode OriginalControlMode;
     //float timer;
 };

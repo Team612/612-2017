@@ -3,11 +3,11 @@
 
 Drive::Drive(): Command() {
     printf("Drive constructor\n");
+    Requires(Robot::drivetrain.get());
 }
 
 void Drive::Initialize() {
     printf("Drive init\n");
-    Requires(Robot::drivetrain.get());
 }
 
 void Drive::Execute() {

@@ -13,7 +13,6 @@ DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 
 
 void DriveDistance::Initialize() {
     printf("DriveDistance init\n");
-    Requires(Robot::drivetrain.get());
 
     leftInitialDistance = RobotMap::drive_ml->GetPosition();
     rightInitialDistance = RobotMap::drive_mr->GetPosition();

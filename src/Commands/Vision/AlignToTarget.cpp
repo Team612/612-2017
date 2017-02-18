@@ -1,6 +1,7 @@
 #include "AlignToTarget.h"
 
 AlignToTarget::AlignToTarget(): Command() {
+    Requires(Robot::drivetrain.get());
 }
 
 void AlignToTarget::Initialize() {

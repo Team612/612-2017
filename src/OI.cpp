@@ -22,6 +22,7 @@ OI::OI() {
     intake_button->WhileHeld(new IntakeFuel(true));
     auto intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button
     intake_clear_button->WhileHeld(new IntakeFuel(false));
+
     driver.reset(new frc::XboxController(PORTS::OI::driver_joyport));
 
 
