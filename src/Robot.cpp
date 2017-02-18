@@ -17,6 +17,7 @@ std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
 double Robot::initial_current;
+double Robot::init_climber_current;
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -30,6 +31,7 @@ void Robot::RobotInit() {
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     initial_current = RobotMap::pdp->GetTotalCurrent();
+    init_climber_current = RobotMap::pdp->GetCurrent(15);
     std::cout << "Info: Starting current: " << initial_current << std::endl;
     lib612::Networking::AddFunction([](){
         std::cout << "Test" << std::endl;
