@@ -64,7 +64,7 @@ void TalonTest::Initialize() {
 void TalonTest::Execute() {
     if(chosen != nullptr) {
         chosen->Set(speed);
-        printf("Encoder test: " << std::to_string(chosen->GetAnalogIn()).c_str() << "\n");
+        std::cout << "Encoder test: " << chosen->GetAnalogIn() << std::endl;
     }
 }
 
