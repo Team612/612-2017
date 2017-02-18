@@ -40,7 +40,7 @@ void TalonTest::Initialize() {
         std::cout << "Testing Rear Right Talon" << std::endl;
         break;
     case TalonENUM::CLIMBER:
-        chosen = RobotMap::climber;
+        chosen = RobotMap::climber_l;
         std::cout << "Testing Climber Talon" << std::endl;
         break;
     case TalonENUM::INTAKE_L:
