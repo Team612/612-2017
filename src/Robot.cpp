@@ -8,7 +8,8 @@
 #include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
 
-std::shared_ptr<Shooter> Robot::shooter;
+
+std::shared_ptr<Shooter> Robot::shoot_l;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;

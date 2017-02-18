@@ -5,29 +5,29 @@ Shoot::Shoot(): Command() {
         // Use requires() here to declare subsystem dependencies
     // eg. requires(Robot::chassis.get());
     printf("Shoot constructor\n");
-    Requires(Robot::shooter.get());
-    RobotMap::shooter->SetPID(0.22, 0, 0, 0.1097);
+    Requires(Robot::shoot_l.get());
+    RobotMap::shoot_l->SetPID(0.22, 0, 0, 0.1097);
     //get values from connected cimcoder
-    RobotMap::shooter->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    RobotMap::shoot_l->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
     //allows SetSetpoint to apply to speed from cimcoder and not from
-    RobotMap::shooter->SetControlMode(frc::CANSpeedController::ControlMode::kSpeed);
-    RobotMap::shooter->SetSensorDirection(false);
-    RobotMap::shooter->ConfigNominalOutputVoltage(+0.0f, -0.0f);
-    RobotMap::shooter->SelectProfileSlot(0);
+    RobotMap::shoot_l->SetControlMode(frc::CANSpeedController::ControlMode::kSpeed);
+    RobotMap::shoot_l->SetSensorDirection(false);
+    RobotMap::shoot_l->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+    RobotMap::shoot_l->SelectProfileSlot(0);
 }
 
 // Called just before this Command runs the first time
 void Shoot::Initialize() {
     printf("Shoot init\n");
-    RobotMap::shooter->Set(-IDLE);
+    RobotMap::shoot_l->Set(-IDLE);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
     if (Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
-        RobotMap::shooter->Set(OPTIMAL_RPM);
+        RobotMap::shoot_l->Set(OPTIMAL_RPM);
     } else {
-        RobotMap::shooter->Set(-IDLE);
+        RobotMap::shoot_l->Set(-IDLE);
     }
 }
 

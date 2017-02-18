@@ -12,5 +12,5 @@ void Climber::InitDefaultCommand() {
 
 
 void Climber::Climb(float speed) {
-    RobotMap::climber->Set(speed);
+    RobotMap::climber_l->Set(speed);
 }
