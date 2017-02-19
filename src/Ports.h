@@ -29,6 +29,7 @@ namespace PORTS {
 
     namespace CAN { //TODO update once the board actually is ready
 
+
         const int module = 0;
         //Drivetrain
         const uint32_t drive_talonFL = 1;
@@ -47,19 +48,6 @@ namespace PORTS {
         const uint32_t climber_talon_left = 11;
         const uint32_t climber_talon_right = 12;
 
-
-        /*const uint32_t shooter = 6;
-        const uint32_t drive_talonFR = 1;
-        const uint32_t drive_talonFL = 2;
-        const uint32_t drive_talonMR = 3;
-        const uint32_t drive_talonML = 7;
-        const uint32_t drive_talonRR = 4;
-        const uint32_t drive_talonRL = 5;
-        const uint32_t intake_talon_left = 8; //This is 7 on the soda branch, not possible for both to be right
-        const uint32_t intake_talon_right = 9;
-        const uint32_t climber = 10;
-        const int module = 0;*/
-
         /*
             talons 1,2,3 are left drivetrain
             talons 4,5,6 are right drivetrain
@@ -74,6 +62,6 @@ namespace PORTS {
     }
 
     namespace PCM {
-        
+
     }
 }

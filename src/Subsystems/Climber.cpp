@@ -15,12 +15,10 @@ void Climber::InitDefaultCommand() {
 
 void Climber::Climb(float speed) {
     RobotMap::climber_l->Set(speed);
-    //RobotMap::climber_r->Set(speed);
 }
 
 void Climber::Block() {
     RobotMap::climber_l->Set(0);
-    //RobotMap::climber_r->Set(0);
 }
 
 void Climber::Grab(double position) {

@@ -20,6 +20,7 @@ void Shooter::InitDefaultCommand() {
     SetDefaultCommand(new Shoot());
 }
 
-void Shooter::Spin(float speed){
-
+void Shooter::Spin(float speed) {
+    RobotMap::shooter_l->Set(speed);
+    RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_left);
 }

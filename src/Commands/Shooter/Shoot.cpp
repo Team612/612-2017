@@ -31,12 +31,12 @@ bool Shoot::IsFinished() {
 // Called once after isFinished returns true
 void Shoot::End() {
     printf("Info: Shoot ended\n");
-    Robot::shooter->Spin(0.0);
+    Robot::shooter->Spin(0.0f);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void Shoot::Interrupted() {
     printf("Warning: Shoot Interrupted!\n");
-    Robot::shooter->Spin(0.0);
+    Robot::shooter->Spin(0.0f);
 }
