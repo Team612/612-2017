@@ -2,8 +2,9 @@
 #include "LiveWindow/LiveWindow.h"
 #include "Ports.h"
 
-std::shared_ptr<CANTalon> RobotMap::shoot_l;
-std::shared_ptr<CANTalon> RobotMap::shoot_r;
+
+std::shared_ptr<CANTalon> RobotMap::shooter_l;
+std::shared_ptr<CANTalon> RobotMap::shooter_r;
 std::shared_ptr<CANTalon> RobotMap::drive_fl;
 std::shared_ptr<CANTalon> RobotMap::drive_ml;
 std::shared_ptr<CANTalon> RobotMap::drive_rl;
@@ -13,6 +14,7 @@ std::shared_ptr<CANTalon> RobotMap::drive_rr;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_left;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_right;
 std::shared_ptr<CANTalon> RobotMap::climber_l;
+std::shared_ptr<CANTalon> RobotMap::climber_r;
 std::shared_ptr<Servo> RobotMap::grabber;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 //std::shared_ptr<RobotDrive> RobotMap::drive;
@@ -20,11 +22,11 @@ std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
 
-    shoot_l.reset(new CANTalon(PORTS::CAN::shoot_l));
-    lw->AddActuator("Shooter", "shooter_l", shoot_l);
+    shooter_l.reset(new CANTalon(PORTS::CAN::shooter_talon_left));
+    lw->AddActuator("Shooter", "shooter_l", shooter_l);
 
-    shoot_r.reset(new CANTalon(PORTS::CAN::shoot_r));
-    lw->AddActuator("Shooter", "shooter_r", shoot_r);
+    shooter_r.reset(new CANTalon(PORTS::CAN::shooter_talon_right));
+    lw->AddActuator("Shooter", "shooter_r", shooter_r);
 
     drive_ml.reset(new CANTalon(PORTS::CAN::drive_talonML));
     lw->AddActuator("Drivetrain", "talon_drive_ml", drive_ml);
@@ -51,10 +53,13 @@ void RobotMap::init() {
     intake_talon_left.reset(new CANTalon(PORTS::CAN::intake_talon_left));
     lw->AddActuator("Intake", "intake_talon_left", intake_talon_left);
 
-    climber_l.reset(new CANTalon(PORTS::CAN::climber_l));
+    climber_l.reset(new CANTalon(PORTS::CAN::climber_talon_left));
     lw->AddActuator("Climber", "climber_l", climber_l);
 
-    pdp.reset(new PowerDistributionPanel(PORTS::PDP::module));
+    climber_r.reset(new CANTalon(PORTS::CAN::climber_talon_right));
+    lw->AddActuator("Climber", "climber_r", climber_r);
+
+    pdp.reset(new PowerDistributionPanel(PORTS::CAN::module));
 
     grabber.reset(new Servo(PORTS::PWM::servo));
     lw->AddActuator("Climber", "grabber", grabber);

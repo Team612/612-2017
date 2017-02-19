@@ -9,9 +9,7 @@ private:
 public:
     Climber();
     void InitDefaultCommand();
-    //void Move(float speed); //drive climber at speed
+    void Climb(float speed); //drive climber at speed
     void Block();
     void Grab(double position);
-    void Climb(float speed);
 };
-

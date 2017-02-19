@@ -11,9 +11,13 @@ TalonTest::TalonTest(float timer, float speed, TalonENUM t) :
 void TalonTest::Initialize() {
     printf("Talon test initialize...\n");
     switch (position) {
-    case TalonENUM::SHOOTER:
-        chosen = RobotMap::shoot_l;
-        std::cout << "Testing Shooter Talon" << std::endl;
+    case TalonENUM::SHOOTER_L:
+        chosen = RobotMap::shooter_l;
+        std::cout << "Testing Shooter Talon (Left)" << std::endl;
+        break;
+    case TalonENUM::SHOOTER_R:
+        chosen = RobotMap::shooter_r;
+        std::cout << "Testing Shooter Talon (Right)" << std::endl;
         break;
     case TalonENUM::FL:
         chosen = RobotMap::drive_fl;
@@ -39,9 +43,13 @@ void TalonTest::Initialize() {
         chosen = RobotMap::drive_rr;
         std::cout << "Testing Rear Right Talon" << std::endl;
         break;
-    case TalonENUM::CLIMBER:
+    case TalonENUM::CLIMBER_L:
         chosen = RobotMap::climber_l;
-        std::cout << "Testing Climber Talon" << std::endl;
+        std::cout << "Testing Climber Talon (Left)" << std::endl;
+        break;
+    case TalonENUM::CLIMBER_R:
+        chosen = RobotMap::climber_r;
+        std::cout << "Testing Climber Talon (Right)" << std::endl;
         break;
     case TalonENUM::INTAKE_L:
         chosen = RobotMap::intake_talon_left;
