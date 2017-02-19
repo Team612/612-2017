@@ -15,9 +15,9 @@ void Climb::Execute() {
         return; //prevent controls
     }
     if(Robot::oi->getgunner()->GetXButton())
-        Robot::climber->Move(1);
+        Robot::climber->Climb(1);
     else if(Robot::oi->getgunner()->GetYButton())
-        Robot::climber->Move(0.2);
+        Robot::climber->Climb(0.2);
     else
         Robot::climber->Block();
 }
