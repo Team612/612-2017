@@ -4,10 +4,10 @@
 #include "TalonTest.h"
 
 SystemCheck::SystemCheck() {
-    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::SHOOTER));
-    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::SHOOTER));
-    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::CLIMBER));
-    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::CLIMBER));
+    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::SHOOTER_L));
+    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::SHOOTER_R));
+    AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::CLIMBER_L));
+    AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::CLIMBER_R));
     AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::INTAKE_L));
     AddSequential(new TalonTest( 2.0f,  -0.5f, TalonENUM::INTAKE_L));
     AddSequential(new TalonTest( 2.0f,  0.5f, TalonENUM::INTAKE_R));

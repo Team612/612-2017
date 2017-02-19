@@ -1,7 +1,7 @@
 #include "Intake.h"
 
 Intake::Intake() : Subsystem("Intake") {
-    RobotMap::intake_talon_right->SetControlMode(frc::CANSpeedController::ControlMode::kSpeed);
+    RobotMap::intake_talon_right->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
     RobotMap::intake_talon_right->SetInverted(true);
     RobotMap::intake_talon_right->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
     RobotMap::intake_talon_right->SetPID(frc::SmartDashboard::GetNumber("Intake P", 0.12),
@@ -12,7 +12,7 @@ Intake::Intake() : Subsystem("Intake") {
     RobotMap::intake_talon_right->ConfigNominalOutputVoltage(+0.0f, -0.0f);
     RobotMap::intake_talon_right->ConfigPeakOutputVoltage(+12.0f, -12.0f);
 
-    RobotMap::intake_talon_left->SetControlMode(frc::CANSpeedController::ControlMode::kFollower);
+    RobotMap::intake_talon_left->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     RobotMap::intake_talon_left->Set(RobotMap::intake_talon_right->GetDeviceID());
 }
 

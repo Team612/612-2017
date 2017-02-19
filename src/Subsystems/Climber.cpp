@@ -2,7 +2,8 @@
 #include "../Commands/Climber/Climb.h"
 
 Climber::Climber() : Subsystem("Climber") {
-    RobotMap::climber->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::climber_l->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::climber_r->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     RobotMap::grabber->Set(0); //reset servo position on start up
 }
 
@@ -12,11 +13,13 @@ void Climber::InitDefaultCommand() {
 
 
 void Climber::Move(float speed) {
-    RobotMap::climber->Set(speed);
+    RobotMap::climber_l->Set(speed);
+    RobotMap::climber_r->Set(speed);
 }
 
 void Climber::Block() {
-    RobotMap::climber->Set(0);
+    RobotMap::climber_l->Set(0);
+    RobotMap::climber_r->Set(0);
 }
 
 void Climber::Grab(double position) {
