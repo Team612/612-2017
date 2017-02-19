@@ -12,7 +12,7 @@ void TalonTest::Initialize() {
     printf("Talon test initialize...\n");
     switch (position) {
     case TalonENUM::SHOOTER:
-        chosen = RobotMap::shooter;
+        chosen = RobotMap::shoot_l;
         std::cout << "Testing Shooter Talon" << std::endl;
         break;
     case TalonENUM::FL:
@@ -40,7 +40,7 @@ void TalonTest::Initialize() {
         std::cout << "Testing Rear Right Talon" << std::endl;
         break;
     case TalonENUM::CLIMBER:
-        chosen = RobotMap::climber;
+        chosen = RobotMap::climber_l;
         std::cout << "Testing Climber Talon" << std::endl;
         break;
     case TalonENUM::INTAKE_L:

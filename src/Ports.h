@@ -26,7 +26,8 @@ namespace PORTS {
     }
 
     namespace CAN { //TODO update once the board actually is ready
-        const uint32_t shooter = 6;
+        const uint32_t shoot_l = 6;
+	const uint32_t shoot_r = 6;
         const uint32_t drive_talonFR = 1;
         const uint32_t drive_talonFL = 2;
         const uint32_t drive_talonMR = 3;
@@ -35,7 +36,7 @@ namespace PORTS {
         const uint32_t drive_talonRL = 5;
         const uint32_t intake_talon_left = 8; //This is 7 on the soda branch, not possible for both to be right
         const uint32_t intake_talon_right = 9;
-        const uint32_t climber = 10;
+        const uint32_t climber_l = 10;
     }
 
     namespace MXP {
