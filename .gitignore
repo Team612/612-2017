@@ -10,3 +10,4 @@ CTRE
 .build/CMakeCache.txt
 .build/make.settings
 .build/Makefile
+/Debug/
