@@ -1,17 +1,37 @@
 #include <iostream>
 #include <memory>
-#include <string>
 
 #include <IterativeRobot.h>
 #include <LiveWindow/LiveWindow.h>
-#include <SmartDashboard/SendableChooser.h>
-#include <SmartDashboard/SmartDashboard.h>
 
 #include <CANTalon.h>
 #include <WPILib.h>
-#include <XboxController.h>
 
-#include <cmath>
+class SmoothController : public XboxController {
+	//makes full power around 80%, half power around 35%
+	double c = 0.2;
+	double b = 0.6;
+	double a = 0.0; //this should remain at 0 so that 0 is always 0
+	double GetSmoothed(double x) {
+		return (c * std::pow(x, 2)) + (b * x) + a;
+	}
+public:
+	SmoothController(int port) : XboxController(port) {
+
+	}
+
+	//x y trigger
+	double GetSmoothX(frc::GenericHID::JoystickHand hand) {
+		GetSmoothed(GetX(hand));
+	}
+	double GetSmoothY(frc::GenericHID::JoystickHand hand) {
+		GetSmoothed(GetY(hand));
+	}
+	double GetSmoothTrigger(frc::GenericHID::JoystickHand hand) {
+		GetSmoothed(GetTriggerAxis(hand));
+	}
+
+};
 
 using namespace frc;
 
