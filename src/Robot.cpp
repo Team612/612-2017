@@ -59,19 +59,17 @@ public:
 
 		climber1 = new CANTalon(11);
 
-		//shooter1->SetInverted(true);
 		shooter1->SelectProfileSlot(0);
 		shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
 		shooter1->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 		shooter1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-		//shooter1->SetSensorDirection(false);
         shooter1->ConfigNominalOutputVoltage(+0.0f, -0.0f);
         shooter1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
 
 
         shooter2->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-        shooter2->Set(shooter1->GetDeviceID()); // SAME AS ID FOR SHOOTER 1
-        shooter2->SetInverted(false);
+        shooter2->Set(shooter1->GetDeviceID());
+        shooter2->SetClosedLoopOutputDirection(true);
 
 		intake1->SelectProfileSlot(0);
 		intake1->SetPID(0.12, 0.001, 5, 0.08);
@@ -82,7 +80,8 @@ public:
 		intake1->ConfigPeakOutputVoltage(+12.0f, -12.0f);
 
         intake2->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-        intake2->Set(intake1->GetDeviceID()); // SAME AS ID FOR INTAKE 1
+        intake2->Set(intake1->GetDeviceID());
+        intake2->SetClosedLoopOutputDirection(true);
 
 		left1 = new CANTalon(1);
 		left2 = new CANTalon(2);
@@ -90,9 +89,9 @@ public:
 		left1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
 
 		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		left2->Set(left1->GetDeviceID()); // SAME AS ID FOR LEFT 1
+		left2->Set(left1->GetDeviceID());
 		left3->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		left3->Set(left1->GetDeviceID()); // SAME AS ID FOR LEFT 1
+		left3->Set(left1->GetDeviceID());
 
 		right1 = new CANTalon(4);
 		right2 = new CANTalon(5);
@@ -100,9 +99,9 @@ public:
 		right1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
 
 		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		right2->Set(right1->GetDeviceID()); // SAME AS ID FOR RIGHT 1
+		right2->Set(right1->GetDeviceID());
 		right3->SetControlMode(CANSpeedController::ControlMode::kFollower);
-		right3->Set(right1->GetDeviceID()); // SAME AS ID FOR RIGHT 1
+		right3->Set(right1->GetDeviceID());
 	}
 
 	void AutonomousInit() override {}
