@@ -14,6 +14,7 @@ public:
     std::shared_ptr<CANTalon> drive_fr;
     std::shared_ptr<CANTalon> drive_mr;
     std::shared_ptr<CANTalon> drive_rr;
+    std::shared_ptr<RobotDrive> drive;
     lib612::DriveProfile* profile;
     //Drivetrain();
     Drivetrain(lib612::DriveProfile* dp);

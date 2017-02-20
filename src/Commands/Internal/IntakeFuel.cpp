@@ -1,7 +1,7 @@
 #include "IntakeFuel.h"
 
-IntakeFuel::IntakeFuel(bool intake) {
-    in = intake;
+IntakeFuel::IntakeFuel() {
+    //in = intake;
     Requires(Robot::intake.get());
 }
 
@@ -10,10 +10,7 @@ void IntakeFuel::Initialize() {
 }
 
 void IntakeFuel::Execute() {
-    if(in)
-        Robot::intake->IntakeFuel();
-    else
-        Robot::intake->ClearBalls();
+    Robot::intake->IntakeFuel();
 }
 
 bool IntakeFuel::IsFinished() {

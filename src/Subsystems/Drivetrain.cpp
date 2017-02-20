@@ -2,6 +2,7 @@
 #include "../Commands/Drive/Drive.h"
 #include "lib612/Networking/Networking.h"
 #include "../RobotMap.h"
+#include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     profile = dp;
@@ -18,16 +19,23 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     if(this->drive_mr == nullptr || this->drive_fr == nullptr || this->drive_rr == nullptr || this->drive_ml == nullptr || this->drive_fl == nullptr || this->drive_rl == nullptr)
         std::cout << "Yolo one of these are nullo lolololo" << std::endl;
 
-    this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
+    /*this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
     this->drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
     this->drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);*/
+
+    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    this->drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fl->Set(PORTS::CAN::drive_talonML);
+    this->drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fr->Set(PORTS::CAN::drive_talonMR);
+    this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rl->Set(PORTS::CAN::drive_talonML);
+    this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rr->Set(PORTS::CAN::drive_talonMR);
+
+    this->drive.reset(RobotMap::drive.get());
 
     //TODO: Are these being used?
     //SetDistancePerPulse()
@@ -92,7 +100,7 @@ double Drivetrain::GetRightVelocity() {
 }
 
 void Drivetrain::Throttle(double lpercent, double rpercent) {
-    double left = lpercent, right = rpercent;
+    /*double left = lpercent, right = rpercent;
     //deal with dumb people who set motors to more than 100%
     if(left > 0)
         left = abs(left) > 1 ? 1 : left;
@@ -104,7 +112,9 @@ void Drivetrain::Throttle(double lpercent, double rpercent) {
     else
         right = abs(right) > 1 ? -1 : right;
 
-    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
+    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);*/
+
+    this->drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
 }
 
 void Drivetrain::InitDefaultCommand() {

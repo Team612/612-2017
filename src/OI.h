@@ -14,6 +14,8 @@ public:
     static std::unique_ptr<JoystickButton> align_button;
     static std::unique_ptr<JoystickButton> intake_button;
     static std::unique_ptr<JoystickButton> intake_clear_button;
+    static std::unique_ptr<JoystickButton> shift_up;
+    static std::unique_ptr<JoystickButton> shift_down;
 
     std::shared_ptr<XboxController> getdriver();
     std::shared_ptr<XboxController> getgunner();

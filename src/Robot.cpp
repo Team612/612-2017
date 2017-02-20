@@ -4,6 +4,7 @@
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
+#include "Commands/Internal/IntakeFuel.h"
 #include "lib612/Networking/Networking.h"
 
 
@@ -11,9 +12,11 @@ std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
+std::shared_ptr<Shifter> Robot::shifter_subsys;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
+std::unique_ptr<Command> Robot::intakeCommand;
 double Robot::initial_current;
 double Robot::init_climber_current;
 
@@ -25,12 +28,14 @@ void Robot::RobotInit() {
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
+    shifter_subsys = std::make_shared<Shifter>();
     //Put this last
     oi = std::make_unique<OI>();
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
+    intakeCommand = std::make_unique<IntakeFuel>();
 
     //pdp
     initial_current = RobotMap::pdp->GetTotalCurrent();
@@ -79,6 +84,7 @@ void Robot::TeleopInit() {
         autonomousCommand->Cancel();
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
+    intakeCommand->Start();
 }
 
 void Robot::TeleopPeriodic() {

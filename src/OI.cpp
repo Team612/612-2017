@@ -5,8 +5,8 @@
 #include "Commands/Climber/Climb.h"
 #include "Commands/Drive/Drive.h"
 #include "Commands/Drive/DriveDistance.h"
+#include "Commands/Drive/Shift.h"
 #include "Commands/Gear/Gear.h"
-#include "Commands/Internal/IntakeFuel.h"
 #include "Commands/Shooter/Shoot.h"
 #include "Commands/Climber/Grab.h"
 
@@ -14,6 +14,8 @@ std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_button;
 std::unique_ptr<JoystickButton> OI::intake_button;
 std::unique_ptr<JoystickButton> OI::intake_clear_button;
+std::unique_ptr<JoystickButton> OI::shift_up;
+std::unique_ptr<JoystickButton> OI::shift_down;
 
 OI::OI() {
     gunner.reset(new frc::XboxController(PORTS::OI::gunner_joyport));
@@ -21,12 +23,17 @@ OI::OI() {
     grab_button->WhenPressed(new Grab());
     align_button = std::make_unique<JoystickButton>(gunner.get(), 6); //right bumper
     align_button->WhenPressed(new AlignToTarget());
-    intake_button = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
-    intake_button->WhileHeld(new IntakeFuel(true));
-    intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button
-    intake_clear_button->WhileHeld(new IntakeFuel(false));
+    //intake_button = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
+    //intake_button->WhileHeld(new IntakeFuel(true));
+    //intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button
+    //intake_clear_button->WhileHeld(new IntakeFuel(false));
+
 
     driver.reset(new frc::XboxController(PORTS::OI::driver_joyport));
+    shift_up = std::make_unique<JoystickButton>(driver.get(), 5);
+    shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
+    shift_down = std::make_unique<JoystickButton>(driver.get(), 6);
+    shift_down->WhenPressed(new Shift(Shift::SHIFT_DIR::DOWN));
 
     // SmartDashboard Buttons
     /*SmartDashboard::PutData("MoveBalls", new IntakeFuel(true));

@@ -10,14 +10,14 @@ void Climb::Initialize() {
 
 void Climb::Execute() {
     //TODO Implement when reasonable threshold is found
-    if(abs(Robot::init_climber_current - RobotMap::pdp->GetCurrent(15)) > CURRENT_THRESHOLD) {
+    /*if(abs(Robot::init_climber_current - RobotMap::pdp->GetCurrent(15)) > CURRENT_THRESHOLD) {
         Robot::climber->Block();
         return; //prevent controls
-    }
+    }*/
     if(Robot::oi->getgunner()->GetXButton())
-        Robot::climber->Climb(1);
-    else if(Robot::oi->getgunner()->GetYButton())
-        Robot::climber->Climb(0.2);
+        Robot::climber->Move(1);
+    /*else if(Robot::oi->getgunner()->GetYButton())
+        Robot::climber->Move(0.2);*/
     else
         Robot::climber->Block();
 }

@@ -9,8 +9,8 @@
 #include "Subsystems/Intake.h"
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
+#include "Subsystems/Shifter.h"
 #include "Timer.h"
-
 #include "OI.h"
 
 class Robot : public IterativeRobot {
@@ -21,10 +21,12 @@ public:
     static std::shared_ptr<Shooter> shooter;
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Intake> intake;
+    static std::shared_ptr<Shifter> shifter_subsys;
     static std::shared_ptr<Climber> climber;
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
+    static std::unique_ptr<Command> intakeCommand; 
     static double initial_current;
     static double init_climber_current;
 
