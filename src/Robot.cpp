@@ -1,37 +1,54 @@
 #include <lib612/DriveProfile.h>
 #include "Robot.h"
 
-#include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
-#include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
+#include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
+
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::unique_ptr<OI> Robot::oi;
-std::unique_ptr<Command> Robot::AutoDrive;
-std::unique_ptr<Command> Robot::drivecommand;
 std::unique_ptr<Command> Robot::CheckSystem;
-std::unique_ptr<Command> Robot::talontesttest;
+std::unique_ptr<Command> Robot::wiggle;
+double Robot::initial_current;
+double Robot::init_climber_current;
 
 void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
+    //subsystems
     shooter = std::make_shared<Shooter>();
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
+    //Put this last
     oi = std::make_unique<OI>();
-    drivecommand = std::make_unique<Drive>(); //TODO: Real values
+    //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
-    talontesttest = std::make_unique<TalonTest>(2.f, .5f, TalonENUM::FR);
     autonomousCommand = std::make_unique<Autonomous>();
+    wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
+
+    //pdp
+    initial_current = RobotMap::pdp->GetTotalCurrent();
+    init_climber_current = RobotMap::pdp->GetCurrent(15);
+    std::cout << "Info: Starting current: " << initial_current << std::endl;
+    std::cout << "Info: Channel 15 current: " << init_climber_current << std::endl;
+
+    //Put time on dashboard
+    lib612::Networking::AddFunction([]() {
+        auto now = std::chrono::system_clock::now();
+        auto to_time_t = std::chrono::system_clock::to_time_t(now);
+        std::stringstream s;
+        s << std::ctime(&to_time_t);
+        SmartDashboard::PutString("Current Time", s.str());
+    });
   }
 
-void Robot::DisabledInit(){
+void Robot::DisabledInit() {
 
 }
 
@@ -40,9 +57,7 @@ void Robot::DisabledPeriodic() {
 }
 
 void Robot::RobotPeriodic() {
-    //update dashboard while robot is enabled in all modes
-    if(IsEnabled())
-        lib612::Networking::UpdateAll();
+    lib612::Networking::UpdateAll();
 }
 
 void Robot::AutonomousInit() {
@@ -62,10 +77,8 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    if(frc::SmartDashboard::GetBoolean("system check", false)){
+    if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
-    }
-    drivecommand->Start(); //TODO: Investigate why default commands don't work
 }
 
 void Robot::TeleopPeriodic() {
@@ -74,7 +87,6 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TestInit() {
 
-
 }
 
 void Robot::TestPeriodic() {
@@ -82,3 +94,9 @@ void Robot::TestPeriodic() {
 }
 
 START_ROBOT_CLASS(Robot)
+
+/*
+ * Controls:
+ * Gunner - X: full climb, Y: partial climb, Left bumper: grab, Right Bumper: Auto Align, Left Stick Y: Shoot, B: intake, A: slow outtake
+ * Driver - Tank Drive
+ */
