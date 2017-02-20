@@ -16,11 +16,11 @@ void Shoot::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-    if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
+    /*if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
         Robot::shooter->Spin(OPTIMAL_RPM);
     } else {
         Robot::shooter->Spin(-IDLE);
-    }
+    }*/
 }
 
 // Make this return true when this Command no longer needs to run execute()

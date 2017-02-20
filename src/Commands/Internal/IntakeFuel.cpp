@@ -10,10 +10,7 @@ void IntakeFuel::Initialize() {
 }
 
 void IntakeFuel::Execute() {
-    if(in)
-        Robot::intake->IntakeFuel();
-    else
-        Robot::intake->ClearBalls();
+    Robot::intake->IntakeFuel();
 }
 
 bool IntakeFuel::IsFinished() {

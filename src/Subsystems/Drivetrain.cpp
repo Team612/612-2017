@@ -27,9 +27,13 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     this->drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fl->Set(PORTS::CAN::drive_talonML);
     this->drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fr->Set(PORTS::CAN::drive_talonMR);
     this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rl->Set(PORTS::CAN::drive_talonML);
     this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rr->Set(PORTS::CAN::drive_talonMR);
 
     this->drive.reset(RobotMap::drive.get());
 
@@ -110,7 +114,7 @@ void Drivetrain::Throttle(double lpercent, double rpercent) {
 
     SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);*/
 
-    RobotMap::drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getgunner()->GetY(GenericHID::JoystickHand::kRightHand));
+    this->drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
 }
 
 void Drivetrain::InitDefaultCommand() {
