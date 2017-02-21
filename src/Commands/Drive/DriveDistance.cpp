@@ -55,5 +55,5 @@ double DriveDistance::ReturnPIDInput() {
 }
 
 void DriveDistance::UsePIDOutput(double output) {
-    Robot::drivetrain->THrottle(output, output);
+    Robot::drivetrain->Throttle(output, output);
 }
