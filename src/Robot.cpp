@@ -13,10 +13,10 @@ class SmoothController : public XboxController {
 	double b = 0.6;
 	double a = 0.0; //this should remain at 0 so that 0 is always 0
 	double GetSmoothed(double x) {
-        if(x > 0)
-		    return (c * std::pow(x, 2)) + (b * x) + a;
-        else
-            return -((c * std::pow(x, 2)) + (b * abs(x)) + a); //reverse curve for negative values
+		if(x > 0)
+			return (c * std::pow(x, 2)) + (b * x) + a;
+		else
+			return -((c * std::pow(x, 2)) + (b * abs(x)) + a); //reverse curve for negative values
 	}
 public:
 	SmoothController(int port) : XboxController(port) {	}
@@ -157,13 +157,13 @@ public:
 
 		//std::printf("B: %d\n", gunner->GetBButton() ? 1 : 0);
 
-        //Drivers seemed to like this
-        double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
+		//Drivers seemed to like this
+		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
 		if(abs(c) > 0.1)
-            if(gunner->GetBumper(frc::GenericHID::kLeftHand))
-			    intake1->SetSetpoint(-INTAKE * c);
-            else
-                intake1->SetSetpoint(INTAKE * c);
+			if(gunner->GetBumper(frc::GenericHID::kLeftHand))
+				intake1->SetSetpoint(-INTAKE * c);
+			else
+				intake1->SetSetpoint(INTAKE * c);
 		else
 			intake1->SetSetpoint(0);
 
