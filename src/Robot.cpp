@@ -22,13 +22,13 @@ public:
 
 	//x y trigger
 	double GetSmoothX(frc::GenericHID::JoystickHand hand) {
-		GetSmoothed(GetX(hand));
+		return GetSmoothed(GetX(hand));
 	}
 	double GetSmoothY(frc::GenericHID::JoystickHand hand) {
-		GetSmoothed(GetY(hand));
+		return GetSmoothed(GetY(hand));
 	}
 	double GetSmoothTrigger(frc::GenericHID::JoystickHand hand) {
-		GetSmoothed(GetTriggerAxis(hand));
+		return GetSmoothed(GetTriggerAxis(hand));
 	}
 };
 
