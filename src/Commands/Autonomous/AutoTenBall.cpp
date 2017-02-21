@@ -34,7 +34,7 @@ void AutoTenBall::Initialize() {
     leftInitialDistance = RobotMap::drive_ml->GetPosition();
     rightInitialDistance = RobotMap::drive_mr->GetPosition();
 
-    RobotMap::shooter->Set(-IDLE);
+    Robot::shooter->Spin(-IDLE);
 
     GetPIDController()->SetSetpoint(DISTANCE);
     GetPIDController()->SetInputRange(0.0, DISTANCE);
@@ -57,7 +57,7 @@ void AutoTenBall::Execute() {
     else if (stage3) {
         // something something auto align?
         if (stage3FirstRun) {
-            RobotMap::shooter->Set(OPTIMAL_RPM);
+            Robot::shooter->Spin(OPTIMAL_RPM);
 
             SetTimeout(SHOOT_TIME);
             GetPIDController()->Disable();
@@ -73,13 +73,13 @@ bool AutoTenBall::IsFinished() {
 void AutoTenBall::End() {
     printf("Info: End AutoTenBall.\n");
     Robot::drivetrain->SetVelocity(0.0, 0.0);
-    RobotMap::shooter->Set(0.0);
+    Robot::shooter->Spin(0.0);
 }
 
 void AutoTenBall::Interrupted() {
     printf("Warning: AutoTenBall Interrupted.\n");
     Robot::drivetrain->SetVelocity(0.0, 0.0);
-    RobotMap::shooter->Set(0.0);
+    Robot::shooter->Spin(0.0);
 }
 
 double AutoTenBall::ReturnPIDInput() {
