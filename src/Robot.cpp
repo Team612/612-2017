@@ -7,15 +7,16 @@
 #include <CANTalon.h>
 #include <WPILib.h>
 
-#define RAMPRATE 8 //Volts per second
-
 class SmoothController : public XboxController {
 	//quadratic curve that makes full power around 80%, half power around 35%
 	double c = 0.2;
 	double b = 0.6;
 	double a = 0.0; //this should remain at 0 so that 0 is always 0
 	double GetSmoothed(double x) {
-		return (c * std::pow(x, 2)) + (b * x) + a;
+        if(x > 0)
+		    return (c * std::pow(x, 2)) + (b * x) + a;
+        else
+            return -((c * std::pow(x, 2)) + (b * abs(x)) + a); //reverse curve for negative values
 	}
 public:
 	SmoothController(int port) : XboxController(port) {	}
@@ -64,7 +65,7 @@ public:
 	SmoothController *driver;
 	SmoothController* gunner;
 
-	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000; // TODO: Intake value is garbage
+	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000, RAMPRATE = 8; // TODO: Intake value is garbage
 
 	void RobotInit() {
 		driver = new SmoothController(0);
@@ -133,8 +134,8 @@ public:
 	}
 
 	void TeleopPeriodic() {
-		double a = driver->GetY(frc::GenericHID::kLeftHand);
-		double b = driver->GetY(frc::GenericHID::kRightHand);
+		double a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
+		double b = driver->GetSmoothY(frc::GenericHID::kRightHand);
 		//std::printf("%f, %f\n", a, b);
 		//std::printf("%f, %f\n", abs(a), abs(b));
 		if(a > 0.1f || a < -0.1f) {
@@ -154,16 +155,22 @@ public:
 		else
 			shooter1->SetSetpoint(SHOOTER_IDLE);
 
-		std::printf("B: %d\n", gunner->GetBButton() ? 1 : 0);
-		if(gunner->GetBButton())
-			intake1->SetSetpoint(INTAKE);
+		//std::printf("B: %d\n", gunner->GetBButton() ? 1 : 0);
+
+        //Drivers seemed to like this
+        double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
+		if(abs(c) > 0.1)
+            if(gunner->GetBumper(frc::GenericHID::kLeftHand))
+			    intake1->SetSetpoint(-INTAKE * c);
+            else
+                intake1->SetSetpoint(INTAKE * c);
 		else
 			intake1->SetSetpoint(0);
 
-		double c = gunner->GetY(frc::GenericHID::kLeftHand);
+		double d = gunner->GetSmoothY(frc::GenericHID::kLeftHand);
 
-		if(c > 0.05f || c < -0.05f)
-			climber1->Set(c);
+		if(d > 0.05f || d < -0.05f)
+			climber1->Set(d);
 		else
 			climber1->Set(0);
 	}
