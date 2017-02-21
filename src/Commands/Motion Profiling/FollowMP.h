@@ -1,17 +1,19 @@
 #pragma once
 
+#include "lib612/MotionProfile.h"
 #include "Commands/Command.h"
 #include "../../Robot.h"
 
-class Climb: public Command {
+class FollowMP: public Command {
 public:
-    Climb();
+    FollowMP(lib612::MotionProfile* mp);
 
+    unsigned int currentTimeMark;
+    frc::Timer timer;
+    lib612::MotionProfile* profile;
     virtual void Initialize();
     virtual void Execute();
     virtual bool IsFinished();
     virtual void End();
     virtual void Interrupted();
-private:
-    const double CURRENT_THRESHOLD = 4; //TODO replace with a number that make sense
 };

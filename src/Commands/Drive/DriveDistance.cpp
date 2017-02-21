@@ -13,14 +13,13 @@ DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 
 
 void DriveDistance::Initialize() {
     printf("DriveDistance init\n");
-    Requires(Robot::drivetrain.get());
 
-    leftInitialDistance = RobotMap::drive_ml->GetPosition();
+    /*leftInitialDistance = RobotMap::drive_ml->GetPosition();
     rightInitialDistance = RobotMap::drive_mr->GetPosition();
 
     GetPIDController()->SetSetpoint(distance);
     GetPIDController()->SetInputRange(0.0, distance);
-    GetPIDController()->Enable();
+    GetPIDController()->Enable();*/
 }
 
 void DriveDistance::Execute() {
@@ -28,17 +27,18 @@ void DriveDistance::Execute() {
 }
 
 bool DriveDistance::IsFinished() {
-    return GetPIDController()->OnTarget();
+    //return GetPIDController()->OnTarget();
+    return true;
 }
 
 void DriveDistance::End() {
     printf("Info: Completed DriveDistance");
-    Robot::drivetrain->SetVelocity(0.0, 0.0);
+    //Robot::drivetrain->SetVelocity(0.0, 0.0);
 }
 
 void DriveDistance::Interrupted() {
     printf("Warning: DriveDistance interrupted!");
-    Robot::drivetrain->SetVelocity(0.0, 0.0);
+    //Robot::drivetrain->SetVelocity(0.0, 0.0);
 }
 
 double DriveDistance::ReturnPIDInput() {

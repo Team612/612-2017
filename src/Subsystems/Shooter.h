@@ -11,4 +11,5 @@ private:
 public:
     Shooter();
     void InitDefaultCommand();
+    void Spin(float speed);
 };

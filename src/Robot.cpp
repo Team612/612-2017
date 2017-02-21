@@ -81,3 +81,9 @@ void Robot::TestPeriodic() {
 }
 
 START_ROBOT_CLASS(Robot)
+
+/*
+ * Controls:
+ * Gunner - X: full climb, Y: partial climb, Left bumper: grab, Right Bumper: Auto Align, Left Stick Y: Shoot, B: intake, A: slow outtake
+ * Driver - Tank Drive
+ */
