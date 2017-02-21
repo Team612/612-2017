@@ -36,12 +36,12 @@ void MoveToTarget::End() {
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void MoveToTarget::Interrupted() {
-	Robot::drivetrain->Stop();
+	Robot::drivetrain->Throttle(0,0);
 }
 
 double MoveToTarget::ReturnPIDInput() {
 	std::printf("test");
-	return Robot::drivetrain->getURCenter()->GetRangeMM();
+	return Robot::drivetrain->GetURCenter()->GetRangeMM();
 }
 
 void MoveToTarget::UsePIDOutput(double output) {
@@ -52,5 +52,5 @@ void MoveToTarget::UsePIDOutput(double output) {
 
 	SmartDashboard::PutNumber("PID Output", output);
 
-	Robot::drivetrain->SetTankDrive(output, output);
+	Robot::drivetrain->Throttle(output, output);
 }
