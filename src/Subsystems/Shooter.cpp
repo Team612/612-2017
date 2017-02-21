@@ -24,3 +24,8 @@ void Shooter::Spin(float speed) {
     RobotMap::shooter_l->Set(speed);
     RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_left);
 }
+
+void Shooter::Agitate() {
+    RobotMap::agitator->Set(0.2f);
+
+}
