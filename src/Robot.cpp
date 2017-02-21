@@ -129,9 +129,7 @@ public:
 	void AutonomousInit() { }
 	void AutonomousPeriodic() { }
 
-	void TeleopInit() {
-
-	}
+	void TeleopInit() {	}
 
 	void TeleopPeriodic() {
 		double a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
@@ -159,12 +157,12 @@ public:
 
 		//Drivers seemed to like this
 		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
-		if(abs(c) > 0.1)
-			if(gunner->GetBumper(frc::GenericHID::kLeftHand))
-				intake1->SetSetpoint(-INTAKE * c);
+		if(abs(c) > 0.1) {
+			if (gunner->GetBumper(frc::GenericHID::kLeftHand))
+				intake1->SetSetpoint(-INTAKE * c); //allows us to clear intake
 			else
 				intake1->SetSetpoint(INTAKE * c);
-		else
+		} else
 			intake1->SetSetpoint(0);
 
 		double d = gunner->GetSmoothY(frc::GenericHID::kLeftHand);
