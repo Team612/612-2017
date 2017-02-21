@@ -14,6 +14,7 @@ public:
     std::shared_ptr<CANTalon> drive_fr;
     std::shared_ptr<CANTalon> drive_mr;
     std::shared_ptr<CANTalon> drive_rr;
+    std::shared_ptr<Ultrasonic> ur;
     lib612::DriveProfile* profile;
     //Drivetrain();
     Drivetrain(lib612::DriveProfile* dp);
@@ -27,6 +28,7 @@ public:
     double GetRightVelocity();
     void InitDefaultCommand() override;
     lib612::DriveProfile* GetCurrentProfile();
+    std::shared_ptr<Ultrasonic> GetURCenter();
 private:
     double pi = 3.141592653;
 };
