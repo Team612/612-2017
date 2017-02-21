@@ -100,7 +100,7 @@ double Drivetrain::GetRightVelocity() {
 }
 
 void Drivetrain::Throttle(double lpercent, double rpercent) {
-    /*double left = lpercent, right = rpercent;
+    double left = lpercent, right = rpercent;
     //deal with dumb people who set motors to more than 100%
     if(left > 0)
         left = abs(left) > 1 ? 1 : left;
@@ -112,12 +112,18 @@ void Drivetrain::Throttle(double lpercent, double rpercent) {
     else
         right = abs(right) > 1 ? -1 : right;
 
-    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);*/
-
-    this->drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
+    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
 }
 
 void Drivetrain::InitDefaultCommand() {
     printf("Default command for Drivetrain\n");
     SetDefaultCommand(new Drive());
+}
+
+void Drivetrain::TeleOpDrive(double l, double r){
+    RobotMap::drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
+}
+
+Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
+    return drivemode;
 }
