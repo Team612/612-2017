@@ -63,6 +63,7 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
+    drivetrain->setDriveMode(Drivetrain::DRIVE_MODE::COMPLICATED);
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
     //AutoDrive->Start();
@@ -79,6 +80,7 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
+    drivetrain->setDriveMode(Drivetrain::DRIVE_MODE::SIMPLE);
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
 }
