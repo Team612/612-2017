@@ -74,7 +74,7 @@ public:
     Compressor* compressor;
     DoubleSolenoid* solenoid;
 
-	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 5, INTAKE = 1000, RAMPRATE = 20; // TODO: Intake value is garbage
+	double SHOOTER_SHOOT = -3200.0, SHOOTER_IDLE = -SHOOTER_SHOOT / 10, INTAKE = 1000, RAMPRATE = 20; // TODO: Intake value is garbage
 
 	void RobotInit() {
         std::cout << "Starting Robot Code! (612-2017 soda)" << std::endl;
@@ -179,9 +179,9 @@ public:
 
 	void TeleopPeriodic() {
 		double a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
-        std::cout << "Left Y: " << a << std::endl;
+		std::cout << "Left Y: " << a << std::endl;
 		double b = driver->GetSmoothY(frc::GenericHID::kRightHand);
-        std::cout << "Right Y: " << b << std::endl;
+		std::cout << "Right Y: " << b << std::endl;
 		//std::printf("%f, %f\n", a, b);
 		//std::printf("%f, %f\n", abs(a), abs(b));
 
@@ -189,27 +189,30 @@ public:
 			left1->Set(a);
 		} else {
 			left1->SetVoltageRampRate(0);
-            left1->Set(0);
-            left1->SetVoltageRampRate(RAMPRATE);
+			left1->Set(0);
+			left1->SetVoltageRampRate(RAMPRATE);
 		}
 		if(b > 0.1f || b < -0.1f) {
 			right1->Set(-b);
 		} else {
-            right1->SetVoltageRampRate(0);
+			right1->SetVoltageRampRate(0);
 			right1->Set(0);
-            right1->SetVoltageRampRate(RAMPRATE);
+			right1->SetVoltageRampRate(RAMPRATE);
 		}
 
 		//std::printf("A: %d\n", gunner->GetAButton() ? 1 : 0);
 
 		if(gunner->GetAButton())
-			shooter1->SetSetpoint(SHOOTER_SHOOT);
+			if(driver->GetStartButton())
+				shooter1->SetSetpoint(SHOOTER_SHOOT * 1.25);
+			else
+				shooter1->SetSetpoint(SHOOTER_SHOOT);
 		else
 			shooter1->SetSetpoint(SHOOTER_IDLE);
 
-        double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
-        //drivetrain blocking
-        /*if(abs(a -b) > 1.4 && ((a > 0 && b < 0) || (a < 0 && b > 0)) && abs(c) > 0.1) {
+		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
+		//drivetrain blocking
+		/*if(abs(a -b) > 1.4 && ((a > 0 && b < 0) || (a < 0 && b > 0)) && abs(c) > 0.1) {
             std::cout << "WARNING: Blocking drive train" << std::endl;
             left1->SetVoltageRampRate(0);
             left1->Set(0);
@@ -223,18 +226,18 @@ public:
 		//std::printf("B: %d\n", gunner->GetBButton() ? 1 : 0);
 
 		//Drivers seemed to like this
-        std::cout << "Triggered: " << c << std::endl;
+		std::cout << "Triggered: " << c << std::endl;
 		if(abs(c) > 0.1) {
 			if (gunner->GetBumper(frc::GenericHID::kLeftHand))
 				intake1->SetSetpoint(-INTAKE); //allows us to clear intake
 			else
 				intake1->SetSetpoint(INTAKE);
 		} else {
-            intake1->SetSetpoint(0);
-            std::cout << "Hi" << std::endl;
-        }
+			intake1->SetSetpoint(0);
+			std::cout << "Hi" << std::endl;
+		}
 
-        intake1->SetSetpoint(INTAKE);
+		intake1->SetSetpoint(INTAKE);
 
 		double d = gunner->GetSmoothY(frc::GenericHID::kLeftHand);
 
@@ -242,11 +245,10 @@ public:
 			climber1->Set(d);
 		else
 			climber1->Set(0);
-
-        if(driver->GetBumper(frc::GenericHID::kLeftHand))
+		if(driver->GetBumper(frc::GenericHID::kLeftHand))
             solenoid->Set(DoubleSolenoid::Value::kForward);
         else if(driver->GetBumper(frc::GenericHID::kRightHand))
-            solenoid->Set(DoubleSolenoid::Value::kForward);
+            solenoid->Set(DoubleSolenoid::Value::kReverse);
 	}
 };
 
