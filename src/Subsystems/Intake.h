@@ -8,6 +8,7 @@ class Intake: public frc::Subsystem {
 public:
     Intake();
     void InitDefaultCommand() override;
+    void SetIntake(); //Directly set intake speed
     void IntakeFuel(); //intake with motor speed
     void ClearBalls();
     void Stop();

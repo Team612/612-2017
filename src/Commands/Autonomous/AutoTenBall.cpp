@@ -1,6 +1,15 @@
 #include <Robot.h>
 #include "AutoTenBall.h"
 
+AutoTenBall::AutoTenBall() {
+    AddSequential(new DriveDistance(DISTANCE));
+    AddSequential(new HorizontalFind(HorizontalFind::Direction::LEFT));
+    AddSequential(new HorizontalAlign(5.0, false));
+    AddSequential(new MoveToTarget(DISTANCE_FROM_BOILER));
+
+
+}
+/*
 AutoTenBall::AutoTenBall(): PIDCommand("AutoTenBall", Robot::drivetrain->GetCurrentProfile()->P,
                                                       Robot::drivetrain->GetCurrentProfile()->I,
                                                       Robot::drivetrain->GetCurrentProfile()->D) {
@@ -113,3 +122,4 @@ void AutoTenBall::UsePIDOutput(double output) {
     if (stage2) Robot::drivetrain->SetVelocity(-output, output);
     else Robot::drivetrain->SetVelocity(0,0);
 }
+*/
