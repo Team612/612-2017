@@ -16,8 +16,10 @@ public:
     virtual void UsePIDOutput(double output);
 
 private:
-    double SPEED = 1.0; //A constant determining speed
-    double distance;
+    double pi = 3.141592653;
+
+    double MAX_THROTTLE = 0.75; //A constant determining speed, 0 to 1
+    double distance; //Encoder units; converted from meters in constructor
     double leftInitialDistance;
     double rightInitialDistance;
 };
