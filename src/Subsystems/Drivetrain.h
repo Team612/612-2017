@@ -34,6 +34,7 @@ public:
     void InitDefaultCommand() override;
     lib612::DriveProfile* GetCurrentProfile();
 
+    void setDriveMode(DRIVE_MODE mode);
     DRIVE_MODE getDriveMode();
 
 private:

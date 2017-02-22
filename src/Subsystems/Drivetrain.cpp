@@ -127,3 +127,7 @@ void Drivetrain::TeleOpDrive(double l, double r){
 Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
     return drivemode;
 }
+
+void Drivetrain::setDriveMode(Drivetrain::DRIVE_MODE mode){
+    drivemode = mode;
+}
