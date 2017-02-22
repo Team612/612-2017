@@ -6,6 +6,7 @@ AutoTenBall::AutoTenBall() {
     AddSequential(new HorizontalFind(HorizontalFind::Direction::LEFT));
     AddSequential(new HorizontalAlign(5.0, false));
     AddSequential(new MoveToTarget(DISTANCE_FROM_BOILER));
+    AddSequential(new AutoShoot(SHOOT_TIME));
 
 
 }

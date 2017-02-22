@@ -1,26 +1,27 @@
 #pragma once
 
 //#include "Commands/PIDCommand.h"
-#include "Commands/CommandGroup.h"
 #include <WPILib.h>
 #include "RobotMap.h"
 #include "../Vision/HorizontalFind.h"
 #include "../Vision/HorizontalAlign.h"
 #include "../Vision/MoveToTarget.h"
 #include "../Drive/DriveDistance.h"
+#include "../Shooter/AutoShoot.h"
+#include <Commands/CommandGroup.h>
 
 class AutoTenBall : public CommandGroup {
 public:
     AutoTenBall();
 private:
-    const double SHOOT_TIME = 8.0f;
+    const double SHOOT_TIME = 8.0;
     const double DISTANCE = 1; //Meters
     const int DISTANCE_FROM_BOILER = 4; //Inches?
 
     //shooter constants
     const double IDLE = 100;
     const double OPTIMAL_RPM = 7500;
-}
+};
 
 /*
 class AutoTenBall: public PIDCommand {
