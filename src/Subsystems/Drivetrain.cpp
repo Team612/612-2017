@@ -2,6 +2,7 @@
 #include "../Commands/Drive/Drive.h"
 #include "lib612/Networking/Networking.h"
 #include "../RobotMap.h"
+#include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     ur = std::make_shared<Ultrasonic>(PORTS::DIO::ultrasonic_in, PORTS::DIO::ultrasonic_out, frc::Ultrasonic::DistanceUnit::kMilliMeters);
@@ -19,16 +20,23 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     if(this->drive_mr == nullptr || this->drive_fr == nullptr || this->drive_rr == nullptr || this->drive_ml == nullptr || this->drive_fl == nullptr || this->drive_rl == nullptr)
         std::cout << "Yolo one of these are nullo lolololo" << std::endl;
 
-    this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
+    /*this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
     this->drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
     this->drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);*/
+
+    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    this->drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fl->Set(PORTS::CAN::drive_talonML);
+    this->drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fr->Set(PORTS::CAN::drive_talonMR);
+    this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rl->Set(PORTS::CAN::drive_talonML);
+    this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rr->Set(PORTS::CAN::drive_talonMR);
+
+    this->drive.reset(RobotMap::drive.get());
 
     //TODO: Are these being used?
     //SetDistancePerPulse()
@@ -114,4 +122,16 @@ std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
 void Drivetrain::InitDefaultCommand() {
     printf("Default command for Drivetrain\n");
     SetDefaultCommand(new Drive());
+}
+
+void Drivetrain::TeleOpDrive(double l, double r){
+    RobotMap::drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
+}
+
+Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
+    return drivemode;
+}
+
+void Drivetrain::setDriveMode(Drivetrain::DRIVE_MODE mode){
+    drivemode = mode;
 }

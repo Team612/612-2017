@@ -9,11 +9,11 @@ Climber::Climber() : Subsystem("Climber") {
 }
 
 void Climber::InitDefaultCommand() {
-    //SetDefaultCommand(new Climb());
+    SetDefaultCommand(new Climb());
 }
 
 
-void Climber::Climb(float speed) {
+void Climber::Move(float speed) {
     RobotMap::climber_l->Set(speed);
 }
 
