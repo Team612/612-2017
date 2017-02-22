@@ -6,6 +6,7 @@
 
 #include <CANTalon.h>
 #include <WPILib.h>
+#include <vector>
 
 class SmoothController : public XboxController {
 	//quadratic curve that makes full power around 80%, half power around 35%
@@ -37,6 +38,12 @@ using namespace frc;
 
 class Robot: public IterativeRobot {
 public:
+	frc::Timer autoTimer;
+	std::vector<double> timeMark = {0.0};
+	std::vector<double> leftRPM = {0.0};
+	std::vector<double> rightRPM = {0.0};
+	double multiplier = 1;
+	unsigned int currentTimeMark;
 	/* PID CONSTANTS
 	3:1
 	p = 0.1
@@ -110,8 +117,6 @@ public:
 		left1 = new CANTalon(1);
 		left2 = new CANTalon(2);
 		left3 = new CANTalon(3);
-		left1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
-		left1->SetVoltageRampRate(RAMPRATE);
 
 		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
 		left2->Set(left1->GetDeviceID());
@@ -121,8 +126,6 @@ public:
 		right1 = new CANTalon(4);
 		right2 = new CANTalon(5);
 		right3 = new CANTalon(6);
-		right1->SetControlMode(CANSpeedController::ControlMode::kPercentVbus);
-		right1->SetVoltageRampRate(RAMPRATE);
 
 		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
 		right2->Set(right1->GetDeviceID());
@@ -131,21 +134,43 @@ public:
 
         compressor =  new Compressor(3);
         solenoid = new DoubleSolenoid(0, 1);
-        solenoid->Set(DoubleSolenoid::Value::kReverse);
+        solenoid->Set(DoubleSolenoid::Value::kForward);
 
         compressor->Start();
 	}
 
 	void AutonomousInit() {
-        solenoid->Set(DoubleSolenoid::Value::kReverse);
+		left1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+		left1->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+		left1->SetPID(0.01, 0, 0, 0.5); 
+		left1->SetVoltageRampRate(0);
+		right1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
+		right1->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+		right1->SetPID(0.01, 0, 0, 0.5); 
+		right1->SetVoltageRampRate(0);
+        solenoid->Set(DoubleSolenoid::Value::kForward);
+		currentTimeMark = 0;
+		autoTimer.Reset();
+		autoTimer.Start();
     }
 
     void AutonomousPeriodic() {
-        //TODO Autonomous
+        left1->Set(leftRPM[currentTimeMark]*multiplier);
+		left2->Set(left1->GetDeviceID());
+		left3->Set(left1->GetDeviceID());
+        right1->Set(rightRPM[currentTimeMark]*multiplier);
+		right2->Set(right1->GetDeviceID());
+		right3->Set(right1->GetDeviceID());
+		while(currentTimeMark < timeMark.size() && timeMark[currentTimeMark+1]/multiplier < autoTimer.Get()) {
+			currentTimeMark++;
+		}
     }
 
 	void TeleopInit() {
-
+		left1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+		left1->SetVoltageRampRate(RAMPRATE);
+		right1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+		right1->SetVoltageRampRate(RAMPRATE);
     }
 
     void DisabledInit() {
@@ -219,7 +244,7 @@ public:
 			climber1->Set(0);
 
         if(driver->GetBumper(frc::GenericHID::kLeftHand))
-            solenoid->Set(DoubleSolenoid::Value::kReverse);
+            solenoid->Set(DoubleSolenoid::Value::kForward);
         else if(driver->GetBumper(frc::GenericHID::kRightHand))
             solenoid->Set(DoubleSolenoid::Value::kForward);
 	}
