@@ -240,10 +240,10 @@ public:
 
 		intake1->SetSetpoint(INTAKE);
 
-		double d = gunner->GetSmoothY(frc::GenericHID::kLeftHand);
+		double d = gunner->GetY(frc::GenericHID::kLeftHand);
 
-		if(d > 0.05f || d < -0.05f)
-			climber1->Set(d);
+		if(d > 0.1f)
+			climber1->Set(-1);
 		else
 			climber1->Set(0);
 		if(driver->GetBumper(frc::GenericHID::kLeftHand))
