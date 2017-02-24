@@ -12,6 +12,7 @@ std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
+std::shared_ptr<Vision> Robot::vision;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
@@ -26,13 +27,13 @@ void Robot::RobotInit() {
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
+    vision = std::make_shared<Vision>();
     //Put this last
     oi = std::make_unique<OI>();
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
-
     //pdp
     initial_current = RobotMap::pdp->GetTotalCurrent();
     init_climber_current = RobotMap::pdp->GetCurrent(15);

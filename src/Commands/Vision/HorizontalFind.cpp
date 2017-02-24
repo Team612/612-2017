@@ -1,4 +1,5 @@
 #include "HorizontalFind.h"
+#include "../../Robot.h"
 
 HorizontalFind::HorizontalFind(Direction d, float timeout)
 {
