@@ -39,6 +39,7 @@ void Robot::RobotInit() {
     std::cout << "Info: Starting current: " << initial_current << std::endl;
 
     //Put time on dashboard
+    //Mainly exists to verify SmartDashboard helper is up and running properly
     lib612::Networking::AddFunction([]() {
         auto now = std::chrono::system_clock::now();
         auto to_time_t = std::chrono::system_clock::to_time_t(now);
