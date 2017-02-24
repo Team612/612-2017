@@ -1,5 +1,5 @@
 #pragma once
-//TODO update TalonTest command to accommodate the two talons
+
 #include "WPILib.h"
 #include "Commands/Command.h"
 #include "RobotMap.h"

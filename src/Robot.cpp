@@ -1,11 +1,12 @@
 #include <lib612/DriveProfile.h>
 #include "Robot.h"
 
+#include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
+#include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
-
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -39,6 +40,7 @@ void Robot::RobotInit() {
     std::cout << "Info: Channel 15 current: " << init_climber_current << std::endl;
 
     //Put time on dashboard
+    //Mainly exists to verify SmartDashboard helper is up and running properly
     lib612::Networking::AddFunction([]() {
         auto now = std::chrono::system_clock::now();
         auto to_time_t = std::chrono::system_clock::to_time_t(now);
@@ -48,7 +50,7 @@ void Robot::RobotInit() {
     });
   }
 
-void Robot::DisabledInit() {
+void Robot::DisabledInit(){
 
 }
 
@@ -62,6 +64,8 @@ void Robot::RobotPeriodic() {
 
 void Robot::AutonomousInit() {
     drivetrain->setDriveMode(Drivetrain::DRIVE_MODE::COMPLICATED);
+    std::cout << "Choosing autonomous mode..." << std::endl;
+    autonomousCommand = std::make_unique<Autonomous>();
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
     //AutoDrive->Start();
@@ -78,9 +82,9 @@ void Robot::TeleopInit() {
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
-    drivetrain->setDriveMode(Drivetrain::DRIVE_MODE::SIMPLE);
-    if(frc::SmartDashboard::GetBoolean("debug", false))
+    if(frc::SmartDashboard::GetBoolean("system check", false)){
         CheckSystem->Start();
+    }
 }
 
 void Robot::TeleopPeriodic() {
@@ -88,6 +92,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
+
 
 }
 

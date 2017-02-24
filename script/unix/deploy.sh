@@ -28,7 +28,7 @@ if [ ! -f ".build/FRCUserProgram" ]; then
     exit 1
 fi
 
-if [[ ! "$os" == *"cygwin"* ]]; then
+if [[ ! "$os" == *"cygwin"* || ! "$os" == *"nt"* ]]; then
     ping -c 4 "roboRIO-$team-FRC.local" ; mDNS=$?
     if [ $mDNS -ne 0 ]; then
         echo "roboRIO not found on mDNS, falling back to static USB..."
