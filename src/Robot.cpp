@@ -1,13 +1,11 @@
 #include <lib612/DriveProfile.h>
 #include "Robot.h"
 
-#include "Commands/Drive/Drive.h"
 #include "Commands/Test/SystemCheck.h"
-#include "Commands/Test/TalonTest.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
-#include <chrono>
+
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
@@ -27,6 +25,7 @@ void Robot::RobotInit() {
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
+    //Put this last
     oi = std::make_unique<OI>();
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
@@ -37,6 +36,7 @@ void Robot::RobotInit() {
     initial_current = RobotMap::pdp->GetTotalCurrent();
     init_climber_current = RobotMap::pdp->GetCurrent(15);
     std::cout << "Info: Starting current: " << initial_current << std::endl;
+    std::cout << "Info: Channel 15 current: " << init_climber_current << std::endl;
 
     //Put time on dashboard
     //Mainly exists to verify SmartDashboard helper is up and running properly
@@ -62,6 +62,7 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
+    drivetrain->setDriveMode(Drivetrain::DRIVE_MODE::COMPLICATED);
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
     //AutoDrive->Start();
@@ -72,13 +73,13 @@ void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
 }
 void Robot::TeleopInit() {
-    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // these lines or comment it out.
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
+    drivetrain->setDriveMode(Drivetrain::DRIVE_MODE::SIMPLE);
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
 }

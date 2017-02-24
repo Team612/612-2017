@@ -19,10 +19,10 @@ namespace lib612 {
         double WheelWidth;           //width of the robot (distance from left side to right side in meters)
         double WheelFriction = 1.0;  //wheel tangential velocity * WheelFriction = linear velocity (0.0 to 1.0, use 1.0 as default)
         double WheelMaxRPM;          //The max RPM of the wheels
-        double WheelMaxVelocity;     //The max wheel tangential velocity from max RPM
-        double WheelMaxAcceleration; //The max wheel acceleration (linear)
-        double WheelMaxJerk;         //The max change in acceleration (linear)
-        double F;                    //FeedFoward gain (native units)
+        double WheelMaxVelocity = 0.0;     //The max wheel tangential velocity from max RPM
+        double WheelMaxAcceleration = 0.0; //The max wheel acceleration (linear)
+        double WheelMaxJerk = 0.0;         //The max change in acceleration (linear)
+        double F;                    //FeedForward gain (native units)
         double P;                    //Proportional gain
         double I;                    //Integral gain
         double D;                    //Derivative gain

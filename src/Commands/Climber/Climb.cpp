@@ -16,8 +16,8 @@ void Climb::Execute() {
     }
     if(Robot::oi->getgunner()->GetXButton())
         Robot::climber->Move(1);
-    else if(Robot::oi->getgunner()->GetYButton())
-        Robot::climber->Move(0.2);
+    /*else if(Robot::oi->getgunner()->GetYButton())
+        Robot::climber->Move(0.2);*/
     else
         Robot::climber->Block();
 }
