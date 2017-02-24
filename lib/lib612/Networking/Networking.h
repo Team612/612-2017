@@ -7,7 +7,6 @@
 
 namespace lib612 {
     namespace Networking {
-
         static std::vector<std::function<void(void)>> update_functions = { };
 
         inline void AddFunction(std::function<void(void)> fn) {
