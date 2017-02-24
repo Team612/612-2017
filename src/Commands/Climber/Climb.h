@@ -13,5 +13,5 @@ public:
     virtual void End();
     virtual void Interrupted();
 private:
-
+    const double CURRENT_THRESHOLD = 4; //TODO replace with a number that make sense
 };

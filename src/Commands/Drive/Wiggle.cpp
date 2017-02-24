@@ -11,6 +11,7 @@ Wiggle::Wiggle(Direction dir, double rate, double wiggle_time, double speed) {
     time_of_next_wiggle = 0;
     SetTimeout(wiggle_time);
     //WIGGLE WIGGLE WIGGLE YEAH
+    Requires(Robot::drivetrain.get());
 }
 
 void Wiggle::Initialize() {
@@ -47,7 +48,8 @@ void Wiggle::Execute() {
 }
 
 bool Wiggle::IsFinished() {
-    return IsTimedOut();
+    //return IsTimedOut();
+    return true;
 }
 
 void Wiggle::End() {

@@ -1,19 +1,21 @@
 #include "Drive.h"
 #include "../../Robot.h"
+#include <cmath>
 
 Drive::Drive(): Command() {
     printf("Drive constructor\n");
+    Requires(Robot::drivetrain.get());
 }
 
 void Drive::Initialize() {
     printf("Drive init\n");
-    Requires(Robot::drivetrain.get());
 }
 
 void Drive::Execute() {
-    Robot::drivetrain->SetVelocity(-Robot::oi->getdriver()->GetY(frc::GenericHID::kLeftHand), -Robot::oi->getdriver()->GetY(frc::GenericHID::kRightHand));
+    if(abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kLeftHand)) > 0.1 || abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kRightHand)) > 0.1)
+        Robot::drivetrain->TeleOpDrive(-Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kLeftHand), -Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kRightHand));
     //motor feed safety
-    frc::Wait(0.05);
+    frc::Wait(0.005);
 }
 
 bool Drive::IsFinished() {
@@ -22,11 +24,11 @@ bool Drive::IsFinished() {
 
 void Drive::End() {
     printf("Info: Drive ended!\n");
-    Robot::drivetrain->SetVelocity(static_cast<double>(0), static_cast<double>(0));
+    Robot::drivetrain->TeleOpDrive(0, 0);
 
 }
 
 void Drive::Interrupted() {
     printf("ERROR: Drive interrupted!\n");
-    Robot::drivetrain->SetVelocity(static_cast<double>(0), static_cast<double>(0));
+    Robot::drivetrain->TeleOpDrive(0, 0);
 }

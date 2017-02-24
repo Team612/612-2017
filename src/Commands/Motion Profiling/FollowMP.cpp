@@ -2,10 +2,10 @@
 
 FollowMP::FollowMP(lib612::MotionProfile* mp): Command() {
     profile = mp;
+    Requires(Robot::drivetrain.get());
 }
 
 void FollowMP::Initialize() {
-    Requires(Robot::drivetrain.get());
     currentTimeMark = 0;
     timer.Reset();
     timer.Start();

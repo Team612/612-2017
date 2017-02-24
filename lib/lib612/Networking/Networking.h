@@ -7,7 +7,7 @@
 
 namespace lib612 {
     namespace Networking {
-        static std::vector<std::function<void(void)>> update_functions;
+        static std::vector<std::function<void(void)>> update_functions = { };
 
         inline void AddFunction(std::function<void(void)> fn) {
             update_functions.push_back(fn);
@@ -52,10 +52,9 @@ namespace lib612 {
             frc::SmartDashboard::PutNumber("Match Time", frc::DriverStation::GetInstance().GetMatchTime());
             frc::SmartDashboard::PutNumber("Battery", frc::DriverStation::GetInstance().GetBatteryVoltage());
 
-            if(update_functions.size() > 0) {
-                for (auto function : update_functions) {
-                    function();
-                }
+            for (auto function : update_functions) {
+                std::cout << "SD update" << std::endl;
+                function();
             }
         }
     }

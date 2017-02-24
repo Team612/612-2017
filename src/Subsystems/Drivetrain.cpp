@@ -2,9 +2,9 @@
 #include "../Commands/Drive/Drive.h"
 #include "lib612/Networking/Networking.h"
 #include "../RobotMap.h"
+#include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
-    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
@@ -19,33 +19,40 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     if(this->drive_mr == nullptr || this->drive_fr == nullptr || this->drive_rr == nullptr || this->drive_ml == nullptr || this->drive_fl == nullptr || this->drive_rl == nullptr)
         std::cout << "Yolo one of these are nullo lolololo" << std::endl;
 
-    this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
+    /*this->drive_ml->SetPID(profile->P, profile->I, profile->D, profile->F);
     this->drive_mr->SetPID(profile->P, profile->I, profile->D, profile->F);
     this->drive_ml->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_mr->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);*/
 
-    //SetDistancePerPulse()
+    this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    this->drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fl->Set(PORTS::CAN::drive_talonML);
+    this->drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_fr->Set(PORTS::CAN::drive_talonMR);
+    this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rl->Set(PORTS::CAN::drive_talonML);
+    this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    this->drive_rr->Set(PORTS::CAN::drive_talonMR);
+
+    this->drive.reset(RobotMap::drive.get());
+
     //TODO: Are these being used?
+    //SetDistancePerPulse()
     //double DistancePerWheelRotation = pi*profile->WheelDiameter;
     //double WheelRPMPerPulsePer100ms = profile->NativeToRPM * profile->EncoderToWheel;
     //double WheelRotationsPerPulse = WheelRPMPerPulsePer100ms * (60/0.1);
     //double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
 
     //update Smart Dashboard
-    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
     lib612::Networking::AddFunction([this](){
-        frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P );
-        frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I );
-        frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D );
-        frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F );
+        frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P);
+        frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I);
+        frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D);
+        frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F);
+        frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
+        frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
     });
-    std::cout << "Drivetrain.cpp: " << __LINE__ << std::endl;
 }
 
 void Drivetrain::SetDriveProfile(lib612::DriveProfile& dp) {
@@ -92,7 +99,35 @@ double Drivetrain::GetRightVelocity() {
     return drive_mr->GetSetpoint();
 }
 
+void Drivetrain::Throttle(double lpercent, double rpercent) {
+    double left = lpercent, right = rpercent;
+    //deal with dumb people who set motors to more than 100%
+    if(left > 0)
+        left = abs(left) > 1 ? 1 : left;
+    else
+        left = abs(left) > 1 ? -1 : left;
+
+    if(right > 0)
+        right = abs(right) > 1 ? 1 : right;
+    else
+        right = abs(right) > 1 ? -1 : right;
+
+    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
+}
+
 void Drivetrain::InitDefaultCommand() {
     printf("Default command for Drivetrain\n");
     SetDefaultCommand(new Drive());
+}
+
+void Drivetrain::TeleOpDrive(double l, double r){
+    RobotMap::drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
+}
+
+Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
+    return drivemode;
+}
+
+void Drivetrain::setDriveMode(Drivetrain::DRIVE_MODE mode){
+    drivemode = mode;
 }
