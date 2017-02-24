@@ -1,7 +1,7 @@
 #include "OI.h"
 #include "Ports.h"
 
-#include "Commands/Vision/HorizontalALign.h"
+#include "Commands/Vision/HorizontalAlign.h"
 #include "Commands/Climber/Climb.h"
 #include "Commands/Drive/Drive.h"
 #include "Commands/Drive/DriveDistance.h"
