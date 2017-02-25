@@ -41,6 +41,7 @@ namespace PORTS {
         //Shooter
         const uint32_t shooter_talon_left = 7;
         const uint32_t shooter_talon_right = 8;
+        const uint32_t agitator = 13; //filler
         //Intake
         const uint32_t intake_talon_left = 9;
         const uint32_t intake_talon_right = 10;

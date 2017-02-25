@@ -18,9 +18,11 @@ void Shoot::Initialize() {
 void Shoot::Execute() {
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
         Robot::shooter->Spin(OPTIMAL_RPM);
+        Robot::shooter->Agitate();
     } else {
         Robot::shooter->Spin(-IDLE);
     }
+
 }
 
 // Make this return true when this Command no longer needs to run execute()
