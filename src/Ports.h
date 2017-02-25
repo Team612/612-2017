@@ -19,8 +19,8 @@ namespace PORTS {
     }
 
     namespace DIO {
-        const uint32_t ultrasonic_in = 0;
-        const uint32_t ultrasonic_out = 1;
+        const uint32_t ultrasonic_in = 0; //ping
+        const uint32_t ultrasonic_out = 1; //echo
     }
 
     namespace I2C {

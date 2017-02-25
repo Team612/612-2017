@@ -1,7 +1,7 @@
 #include "OI.h"
 #include "Ports.h"
 
-#include "Commands/Vision/AlignToTarget.h"
+#include "Commands/Vision/HorizontalAlign.h"
 #include "Commands/Climber/Climb.h"
 #include "Commands/Drive/Drive.h"
 #include "Commands/Drive/DriveDistance.h"
@@ -20,7 +20,7 @@ OI::OI() {
     grab_button = std::make_unique<JoystickButton>(gunner.get(), 5); //left bumper
     grab_button->WhenPressed(new Grab());
     align_button = std::make_unique<JoystickButton>(gunner.get(), 6); //right bumper
-    align_button->WhenPressed(new AlignToTarget());
+    align_button->WhenPressed(new HorizontalAlign(0, true));
     intake_button = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
     intake_button->WhileHeld(new IntakeFuel(true));
     intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button

@@ -22,6 +22,10 @@ void Intake::InitDefaultCommand() {
 
 }
 
+void Intake::SetIntake(float input) {
+    RobotMap::intake_talon_right->Set(input);
+}
+
 void Intake::IntakeFuel() {
     //RobotMap::intake_talon_right->SetSetpoint(-INTAKE_SPEED);
     if(Robot::oi->getgunner()->GetBButton())
@@ -35,5 +39,5 @@ void Intake::ClearBalls() {
 }
 
 void Intake::Stop() {
-    //RobotMap::intake_talon_right->SetSetpoint(0);
+    RobotMap::intake_talon_right->SetSetpoint(0);
 }

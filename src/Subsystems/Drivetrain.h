@@ -18,6 +18,7 @@ public:
     std::shared_ptr<CANTalon> drive_fr;
     std::shared_ptr<CANTalon> drive_mr;
     std::shared_ptr<CANTalon> drive_rr;
+    std::shared_ptr<Ultrasonic> ur;
     std::shared_ptr<RobotDrive> drive;
     lib612::DriveProfile* profile;
     //Drivetrain();
@@ -33,6 +34,7 @@ public:
     double GetRightVelocity();
     void InitDefaultCommand() override;
     lib612::DriveProfile* GetCurrentProfile();
+    std::shared_ptr<Ultrasonic> GetURCenter();
 
     void setDriveMode(DRIVE_MODE mode);
     DRIVE_MODE getDriveMode();
