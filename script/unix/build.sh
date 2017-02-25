@@ -31,21 +31,20 @@ check_internettwo () {
 LIB="wpilib/"
 CTRE="CTRE/include/"
 
-#if check_internetone || check_internettwo; then
+if check_internetone || check_internettwo; then
+	if [ ! -d "$LIB" ]; then
+    	echo "build.sh: Downloading Libraries..."
+    	sh script/unix/.wpilib-download.sh
+    fi
 
-#	if [ ! -d "$LIB" ]; then
-    	#echo "build.sh: Downloading Libraries..."
-    	#sh script/unix/.wpilib-download.sh
-    #fi
+    echo "build.sh: Checking for CTRE..."
+    if [ ! -d "$CTRE" ]; then
+        sh script/unix/.get-ctre.sh
+    fi
 
-    #echo "build.sh: Checking for CTRE..."
-    #if [ ! -d "$CTRE" ]; then
-        #sh script/unix/.get-ctre.sh
-    #fi
-
-    #echo "build.sh: Downloading Compiler..."
-    #bash script/unix/.compiler-download.sh
-#fi
+    echo "build.sh: Downloading Compiler..."
+    bash script/unix/.compiler-download.sh
+fi
 
 # run cmake to generate Makefile contents
 cd .build
