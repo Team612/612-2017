@@ -7,7 +7,8 @@
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
-
+std::shared_ptr<Shifter> Robot::shifter_subsys;
+//std::unique_ptr<Command> Robot::intakeCommand;
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
@@ -28,6 +29,8 @@ void Robot::RobotInit() {
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     vision = std::make_shared<Vision>();
+    shifter_subsys = std::make_shared<Shifter>();
+    //intakeCommand = std::make_unique<IntakeFuel>();
     //Put this last
     oi = std::make_unique<OI>();
     //commands
@@ -35,6 +38,7 @@ void Robot::RobotInit() {
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     //pdp
+    //intakeCommand->Start();// I do not know where to put this
     initial_current = RobotMap::pdp->GetTotalCurrent();
     init_climber_current = RobotMap::pdp->GetCurrent(15);
     std::cout << "Info: Starting current: " << initial_current << std::endl;

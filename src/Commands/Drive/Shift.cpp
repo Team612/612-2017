@@ -1,26 +1,33 @@
 #include "Shift.h"
 #include "../../Robot.h"
 
-Shifter::Shifter() {
+Shift::Shift(SHIFT_DIR dir) {
+    this->dir = dir;
+}
+
+void Shift::Initialize() {
 
 }
 
-void Shifter::Initialize() {
-
+void Shift::Execute() {
+    if(dir == UP)
+        Robot::shifter_subsys->ShiftUp();
+    else if(dir == DOWN)
+        Robot::shifter_subsys->ShiftDown();
+    else if(dir == OFF)
+        Robot::shifter_subsys->ShiftOff();
+    else
+        std::cout << "God has made a mistake giving humanity intelligence, we do not know how to use it. (Shift.cpp:" << __LINE__ << ") \n";
 }
 
-void Shifter::Execute() {
-
-}
-
-bool Shifter::IsFinished() {
+bool Shift::IsFinished() {
     return false;
 }
 
-void Shifter::End() {
+void Shift::End() {
 
 }
 
-void Shifter::Interrupted() {
+void Shift::Interrupted() {
 
 }
