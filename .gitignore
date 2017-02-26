@@ -1,0 +1,13 @@
+.idea
+cmake-build-debug
+wpilib
+CTRE
+*.out
+*.exe
+.build/FRCUserProgram
+.build/cmake_install.cmake
+.build/FRC
+.build/CMakeCache.txt
+.build/make.settings
+.build/Makefile
+/Debug/
