@@ -2,13 +2,13 @@
 #include "../../Robot.h"
 
 Shift::Shift(SHIFT_DIR dir) {
-    this->dir = dir;
+  this->dir = dir;
   Requires(Robot::drivetrain.get());
-
+  SetTimeout(3.0);
 }
 
 void Shift::Initialize() {
-SetTimeout(3.0);
+
 }
 
 void Shift::Execute() {
