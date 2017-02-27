@@ -36,6 +36,9 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_rr->Set(PORTS::CAN::drive_talonMR);
 
+    this->drive_ml->SetVoltageRampRate(RAMP_RATE);
+    this->drive_mr->SetVoltageRampRate(RAMP_RATE);
+
     this->drive.reset(RobotMap::drive.get());
 
     //TODO: Are these being used?
