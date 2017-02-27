@@ -22,7 +22,7 @@ void Shift::Execute() {
         Robot::shifter_subsys->ShiftOff();
     else
         std::cout << "God has made a mistake giving humanity intelligence, we do not know how to use it. (Shift.cpp:" << __LINE__ << ") \n";
-    shifted = true;
+
 
       }
 }
