@@ -7,11 +7,13 @@
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
 #include "lib612/Networking/Networking.h"
-
+std::shared_ptr<Shifter> Robot::shifter_subsys;
+//std::unique_ptr<Command> Robot::intakeCommand;
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
+std::shared_ptr<Vision> Robot::vision;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
@@ -26,14 +28,17 @@ void Robot::RobotInit() {
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
+    vision = std::make_shared<Vision>();
+    shifter_subsys = std::make_shared<Shifter>();
+    //intakeCommand = std::make_unique<IntakeFuel>();
     //Put this last
     oi = std::make_unique<OI>();
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
-
     //pdp
+    //intakeCommand->Start();// I do not know where to put this
     initial_current = RobotMap::pdp->GetTotalCurrent();
     init_climber_current = RobotMap::pdp->GetCurrent(15);
     std::cout << "Info: Starting current: " << initial_current << std::endl;

@@ -19,8 +19,8 @@ namespace PORTS {
     }
 
     namespace DIO {
-        const uint32_t ultrasonic_in = 0;
-        const uint32_t ultrasonic_out = 1;
+        const uint32_t ultrasonic_in = 0; //ping
+        const uint32_t ultrasonic_out = 1; //echo
     }
 
     namespace I2C {
@@ -41,6 +41,7 @@ namespace PORTS {
         //Shooter
         const uint32_t shooter_talon_left = 7;
         const uint32_t shooter_talon_right = 8;
+        const uint32_t agitator = 13; //filler
         //Intake
         const uint32_t intake_talon_left = 9;
         const uint32_t intake_talon_right = 10;
@@ -62,6 +63,9 @@ namespace PORTS {
     }
 
     namespace PCM {
+
+      const uint32_t shifter_forward = 0;
+      const uint32_t shifter_reverse = 1;
 
     }
 }

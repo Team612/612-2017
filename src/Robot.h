@@ -9,10 +9,11 @@
 #include "Subsystems/Intake.h"
 #include "Subsystems/Drivetrain.h"
 #include "Subsystems/Shooter.h"
+#include "Subsystems/Vision.h"
 #include "Timer.h"
-
+#include "Commands/Internal/IntakeFuel.h"
 #include "OI.h"
-
+#include "Subsystems/Shifter.h"
 class Robot : public IterativeRobot {
 public:
     std::unique_ptr<Command> autonomousCommand;
@@ -22,12 +23,13 @@ public:
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Intake> intake;
     static std::shared_ptr<Climber> climber;
+    static std::shared_ptr<Vision> vision;
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
     static double initial_current;
     static double init_climber_current;
-
+    static std::shared_ptr<Shifter> shifter_subsys;
     virtual void RobotInit() override;
     virtual void RobotPeriodic() override;
     virtual void DisabledInit() override;

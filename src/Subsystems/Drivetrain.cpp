@@ -5,6 +5,7 @@
 #include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
+    ur = std::make_shared<Ultrasonic>(PORTS::DIO::ultrasonic_in, PORTS::DIO::ultrasonic_out, frc::Ultrasonic::DistanceUnit::kMilliMeters);
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
@@ -115,6 +116,9 @@ void Drivetrain::Throttle(double lpercent, double rpercent) {
     SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
 }
 
+std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
+    return ur; //guess
+}
 void Drivetrain::InitDefaultCommand() {
     printf("Default command for Drivetrain\n");
     SetDefaultCommand(new Drive());

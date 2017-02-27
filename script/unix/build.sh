@@ -32,7 +32,6 @@ LIB="wpilib/"
 CTRE="CTRE/include/"
 
 if check_internetone || check_internettwo; then
-
 	if [ ! -d "$LIB" ]; then
     	echo "build.sh: Downloading Libraries..."
     	sh script/unix/.wpilib-download.sh

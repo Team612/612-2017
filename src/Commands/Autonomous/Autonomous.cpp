@@ -1,7 +1,7 @@
 #include "Autonomous.h"
 #include "AutoDrive.h"
 #include "Playback.h"
-#include "../Vision/AlignToTarget.h"
+#include "../Vision/AutoAlign.h"
 #include "../Shooter/SetShooter.h"
 #include "../Internal/IntakeFuel.h"
 
@@ -23,7 +23,7 @@ Autonomous::Autonomous() {
         //drive up to hopper
         AddSequential(new Playback({ }, { }, { }));
         //Align to target
-        AddSequential(new AlignToTarget());
+        AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
         //Shoot for 5 seconds
         AddParallel(new SetShooter(5.0));
         AddParallel(new IntakeFuel(true), 5);
@@ -41,7 +41,7 @@ Autonomous::Autonomous() {
         //drive up to hopper
         AddSequential(new Playback({ }, { }, { }));
         //Align to target
-        AddSequential(new AlignToTarget());
+        AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
         //Shoot for 5 seconds
         AddParallel(new SetShooter(5.0));
         AddParallel(new IntakeFuel(true), 5);
@@ -79,6 +79,8 @@ Autonomous::Autonomous() {
         AddSequential(new frc::WaitCommand(3));
         //Drive back to goal
         AddSequential(new Playback({ }, { }, { }));
+        //Align to target
+        AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
         //Shoot for the rest of the time
         AddParallel(new SetShooter(30.0));
         AddParallel(new IntakeFuel(true), 30);
