@@ -39,6 +39,7 @@ public:
     void setDriveMode(DRIVE_MODE mode);
     DRIVE_MODE getDriveMode();
 
+    double RAMP_RATE = 20;
 private:
     double pi = 3.141592653;
 };
