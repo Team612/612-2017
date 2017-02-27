@@ -126,16 +126,6 @@ public:
 
 	void AutonomousInit() {
 		std::cout << "Autonomous Init! (612-2017 templateREPLACEME)" << std::endl;
-
-		left1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-		left1->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-		left1->SetPID(0.01, 0, 0, 0.5); 
-		left1->SetVoltageRampRate(0);
-		right1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-		right1->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-		right1->SetPID(0.01, 0, 0, 0.5); 
-		right1->SetVoltageRampRate(0);
-        solenoid->Set(DoubleSolenoid::Value::kForward);
     }
 
     void AutonomousPeriodic() {
@@ -146,68 +136,73 @@ public:
 		std::cout << "Teleop Init! (612-2017 templateREPLACEME)" << std::endl;
 
 		left1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		left1->SetVoltageRampRate(RAMPRATE);
+		left1->SetVoltageRampRate(0);
 		right1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		right1->SetVoltageRampRate(RAMPRATE);
+		right1->SetVoltageRampRate(0);
     }
+
+	double smoothed = false;
 
 	void TeleopPeriodic() {
     	std::cout << "Teleop Periodic! (612-2017 templateREPLACEME)" << std::endl;
 
-		double a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
-//		std::cout << "Left Y: " << a << std::endl;
-		double b = driver->GetSmoothY(frc::GenericHID::kRightHand);
-//		std::cout << "Right Y: " << b << std::endl;
-		//std::printf("%f, %f\n", a, b);
-		//std::printf("%f, %f\n", abs(a), abs(b));
+    	double a, b;
+    	if(driver->GetBumper(frc::GenericHID::kLeftHand)) {
+    		a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
+    		b = driver->GetSmoothY(frc::GenericHID::kRightHand);
+    	}
+    	else {
+    		a = driver->GetY(frc::GenericHID::kLeftHand);
+    		b = driver->GetY(frc::GenericHID::kRightHand);
+    	}
 
 		if(a > 0.1f || a < -0.1f) {
 			left1->Set(a);
 		} else {
-			left1->SetVoltageRampRate(0);
+//			left1->SetVoltageRampRate(0);
 			left1->Set(0);
-			left1->SetVoltageRampRate(RAMPRATE);
+//			left1->SetVoltageRampRate(RAMPRATE);
 		}
 
 		if(b > 0.1f || b < -0.1f) {
 			right1->Set(-b);
 		} else {
-			right1->SetVoltageRampRate(0);
+//			right1->SetVoltageRampRate(0);
 			right1->Set(0);
-			right1->SetVoltageRampRate(RAMPRATE);
+//			right1->SetVoltageRampRate(RAMPRATE);
 		}
 
 		//std::printf("A: %d\n", gunner->GetAButton() ? 1 : 0);
 
-		if(gunner->GetAButton())
-			if(driver->GetStartButton())
-				shooter1->SetSetpoint(SHOOTER_SHOOT * 1.25);
-			else
-				shooter1->SetSetpoint(SHOOTER_SHOOT);
-		else
-			shooter1->SetSetpoint(SHOOTER_IDLE);
-
-		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
-
-		//Drivers seemed to like this
-//		std::cout << "Triggered: " << c << std::endl;
-		if(abs(c) > 0.1) {
-			if (gunner->GetBumper(frc::GenericHID::kLeftHand))
-				intake1->SetSetpoint(-INTAKE); // Allows us to clear intake
-			else
-				intake1->SetSetpoint(INTAKE);
-		} else {
-			intake1->SetSetpoint(0);
-		}
-
-		intake1->SetSetpoint(INTAKE);
-
-		double d = gunner->GetY(frc::GenericHID::kLeftHand);
-
-		if(d > 0.1f)
-			climber1->Set(-1);
-		else
-			climber1->Set(0);
+//		if(gunner->GetAButton())
+//			if(driver->GetStartButton())
+//				shooter1->SetSetpoint(SHOOTER_SHOOT * 1.25);
+//			else
+//				shooter1->SetSetpoint(SHOOTER_SHOOT);
+//		else
+//			shooter1->SetSetpoint(SHOOTER_IDLE);
+//
+//		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
+//
+//		//Drivers seemed to like this
+////		std::cout << "Triggered: " << c << std::endl;
+//		if(abs(c) > 0.1) {
+//			if (gunner->GetBumper(frc::GenericHID::kLeftHand))
+//				intake1->SetSetpoint(-INTAKE); // Allows us to clear intake
+//			else
+//				intake1->SetSetpoint(INTAKE);
+//		} else {
+//			intake1->SetSetpoint(0);
+//		}
+//
+//		intake1->SetSetpoint(INTAKE);
+//
+//		double d = gunner->GetY(frc::GenericHID::kLeftHand);
+//
+//		if(d > 0.1f)
+//			climber1->Set(-1);
+//		else
+//			climber1->Set(0);
 
 		if(driver->GetBumper(frc::GenericHID::kLeftHand))
             solenoid->Set(DoubleSolenoid::Value::kForward);
