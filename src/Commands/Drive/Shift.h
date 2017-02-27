@@ -16,4 +16,7 @@ public:
   bool IsFinished() override;
   void End() override;
   void Interrupted() override;
+private:
+  float timer = 0;
+  bool shifted = false; 
 };
