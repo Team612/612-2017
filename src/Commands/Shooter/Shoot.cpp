@@ -17,7 +17,10 @@ void Shoot::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
-        Robot::shooter->Spin(OPTIMAL_RPM);
+        if (Robot::oi->getdriver()->GetStartButton())
+            Robot::shooter->Spin(START_MULTIPLIER * OPTIMAL_RPM);
+        else Robot::shooter->Spin(OPTIMAL_RPM);
+
         Robot::shooter->Agitate();
     } else {
         Robot::shooter->Spin(-IDLE);
