@@ -155,34 +155,34 @@ public:
 		right1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		std::ifstream profile_reader;
 
-        //load the profile of the correct mode
-        std::string file = "/home/lvuser/";
-        auto current_mode = frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None");
-        //make sure we do nothing if the auto mode is set to none
-        if(current_mode == "None")
-            return;
+		//load the profile of the correct mode
+		std::string file = "/home/lvuser/";
+		auto current_mode = frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None");
+		//make sure we do nothing if the auto mode is set to none
+		if(current_mode == "None")
+			return;
 
-        //file conventions consistent with master
-        if(current_mode == "Simple")
-            file += "simple";
-        else if(current_mode == "1 Gear Auto")
-            file += "oneGearAuto";
-        else if(current_mode == "10 Ball Auto")
-            file += "tenBallAuto";
-        else if(current_mode == "Full Gear Auto")
-            file += "FGA";
-        else if(current_mode == "The Polymath")
-            file += "polymath";
-        else if(current_mode == "Operation: Hopper Hack")
-            file += "hophack";
-        else if(current_mode == "60 Ball Madlad Autonomous")
-            file += "sixtyBallAuto";
-        else if(current_mode == "G.O.A.T.")
-            file += "GodHelpUsPlease";
-        else {
-            std::cout << "ERROR: Chosen Auto mode not recognized" << std::endl;
-            return;
-        }
+		//file conventions consistent with master
+		if(current_mode == "Simple")
+			file += "simple";
+		else if(current_mode == "1 Gear Auto")
+			file += "oneGearAuto";
+		else if(current_mode == "10 Ball Auto")
+			file += "tenBallAuto";
+		else if(current_mode == "Full Gear Auto")
+			file += "FGA";
+		else if(current_mode == "The Polymath")
+			file += "polymath";
+		else if(current_mode == "Operation: Hopper Hack")
+			file += "hophack";
+		else if(current_mode == "60 Ball Madlad Autonomous")
+			file += "sixtyBallAuto";
+		else if(current_mode == "G.O.A.T.")
+			file += "GodHelpUsPlease";
+		else {
+			std::cout << "ERROR: Chosen Auto mode not recognized" << std::endl;
+			return;
+		}
 
 		while(!profile_reader.is_open()) {
 			std::cout << "Opening " << file << "..." << std::endl;
