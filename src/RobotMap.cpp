@@ -18,12 +18,8 @@ std::shared_ptr<CANTalon> RobotMap::climber_r;
 std::shared_ptr<CANTalon> RobotMap::agitator;
 std::shared_ptr<Servo> RobotMap::grabber;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
-
-std::shared_ptr<RobotDrive> RobotMap::drive;
-
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
-
-//std::shared_ptr<RobotDrive> RobotMap::drive;
+std::shared_ptr<RobotDrive> RobotMap::drive;
 
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
@@ -69,7 +65,7 @@ void RobotMap::init() {
 
     pdp.reset(new PowerDistributionPanel(PORTS::CAN::module));
 
-    drive.reset(new RobotDrive(drive_ml.get(), drive_mr.get()));
+    //drive.reset(new RobotDrive(drive_ml.get(), drive_mr.get()));
 
     grabber.reset(new Servo(PORTS::PWM::servo));
     lw->AddActuator("Climber", "grabber", grabber);

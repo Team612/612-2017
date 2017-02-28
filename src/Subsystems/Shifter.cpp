@@ -1,5 +1,4 @@
 #include "Shifter.h"
-#include "../RobotMap.h"
 
 Shifter::Shifter() :
     frc::Subsystem("Shifter") {

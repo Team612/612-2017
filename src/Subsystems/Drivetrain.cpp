@@ -31,11 +31,11 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_fl->Set(PORTS::CAN::drive_talonML);
     this->drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_fr->Set(PORTS::CAN::drive_talonMR);
+    //this->drive_fr->SetClosedLoopOutputDirection(true);
     this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_rl->Set(PORTS::CAN::drive_talonML);
     this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_rr->Set(PORTS::CAN::drive_talonMR);
-
     this->drive_ml->SetVoltageRampRate(RAMP_RATE);
     this->drive_mr->SetVoltageRampRate(RAMP_RATE);
 
@@ -115,7 +115,7 @@ void Drivetrain::Throttle(double lpercent, double rpercent) {
         right = abs(right) > 1 ? 1 : right;
     else
         right = abs(right) > 1 ? -1 : right;
-
+        
     SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
 }
 

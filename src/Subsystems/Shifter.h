@@ -4,6 +4,7 @@
 #include "Commands/Subsystem.h"
 #include "../RobotMap.h"
 
+
 class Shifter: public frc::Subsystem {
 public:
      Shifter();

@@ -1,40 +1,77 @@
 #include "Playback.h"
-#include "../../RobotMap.h"
-#include "../../Robot.h"
+#include <iostream>
 
-Playback::Playback(std::vector<double> time_mark, std::vector<double> left_setpoints, std::vector<double> right_setpoints, bool is_inverted)
-        : Command("Playback") {
-    this->time_mark = time_mark;
-    this->left_setpoints = left_setpoints;
-    this->right_setpoints = right_setpoints;
-    this->is_inverted = is_inverted;
-    timer = new Timer();
-    Requires(Robot::drivetrain.get());
+Playback::Playback(std::string filePath) {
+    this->filePath = filePath;
 }
 
 void Playback::Initialize() {
-    if(is_inverted) {
-        //run the play back with left as right and right as left
-    } else {
-        //run the play back normally
+    RobotMap::drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_ml->Set(RobotMap::drive_fl->GetDeviceID());
+    RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_mr->Set(RobotMap::drive_fr->GetDeviceID());
+    RobotMap::drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_rl->Set(RobotMap::drive_fl->GetDeviceID());
+    RobotMap::drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_rr->Set(RobotMap::drive_fr->GetDeviceID());
+    inputFile.open(filePath);
+    if(inputFile.is_open()) {
+        std::cout << "Reading file at " << filePath << std::endl;
+        std::string line;
+        std::string time_str;
+        std::string left;
+        std::string right;
+        int colon_pos = 0;
+        int comma_pos = 0;
+        //GET DATA FROM INPUT FILE
+        while(getline(inputFile, line)){
+            colon_pos = line.find(":");
+            comma_pos = line.find(",");
+            time_str = line.substr(0, colon_pos);
+            left = line.substr(colon_pos+1, comma_pos-colon_pos-1);
+            right = line.substr(comma_pos+1);
+            playback_frame_buf.time = std::stod(time_str);
+            playback_frame_buf.l = std::stod(left);
+            playback_frame_buf.r = std::stod(right);
+            playback_vec.push_back(playback_frame_buf);
+        }
+    }else{
+        std::cout << "Why is the file not open? \n";
     }
+    playback_vec.pop_back();
+
+    timer.Reset();
+    timer.Start();
 }
 
 void Playback::Execute() {
-    //this should remain empty
+    if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
+        while(t < playback_vec.size() && playback_vec[t].time <= timer.Get())
+            t++;
+        RobotMap::drive_fl->Set(playback_vec[t].l);
+        RobotMap::drive_fr->Set(playback_vec[t].r);
+    }else if(t == playback_vec.size() || timer.Get() > playback_vec.back().time){
+        std::cout << "Done playing back \n";
+        isFinished = true;
+    }else{
+        std::cout << "God help us, Playback does not work! \n";
+    }
 }
 
 bool Playback::IsFinished() {
-    //only runs once
-    //TODO consider using an instant command?
-    return true;
+    return isFinished;
 }
 
 void Playback::End() {
-    Robot::drivetrain->Throttle(0, 0);
+    RobotMap::drive_fl->Set(0);
+    RobotMap::drive_fr->Set(0);
+    std::cout << "Playback is over, you can rest easy (unless it didn't do what it was supposed to, then you gotta panick 'till the code is fixed) \n";
 }
 
 void Playback::Interrupted() {
-    std::cout << "Warning: Driver playback interrupted!" << std::endl;
-    Robot::drivetrain->Throttle(0, 0);
+    RobotMap::drive_fl->Set(0);
+    RobotMap::drive_fr->Set(0);
+    std::cout << "How the heck was Playback interrupted, it doesn't even require anything?! \n";
 }

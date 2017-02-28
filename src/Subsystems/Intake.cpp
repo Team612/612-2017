@@ -19,7 +19,7 @@ Intake::Intake() : Subsystem("Intake") {
 }
 
 void Intake::InitDefaultCommand() {
-
+    SetDefaultCommand(Robot::intakeCommand.get());
 }
 
 void Intake::IntakeFuel() {
