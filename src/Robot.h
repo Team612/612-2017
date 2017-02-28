@@ -15,6 +15,8 @@
 #include "OI.h"
 #include "Subsystems/Shifter.h"
 class Robot : public IterativeRobot {
+private:
+    void ConfigureFilePath();
 public:
     static std::string filePath;
 

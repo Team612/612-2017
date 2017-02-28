@@ -26,8 +26,7 @@ void Playback::Initialize() {
         int colon_pos = 0;
         int comma_pos = 0;
         //GET DATA FROM INPUT FILE
-        while(getline(inputFile, line))
-        {
+        while(getline(inputFile, line)){
             colon_pos = line.find(":");
             comma_pos = line.find(",");
             time_str = line.substr(0, colon_pos);
@@ -48,8 +47,7 @@ void Playback::Initialize() {
 }
 
 void Playback::Execute() {
-    if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time)
-    {
+    if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
         while(t < playback_vec.size() && playback_vec[t].time <= timer.Get())
             t++;
         RobotMap::drive_fl->Set(playback_vec[t].l);

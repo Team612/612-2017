@@ -9,7 +9,7 @@
 
 class Playback: public Command {
 private:
-    struct playback_frame{
+    struct playback_frame {
         double time;
         double l;
         double r;
