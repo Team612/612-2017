@@ -1,12 +1,19 @@
 #include "DriveDistance.h"
 
-//Drive a certain distance.
+//Drive a certain distance. Input meters.
 DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 0.0, 0.0) {
     printf("DriveDistance constructor\n");
-    this->distance = distance;
+
+    //Assists calculations
+    double DistancePerWheelRotation = pi*Robot::drivetrain->GetCurrentProfile()->WheelDiameter;
+    double WheelRotationsPerPulse = Robot::drivetrain->GetCurrentProfile()->NativeToRPM *
+                                    Robot::drivetrain->GetCurrentProfile()->EncoderToWheel * (60/0.1);
+    double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
+
+    this->distance = distance / DistancePerPulse;
 
     GetPIDController()->SetContinuous(true); //?
-    GetPIDController()->SetOutputRange(-1, 1);
+    GetPIDController()->SetOutputRange(-MAX_THROTTLE, MAX_THROTTLE);
     GetPIDController()->SetPercentTolerance(0.05);
     Requires(Robot::drivetrain.get());
 }
@@ -14,12 +21,12 @@ DriveDistance::DriveDistance(double distance): PIDCommand("DriveDistance", 0.2, 
 void DriveDistance::Initialize() {
     printf("DriveDistance init\n");
 
-    /*leftInitialDistance = RobotMap::drive_ml->GetPosition();
+    leftInitialDistance = RobotMap::drive_ml->GetPosition();
     rightInitialDistance = RobotMap::drive_mr->GetPosition();
 
     GetPIDController()->SetSetpoint(distance);
     GetPIDController()->SetInputRange(0.0, distance);
-    GetPIDController()->Enable();*/
+    GetPIDController()->Enable();
 }
 
 void DriveDistance::Execute() {
@@ -27,18 +34,17 @@ void DriveDistance::Execute() {
 }
 
 bool DriveDistance::IsFinished() {
-    //return GetPIDController()->OnTarget();
-    return true;
+    return GetPIDController()->OnTarget();
 }
 
 void DriveDistance::End() {
     printf("Info: Completed DriveDistance");
-    //Robot::drivetrain->SetVelocity(0.0, 0.0);
+    Robot::drivetrain->Throttle(0.0, 0.0);
 }
 
 void DriveDistance::Interrupted() {
     printf("Warning: DriveDistance interrupted!");
-    //Robot::drivetrain->SetVelocity(0.0, 0.0);
+    Robot::drivetrain->Throttle(0.0, 0.0);
 }
 
 double DriveDistance::ReturnPIDInput() {
@@ -49,5 +55,5 @@ double DriveDistance::ReturnPIDInput() {
 }
 
 void DriveDistance::UsePIDOutput(double output) {
-    Robot::drivetrain->SetVelocity(output, output);
+    Robot::drivetrain->Throttle(output, output);
 }

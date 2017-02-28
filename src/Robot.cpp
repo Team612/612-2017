@@ -16,11 +16,13 @@ std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::shared_ptr<Shifter> Robot::shifter_subsys;
+std::shared_ptr<Vision> Robot::vision;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
+std::string Robot::filePath = "/home/lvuser/";
 double Robot::initial_current;
 double Robot::init_climber_current;
 
@@ -39,8 +41,8 @@ void Robot::RobotInit() {
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
-    intakeCommand = std::make_unique<IntakeFuel>();
-    std::string filePath = "home/lvuser/";
+    intakeCommand = std::make_unique<IntakeFuel>(true);
+    filePath = "home/lvuser/";
     if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "Simple") == 0){
         filePath+="simple";
     }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "1 Gear Auto")== 0){

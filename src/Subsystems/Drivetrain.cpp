@@ -5,6 +5,7 @@
 #include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
+    ur = std::make_shared<Ultrasonic>(PORTS::DIO::ultrasonic_in, PORTS::DIO::ultrasonic_out, frc::Ultrasonic::DistanceUnit::kMilliMeters);
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
@@ -101,7 +102,7 @@ double Drivetrain::GetRightVelocity() {
 }
 
 void Drivetrain::Throttle(double lpercent, double rpercent) {
-    /*double left = lpercent, right = rpercent;
+    double left = lpercent, right = rpercent;
     //deal with dumb people who set motors to more than 100%
     if(left > 0)
         left = abs(left) > 1 ? 1 : left;
@@ -112,15 +113,26 @@ void Drivetrain::Throttle(double lpercent, double rpercent) {
         right = abs(right) > 1 ? 1 : right;
     else
         right = abs(right) > 1 ? -1 : right;
-
-    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);*/
-
-    //this->drive->TankDrive(lpercent, rpercent);
-    this->drive_ml->Set(lpercent);
-    this->drive_mr->Set(rpercent);
+        
+    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
 }
 
+std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
+    return ur; //guess
+}
 void Drivetrain::InitDefaultCommand() {
     printf("Default command for Drivetrain\n");
     SetDefaultCommand(new Drive());
+}
+
+void Drivetrain::TeleOpDrive(double l, double r){
+    RobotMap::drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
+}
+
+Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
+    return drivemode;
+}
+
+void Drivetrain::setDriveMode(Drivetrain::DRIVE_MODE mode){
+    drivemode = mode;
 }

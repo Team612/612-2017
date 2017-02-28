@@ -32,7 +32,7 @@ namespace lib612 {
                 return Mode::NULLMODE;
         }
 
-        inline  void UpdateAll() {
+        inline void UpdateAll() {
             frc::SmartDashboard::PutBoolean("Enabled", frc::DriverStation::GetInstance().IsEnabled());
             //switch cases for GetRobotMode//
             switch (GetRobotMode()) {

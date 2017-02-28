@@ -12,4 +12,5 @@ public:
     Shooter();
     void InitDefaultCommand();
     void Spin(float speed);
+    void Agitate();
 };
