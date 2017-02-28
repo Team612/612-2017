@@ -41,7 +41,26 @@ void Robot::RobotInit() {
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     intakeCommand = std::make_unique<IntakeFuel>();
     std::string filePath = "home/lvuser/";
-    //TODO append file name to the end of the file
+    if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "Simple") == 0){
+        filePath+="simple";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "1 Gear Auto")== 0){
+        filePath+="oneGearAuto";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "10 Ball Auto") == 0){
+        filePath+="tenBallAuto";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "Full Gear Auto") == 0){
+        filePath+="FGA";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "The Polymath") == 0){
+        filePath+="polymath";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "Operation: Hopper Hack") == 0){
+        filePath+="hophack";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "60 Ball Madlad Autonomous") == 0){
+        filePath+="sixtyBallAuto";
+    }else if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "G.O.A.T") == 0){
+        filePath+="GodHelpUsPlease";
+    }else{
+        filePath+="simple";
+        std::cout << "Defaulted to simple auto \n";
+    }
     playback = std::make_unique<Playback>(filePath.c_str());
 
     //pdp
