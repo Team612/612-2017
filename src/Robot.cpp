@@ -22,11 +22,43 @@ CANTalon mr { 5 };
 CANTalon rr { 4 };
 frc::Timer timer;
 double timeMulti = 1;
+
+std::string GetOutputPath() {
+	std::ifstream profile_reader;
+
+	//load the profile of the correct mode
+	std::string file = "/home/lvuser/";
+	auto current_mode = frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None");
+	//make sure we do nothing if the auto mode is set to none
+	if(current_mode == "None")
+		return "";
+
+	//file conventions consistent with master
+	if(current_mode == "Simple")
+		file += "simple";
+	else if(current_mode == "1 Gear Auto")
+		file += "oneGearAuto";
+	else if(current_mode == "10 Ball Auto")
+		file += "tenBallAuto";
+	else if(current_mode == "Full Gear Auto")
+		file += "FGA";
+	else if(current_mode == "The Polymath")
+		file += "polymath";
+	else if(current_mode == "Operation: Hopper Hack")
+		file += "hophack";
+	else if(current_mode == "60 Ball Madlad Autonomous")
+		file += "sixtyBallAuto";
+	else if(current_mode == "G.O.A.T.")
+		file += "GodHelpUsPlease";
+	else {
+		std::cout << "ERROR: Chosen Auto mode not recognized" << std::endl;
+		return "";
+	}
+	return file;
+}
 	
 public:
-	Robot() {
-	
-	}
+	Robot() = default;
 		
 	void RobotInit() {
 		timer.Reset();
@@ -51,15 +83,16 @@ public:
 		rr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		std::ifstream mp;
 		while(!mp.is_open()) {
-			mp.open("/home/lvuser/mp"+frc::SmartDashboard::GetString("Chosen Autonomous Mode", "Simple"));
+			if(GetOutputPath() != "")
+				mp.open(GetOutputPath());
 			std::cout << "Opening mp\n";
 			frc::Wait(1);
 		}
 		std::vector<double> time = {0};
 		std::vector<double> l = {0};
 		std::vector<double> r = {0};
-		int colonPos = 0;
-		int commaPos = 0;
+		unsigned long colonPos = 0;
+		unsigned long commaPos = 0;
 		std::string timeString;
 		std::string leftString;
 		std::string rightString;
@@ -107,7 +140,8 @@ public:
 		mr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		rr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		std::ofstream mp;
-		mp.open("/home/lvuser/mp"+frc::SmartDashboard::GetString("Chosen Autonomous Mode", "Simple"),std::ofstream::out | std::ofstream::app);
+		if(GetOutputPath() != "")
+			mp.open(GetOutputPath(),std::ofstream::out | std::ofstream::app);
 		while(IsOperatorControl() && IsEnabled()) {
 			fl.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
 			ml.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
@@ -117,7 +151,8 @@ public:
 			rr.Set(controller.GetY(frc::GenericHID::kRightHand)/4);
 			if(controller.GetBButton()) {
 				mp.close();
-				mp.open("/home/lvuser/mp",std::ofstream::out | std::ofstream::trunc);
+				if(GetOutputPath() != "")
+					mp.open("/home/lvuser/mp",std::ofstream::out | std::ofstream::trunc);
 			}
 			if(controller.GetBumper(frc::GenericHID::kLeftHand) && mp.is_open()) {
 				mp << timer.Get() << ":" << fl.GetOutputVoltage()/fl.GetBusVoltage() << "," << fr.GetOutputVoltage()/fr.GetBusVoltage() << "\n";
@@ -131,7 +166,6 @@ public:
 			frc::Wait(0.05);
 		}
 	}
-	
 };
 
 START_ROBOT_CLASS(Robot)		
