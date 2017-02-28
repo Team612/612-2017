@@ -6,6 +6,7 @@
 
 #include <CANTalon.h>
 #include <WPILib.h>
+#include <fstream>
 #include <vector>
 
 class SmoothController : public XboxController {
@@ -38,14 +39,7 @@ using namespace frc;
 
 class Robot: public IterativeRobot {
 public:
-	frc::Timer autoTimer;
-	std::vector<double> timeMark = {0, 0.5, 1, 4, 4.5};
-	std::vector<double> leftRPM = {50, 100, 200, 150, 0};
-	std::vector<double> rightRPM = {50, 100, 200, 150, 0};
-	double driveMultiplier = 2;
-	double multiplier = 1;
-	unsigned int currentTimeMark = 0;
-	/* PID CONSTANTS
+    /* PID CONSTANTS
 	3:1
 	p = 0.1
 	i = 0.001
@@ -59,6 +53,13 @@ public:
 	f = 0.08
 	*/
 
+	frc::Timer* autoTimer;
+	//std::vector<double> timeMark = {0, 0.5, 1, 4, 4.5};
+	//std::vector<double> leftRPM = {50, 100, 200, 150, 0};
+	//std::vector<double> rightRPM = {50, 100, 200, 150, 0};
+	//double driveMultiplier = 2;
+	double multiplier = 1;
+
 	CANTalon* shooter1;
 	CANTalon* shooter2;
 	CANTalon* intake1;
@@ -70,6 +71,7 @@ public:
 	CANTalon* right2;
 	CANTalon* right3;
 	CANTalon* climber1;
+    CANTalon* climber2;
 	SmoothController *driver;
 	SmoothController* gunner;
     Compressor* compressor;
@@ -90,6 +92,7 @@ public:
 		intake2 = new CANTalon(10);
 
 		climber1 = new CANTalon(11);
+        climber2 = new CANTalon(12);
 
 		shooter1->SelectProfileSlot(0);
 		shooter1->SetPID(0.1, 0.001, 4.1, 0.026);
@@ -119,52 +122,85 @@ public:
 		left2 = new CANTalon(2);
 		left3 = new CANTalon(1);
 
-		left2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		left2->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 		left2->Set(left1->GetDeviceID());
-		left3->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		left3->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 		left3->Set(left1->GetDeviceID());
 
 		right1 = new CANTalon(6);
 		right2 = new CANTalon(5);
 		right3 = new CANTalon(4);
 
-		right2->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		right2->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 		right2->Set(right1->GetDeviceID());
-		right3->SetControlMode(CANSpeedController::ControlMode::kFollower);
+		right3->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 		right3->Set(right1->GetDeviceID());
 
-        compressor =  new Compressor(3);
+        compressor = new Compressor(3);
         solenoid = new DoubleSolenoid(0, 1);
         solenoid->Set(DoubleSolenoid::Value::kForward);
 
+        climber2->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+        climber2->Set(climber1->GetDeviceID());
+
         compressor->Start();
+
+        autoTimer = new Timer();
 	}
 
 	void AutonomousInit() {
-		left1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-		left1->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-		left1->SetPID(0.01, 0, 0, 0.5); 
-		left1->SetVoltageRampRate(0);
-		right1->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-		right1->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-		right1->SetPID(0.01, 0, 0, 0.5); 
-		right1->SetVoltageRampRate(0);
-        solenoid->Set(DoubleSolenoid::Value::kForward);
-		currentTimeMark = 0;
-		autoTimer.Reset();
-		autoTimer.Start();
+        autoTimer->Reset();
+        autoTimer->Start();
+        left1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+        right1->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+        std::ifstream profile_reader;
+        while(!profile_reader.is_open()) {
+            //load the profile of the correct mode
+            auto file = "/home/lvuser/mp" + frc::SmartDashboard::GetString("Chosen Autonomous Mode", "Simple");
+            std::cout << "Opening " << file << "..." << std::endl;
+            profile_reader.open(file);
+            frc::Wait(0.25);
+        }
+        std::vector<double> times = {0};
+        std::vector<double> lefts = {0};
+        std::vector<double> rights = {0};
+        unsigned long colonPos = 0;
+        unsigned long commaPos = 0;
+        std::string timeString;
+        std::string leftString;
+        std::string rightString;
+        std::string line;
+        if(profile_reader.is_open()) {
+            std::cout << "Reading motion profile" << std::endl;
+            while(getline(profile_reader,line)) {
+                colonPos = line.find(":");
+                commaPos = line.find(",");
+                timeString = line.substr(0, colonPos);
+                leftString = line.substr(colonPos + 1, commaPos - colonPos - 1);
+                rightString = line.substr(commaPos + 1);
+                times.push_back(std::stod(timeString) / multiplier);
+                lefts.push_back(std::stod(leftString) * multiplier);
+                rights.push_back(std::stod(rightString) * multiplier);
+            }
+        }
+        uint32_t t = 0;
+        std::cout << "Running motion profile" << std::endl;
+        times.pop_back();
+        rights.pop_back();
+        lefts.pop_back();
+        while(t < times.size() && autoTimer->Get() < times.back()) {
+            while(t < times.size() && times[t + 1] < autoTimer->Get()) {
+                t++;
+            }
+            left1->Set(lefts[t]);
+            right1->Set(lefts[t]);
+            std::cout << times[t] << ":" << lefts[t] << "," << rights[t] << std::endl;
+        }
+        profile_reader.close();
     }
 
     void AutonomousPeriodic() {
-        left1->Set(leftRPM[currentTimeMark]*multiplier*driveMultiplier);
-		left2->Set(left1->GetDeviceID());
-		left3->Set(left1->GetDeviceID());
-        right1->Set(rightRPM[currentTimeMark]*multiplier*driveMultiplier);
-		right2->Set(right1->GetDeviceID());
-		right3->Set(right1->GetDeviceID());
-		while(currentTimeMark < timeMark.size() && timeMark[currentTimeMark+1]/multiplier < autoTimer.Get()) {
-			currentTimeMark++;
-		}
+        //leave blank?
     }
 
 	void TeleopInit() {
@@ -209,7 +245,7 @@ public:
 			else
 				shooter1->SetSetpoint(SHOOTER_SHOOT);
 		else
-			shooter1->SetSetpoint(SHOOTER_IDLE);
+			shooter1->SetSetpoint(0);
 
 		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
 		//drivetrain blocking
@@ -242,7 +278,7 @@ public:
 
 		double d = gunner->GetY(frc::GenericHID::kLeftHand);
 
-		if(d > 0.1f)
+		if(-d > 0.25f)
 			climber1->Set(-1);
 		else
 			climber1->Set(0);
