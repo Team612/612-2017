@@ -14,6 +14,11 @@ private:
         double l;
         double r;
     };
+
+    bool isFinished;
+
+    uint32_t t = 0;
+
     playback_frame playback_frame_buf;
 
     std::vector<playback_frame> playback_vec;
