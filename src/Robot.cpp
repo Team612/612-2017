@@ -152,7 +152,7 @@ public:
 			if(controller.GetBButton()) {
 				mp.close();
 				if(GetOutputPath() != "")
-					mp.open("/home/lvuser/mp",std::ofstream::out | std::ofstream::trunc);
+					mp.open(GetOutputPath());
 			}
 			if(controller.GetBumper(frc::GenericHID::kLeftHand) && mp.is_open()) {
 				mp << timer.Get() << ":" << fl.GetOutputVoltage()/fl.GetBusVoltage() << "," << fr.GetOutputVoltage()/fr.GetBusVoltage() << "\n";
