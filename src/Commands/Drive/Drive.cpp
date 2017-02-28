@@ -14,6 +14,8 @@ void Drive::Initialize() {
 void Drive::Execute() {
     if(abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kLeftHand)) > 0.1 || abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kRightHand)) > 0.1)
         Robot::drivetrain->TeleOpDrive(-Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kLeftHand), -Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kRightHand));
+    else
+        Robot::drivetrain->TeleOpDrive(0,0);
     //motor feed safety
     frc::Wait(0.005);
 }

@@ -36,6 +36,9 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_rr->Set(PORTS::CAN::drive_talonMR);
 
+    this->drive_ml->SetVoltageRampRate(RAMP_RATE);
+    this->drive_mr->SetVoltageRampRate(RAMP_RATE);
+
     this->drive.reset(RobotMap::drive.get());
 
     //TODO: Are these being used?
@@ -125,7 +128,15 @@ void Drivetrain::InitDefaultCommand() {
 }
 
 void Drivetrain::TeleOpDrive(double l, double r){
-    RobotMap::drive->TankDrive(Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kLeftHand), Robot::oi->getdriver()->GetY(GenericHID::JoystickHand::kRightHand));
+    if (l == 0 && r == 0) {
+        drive_ml->SetVoltageRampRate(0);
+        drive_mr->SetVoltageRampRate(0);
+        RobotMap::drive->TankDrive(0.0f,0.0f);
+    } else
+        RobotMap::drive->TankDrive(l,r);
+
+    drive_ml->SetVoltageRampRate(RAMP_RATE);
+    drive_mr->SetVoltageRampRate(RAMP_RATE);
 }
 
 Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
