@@ -26,7 +26,8 @@ public:
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
-    static std::unique_ptr<Command> intakeCommand; 
+    static std::unique_ptr<Command> intakeCommand;
+    static std::unique_ptr<Command> playback;
     static double initial_current;
     static double init_climber_current;
 

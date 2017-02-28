@@ -1,10 +1,13 @@
 #include <lib612/DriveProfile.h>
 #include "Robot.h"
 
+#include <string>
+
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Drive/Wiggle.h"
 #include "Commands/Internal/IntakeFuel.h"
+#include "Commands/Autonomous/Playback.h"
 #include "lib612/Networking/Networking.h"
 
 
@@ -17,6 +20,7 @@ std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
+std::unique_ptr<Command> Robot::playback;
 double Robot::initial_current;
 double Robot::init_climber_current;
 
@@ -36,6 +40,9 @@ void Robot::RobotInit() {
     autonomousCommand = std::make_unique<Autonomous>();
     wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     intakeCommand = std::make_unique<IntakeFuel>();
+    std::string filePath = "home/lvuser/";
+    //TODO append file name to the end of the file
+    playback = std::make_unique<Playback>(filePath.c_str());
 
     //pdp
     initial_current = RobotMap::pdp->GetTotalCurrent();
