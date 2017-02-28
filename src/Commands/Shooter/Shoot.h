@@ -17,4 +17,5 @@ public:
 private:
     const double OPTIMAL_RPM = 3200;
     double IDLE = OPTIMAL_RPM / 10;
+    const float START_MULTIPLIER = 1.25;
 };
