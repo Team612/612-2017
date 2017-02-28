@@ -51,7 +51,7 @@ public:
 		rr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		std::ifstream mp;
 		while(!mp.is_open()) {
-			mp.open("/home/lvuser/mp");
+			mp.open("/home/lvuser/mp"+frc::SmartDashboard::GetString("Chosen Autonomous Mode", "Simple"));
 			std::cout << "Opening mp\n";
 			frc::Wait(1);
 		}
@@ -107,7 +107,7 @@ public:
 		mr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		rr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		std::ofstream mp;
-		mp.open("/home/lvuser/mp",std::ofstream::out | std::ofstream::app);
+		mp.open("/home/lvuser/mp"+frc::SmartDashboard::GetString("Chosen Autonomous Mode", "Simple"),std::ofstream::out | std::ofstream::app);
 		while(IsOperatorControl() && IsEnabled()) {
 			fl.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
 			ml.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
