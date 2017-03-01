@@ -68,13 +68,13 @@ public:
 		fr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		mr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		rr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-		frc::SmartDashboard::PutNumber("Time Multiplier", 1);
+		frc::SmartDashboard::PutNumber("Time Multiplier", 4);
 	}
 		
 	void Autonomous() {
 		timer.Reset();
 		timer.Start();
-		timeMulti = frc::SmartDashboard::GetNumber("Time Multiplier", 1);
+		timeMulti = frc::SmartDashboard::GetNumber("Time Multiplier", 4);
 		fl.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		ml.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		rl.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
@@ -143,12 +143,29 @@ public:
 		if(GetOutputPath() != "")
 			mp.open(GetOutputPath(),std::ofstream::out | std::ofstream::app);
 		while(IsOperatorControl() && IsEnabled()) {
-			fl.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
-			ml.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
-			rl.Set(-controller.GetY(frc::GenericHID::kLeftHand)/4);
-			fr.Set(controller.GetY(frc::GenericHID::kRightHand)/4);
-			mr.Set(controller.GetY(frc::GenericHID::kRightHand)/4);
-			rr.Set(controller.GetY(frc::GenericHID::kRightHand)/4);
+            double forward = -controller.GetY(frc::GenericHID::kLeftHand) / 4;
+            double rotation = -controller.GetX(frc::GenericHID::kRightHand) / 4;
+            double left, right;
+            if (forward > 0.0) {
+                if (rotation > 0.0) {
+                    left = forward - rotation;
+                    right = std::max(forward, rotation);
+                } else {
+                    left = std::max(forward, -rotation);
+                    right = forward + rotation;
+                }
+            } else {
+                if (rotation > 0.0) {
+                    left = -std::max(-forward, rotation);
+                    right = forward + rotation;
+                } else {
+                    left = forward - rotation;
+                    right = -std::max(-forward, -rotation);
+                }
+            }
+            ml.Set(left); fl.Set(left); rl.Set(left);
+            mr.Set(-right); fr.Set(-right); rr.Set(-right);
+            std::cout << "Set raw left: " << left << "; Set raw right: " << -right << std::endl;
 			if(controller.GetBButton()) {
 				mp.close();
 				if(GetOutputPath() != "")
