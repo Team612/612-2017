@@ -278,7 +278,7 @@ public:
 			left1->SetVoltageRampRate(RAMPRATE);
 		}
 		if(b > 0.1f || b < -0.1f) {
-			right1->Set(-b);
+			right1->Set(b);
 		} else {
 			right1->SetVoltageRampRate(0);
 			right1->Set(0);
