@@ -13,8 +13,8 @@ namespace lib612 {
 
   private:
     //quadratic curve that makes full power around 80%, half power around 35%
-    double c = 0.2;
-    double b = 0.6;
+    double c = 0.761341;
+    double b = 0.0289941;
     double a = 0.0; //this should remain at 0 so that 0 is always 0
 
     double GetSmoothed(double x);
