@@ -243,9 +243,29 @@ public:
 	}
 
 	void TeleopPeriodic() {
-		double a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
+        double forward = -driver->GetSmoothY(frc::GenericHID::kLeftHand);
+        double rotation = -driver->GetSmoothX(frc::GenericHID::kRightHand);
+        double left, right;
+        if (forward > 0.0) {
+            if (rotation > 0.0) {
+                left = forward - rotation;
+                right = std::max(forward, rotation);
+            } else {
+                left = std::max(forward, -rotation);
+                right = forward + rotation;
+            }
+        } else {
+            if (rotation > 0.0) {
+                left = -std::max(-forward, rotation);
+                right = forward + rotation;
+            } else {
+                left = forward - rotation;
+                right = -std::max(-forward, -rotation);
+            }
+        }
+		double a = left;
 		std::cout << "Left Y: " << a << std::endl;
-		double b = driver->GetSmoothY(frc::GenericHID::kRightHand);
+		double b = -right; //verify negative
 		std::cout << "Right Y: " << b << std::endl;
 		//std::printf("%f, %f\n", a, b);
 		//std::printf("%f, %f\n", abs(a), abs(b));
