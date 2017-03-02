@@ -7,6 +7,7 @@
 #include <CANTalon.h>
 #include <WPILib.h>
 #include <vector>
+#include <cmath>
 
 class SmoothController : public XboxController {
 	//quadratic curve that makes full power around 80%, half power around 35%
@@ -143,66 +144,84 @@ public:
 
 	double smoothed = false;
 
+    double mQuickStopAccumulator;
+    const double kThrottleDeadband = 0.02;
+    const double kWheelDeadband = 0.02;
+    const double kTurnSensitivity = .7;
+
+    double HandleDeadband(double val, double deadband) {
+        	        return (std::abs(val) > std::abs(deadband)) ? val : 0.0;
+    }
+
+    double Limit(double val) {
+    	return (std::abs(val) > 1) ? ((val > 0) ? 1 : -1) : 0;
+    }
+
 	void TeleopPeriodic() {
     	std::cout << "Teleop Periodic! (612-2017 templateREPLACEME)" << std::endl;
 
     	double a, b;
     	if(driver->GetBumper(frc::GenericHID::kLeftHand)) {
     		a = driver->GetSmoothY(frc::GenericHID::kLeftHand);
-    		b = driver->GetSmoothY(frc::GenericHID::kRightHand);
+    		b = driver->GetSmoothX(frc::GenericHID::kRightHand);
     	}
     	else {
     		a = driver->GetY(frc::GenericHID::kLeftHand);
-    		b = driver->GetY(frc::GenericHID::kRightHand);
+    		b = driver->GetX(frc::GenericHID::kRightHand);
     	}
 
-		if(a > 0.1f || a < -0.1f) {
-			left1->Set(a);
-		} else {
-//			left1->SetVoltageRampRate(0);
-			left1->Set(0);
-//			left1->SetVoltageRampRate(RAMPRATE);
-		}
+    	/**
+    	 * Helper class to implement "Cheesy Drive". "Cheesy Drive" simply means that
+    	 * the "turning" stick controls the curvature of the robot's path rather than
+    	 * its rate of heading change. This helps make the robot more controllable at
+    	 * high speeds. Also handles the robot's quick turn functionality - "quick turn"
+    	 * overrides constant-curvature turning for turn-in-place maneuvers.
+    	 */
 
-		if(b > 0.1f || b < -0.1f) {
-			right1->Set(-b);
-		} else {
-//			right1->SetVoltageRampRate(0);
-			right1->Set(0);
-//			right1->SetVoltageRampRate(RAMPRATE);
-		}
+    	        double wheel = HandleDeadband(b, kWheelDeadband);
+    	        double throttle = HandleDeadband(a, kThrottleDeadband);
+    	        double isQuickTurn = driver->GetBumper(frc::GenericHID::JoystickHand::kLeftHand);
 
-		//std::printf("A: %d\n", gunner->GetAButton() ? 1 : 0);
+    	        double overPower;
+    	        double angularPower;
 
-//		if(gunner->GetAButton())
-//			if(driver->GetStartButton())
-//				shooter1->SetSetpoint(SHOOTER_SHOOT * 1.25);
-//			else
-//				shooter1->SetSetpoint(SHOOTER_SHOOT);
-//		else
-//			shooter1->SetSetpoint(SHOOTER_IDLE);
-//
-//		double c = gunner->GetSmoothTrigger(frc::GenericHID::kRightHand);
-//
-//		//Drivers seemed to like this
-////		std::cout << "Triggered: " << c << std::endl;
-//		if(abs(c) > 0.1) {
-//			if (gunner->GetBumper(frc::GenericHID::kLeftHand))
-//				intake1->SetSetpoint(-INTAKE); // Allows us to clear intake
-//			else
-//				intake1->SetSetpoint(INTAKE);
-//		} else {
-//			intake1->SetSetpoint(0);
-//		}
-//
-//		intake1->SetSetpoint(INTAKE);
-//
-//		double d = gunner->GetY(frc::GenericHID::kLeftHand);
-//
-//		if(d > 0.1f)
-//			climber1->Set(-1);
-//		else
-//			climber1->Set(0);
+    	        if (isQuickTurn) {
+    	            if (std::abs(throttle) < 0.2) {
+    	                double alpha = 0.1;
+    	                mQuickStopAccumulator = (1 - alpha) * mQuickStopAccumulator + alpha * Limit(wheel) * 2;
+    	            }
+    	            overPower = 1.0;
+    	            angularPower = wheel;
+    	        } else {
+    	            overPower = 0.0;
+    	            angularPower = std::abs(throttle) * wheel * kTurnSensitivity - mQuickStopAccumulator;
+    	            if (mQuickStopAccumulator > 1) {
+    	                mQuickStopAccumulator -= 1;
+    	            } else if (mQuickStopAccumulator < -1) {
+    	                mQuickStopAccumulator += 1;
+    	            } else {
+    	                mQuickStopAccumulator = 0.0;
+    	            }
+    	        }
+
+    	        double right = throttle - angularPower;
+    	        double left = throttle + angularPower;
+    	        if (left > 1.0) {
+    	            right -= overPower * (left - 1.0);
+    	            left = 1.0;
+    	        } else if (right > 1.0) {
+    	            left -= overPower * (right - 1.0);
+    	            right = 1.0;
+    	        } else if (left < -1.0) {
+    	            right += overPower * (-1.0 - left);
+    	            left = -1.0;
+    	        } else if (right < -1.0) {
+    	            left += overPower * (-1.0 - right);
+    	            right = -1.0;
+    	        }
+
+    	        left1->Set(left);
+    	        right1->Set(-right);
 
 		if(driver->GetBumper(frc::GenericHID::kLeftHand))
             solenoid->Set(DoubleSolenoid::Value::kForward);
@@ -212,7 +231,6 @@ public:
 
     void DisabledInit() {
     	std::cout << "Disabled Init! (612-2017 templateREPLACEME)" << std::endl;
-        intake1->SetSetpoint(0);
     }
 };
 
