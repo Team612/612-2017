@@ -40,10 +40,10 @@ void Robot::RobotInit() {
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();
-    wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
-    intakeCommand = std::make_unique<IntakeFuel>(true);
+    //wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
+    intakeCommand = std::make_unique<IntakeFuel>();
     ConfigureFilePath();
-    playback = std::make_unique<Playback>(filePath.c_str());
+    //playback = std::make_unique<Playback>(filePath.c_str());
 
     //pdp
     initial_current = RobotMap::pdp->GetTotalCurrent();
@@ -88,15 +88,19 @@ void Robot::TeleopInit() {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // these lines or comment it out.
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Cancel();
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
     intakeCommand->Start();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TeleopPeriodic() {
+    //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     Scheduler::GetInstance()->Run();
+    //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TestInit() {

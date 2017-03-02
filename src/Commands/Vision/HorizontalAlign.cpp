@@ -27,7 +27,7 @@ void HorizontalAlign::Execute()
 	//Only if we need to FIND a target
 	if (!hasTarget)
 	{
-		Robot::drivetrain->Throttle(-1*lastTargetDir, 1*lastTargetDir);
+        Robot::drivetrain->ThrottleByRPM(-1 * lastTargetDir, 1 * lastTargetDir);
 		hasTarget = Robot::vision->UpdateCurrentTarget();
 	}
 	else
@@ -76,7 +76,7 @@ void HorizontalAlign::UsePIDOutput(double output)
 		onTargetCounter++;
 		if (onTargetCounter > 10) {
 			aligned = true;
-			Robot::drivetrain->Throttle(0, 0);
+            Robot::drivetrain->ThrottleByRPM(0, 0);
 			return;
 		}
 	}
@@ -95,7 +95,7 @@ void HorizontalAlign::UsePIDOutput(double output)
 		output -= ROT_SPEED_MIN;
 
 	if (!PIDUserDisabled && !IsFinished())
-		Robot::drivetrain->Throttle(output, -output);
+        Robot::drivetrain->ThrottleByRPM(output, -output);
 	//printf("\noutput");
 
 	SmartDashboard::PutNumber("AutoAlign Output", output);
@@ -111,11 +111,11 @@ bool HorizontalAlign::IsFinished()
 void HorizontalAlign::End()
 {
 	GetPIDController()->Disable();
-	Robot::drivetrain->Throttle(0, 0);
+    Robot::drivetrain->ThrottleByRPM(0, 0);
 }
 
 void HorizontalAlign::Interrupted()
 {
 	GetPIDController()->Disable();
-	Robot::drivetrain->Throttle(0, 0);
+    Robot::drivetrain->ThrottleByRPM(0, 0);
 }

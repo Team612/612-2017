@@ -20,7 +20,7 @@ void HorizontalFind::Initialize() { }
 void HorizontalFind::Execute()
 {
 	Robot::vision->PullValues();
-	Robot::drivetrain->Throttle(-(dir * 0.4), (dir * 0.4));
+    Robot::drivetrain->ThrottleByRPM(-(dir * 0.4), (dir * 0.4));
 }
 
 bool HorizontalFind::IsFinished()
@@ -30,10 +30,10 @@ bool HorizontalFind::IsFinished()
 
 void HorizontalFind::End()
 {
-	Robot::drivetrain->Throttle(0, 0);
+    Robot::drivetrain->ThrottleByRPM(0, 0);
 }
 
 void HorizontalFind::Interrupted()
 {
-	Robot::drivetrain->Throttle(0, 0);
+    Robot::drivetrain->ThrottleByRPM(0, 0);
 }

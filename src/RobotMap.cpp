@@ -20,6 +20,7 @@ std::shared_ptr<Servo> RobotMap::grabber;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
 std::shared_ptr<RobotDrive> RobotMap::drive;
+std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
@@ -71,6 +72,8 @@ void RobotMap::init() {
     lw->AddActuator("Climber", "grabber", grabber);
 
     shifter.reset(new DoubleSolenoid(PORTS::PCM::shifter_forward, PORTS::PCM::shifter_reverse));
+
+    ultrasonic.reset(new Ultrasonic(PORTS::DIO::ultrasonic_in, PORTS::DIO::ultrasonic_out, frc::Ultrasonic::DistanceUnit::kMilliMeters));
 
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
               drive_fr, drive_rr));

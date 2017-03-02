@@ -15,9 +15,9 @@ namespace lib612 {
             return GetSmoothed(GetTriggerAxis(hand));
     }
     double SmoothController::GetSmoothed(double x) {
-            if(x > 0)
-                return (c * std::pow(x, 2)) + (b * x) + a;
-            else
-                return -((c * std::pow(x, 2)) + (b * abs(x)) + a); //reverse curve for negative values
+        if (x > 0)
+            return std::min(D + ((A - D) / (1 + std::pow(x / C, B))), 1.0); //this function is like 1.0004 or something at x = 1
+        else
+            return std::max(-(D + ((A - D) / (1 + std::pow(-x / C, B)))), -1.0); //this function is like -1.0004 or something at x = -1
     }
 }

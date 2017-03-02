@@ -1,17 +1,15 @@
 #pragma once
 
 #include "WPILib.h"
-#include "Commands/Command.h"
-#include "../../Robot.h"
 
-class IntakeFuel: public Command {
+class SetIntake: public Command {
+    bool clear;
 public:
-    IntakeFuel();
+    SetIntake(float timeout, bool clear = false);
+
     void Initialize() override;
     void Execute() override;
     bool IsFinished() override;
     void End() override;
     void Interrupted() override;
-private:
-    bool in;
 };

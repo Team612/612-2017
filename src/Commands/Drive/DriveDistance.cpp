@@ -39,12 +39,12 @@ bool DriveDistance::IsFinished() {
 
 void DriveDistance::End() {
     printf("Info: Completed DriveDistance");
-    Robot::drivetrain->Throttle(0.0, 0.0);
+    Robot::drivetrain->ThrottleByRPM(0.0, 0.0);
 }
 
 void DriveDistance::Interrupted() {
     printf("Warning: DriveDistance interrupted!");
-    Robot::drivetrain->Throttle(0.0, 0.0);
+    Robot::drivetrain->ThrottleByRPM(0.0, 0.0);
 }
 
 double DriveDistance::ReturnPIDInput() {
@@ -55,5 +55,5 @@ double DriveDistance::ReturnPIDInput() {
 }
 
 void DriveDistance::UsePIDOutput(double output) {
-    Robot::drivetrain->Throttle(output, output);
+    Robot::drivetrain->ThrottleByRPM(output, output);
 }

@@ -1,5 +1,4 @@
-#ifndef AUTO_ALIGN_H
-#define AUTO_ALIGN_H
+#pragma once
 
 #include "HorizontalAlign.h"
 #include "HorizontalFind.h"
@@ -7,10 +6,8 @@
 #include "Commands/CommandGroup.h"
 #include "WPILib.h"
 
-class AutoAlign: public CommandGroup
-{
+class AutoAlign: public CommandGroup {
 public:
-	AutoAlign(HorizontalFind::Direction dir);
+    AutoAlign(HorizontalFind::Direction dir);
 };
 
-#endif

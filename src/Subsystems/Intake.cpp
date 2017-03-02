@@ -22,18 +22,15 @@ void Intake::InitDefaultCommand() {
     SetDefaultCommand(Robot::intakeCommand.get());
 }
 
+//TODO extend with functionality as needed
 void Intake::IntakeFuel() {
-    //RobotMap::intake_talon_right->SetSetpoint(-INTAKE_SPEED);
-    if(Robot::oi->getgunner()->GetBButton())
-        RobotMap::intake_talon_right->Set(1.0f);
-    else
-        RobotMap::intake_talon_right->Set(-0.2f);
+    RobotMap::intake_talon_right->Set(1);
 }
 
 void Intake::ClearBalls() {
-    //RobotMap::intake_talon_right->SetSetpoint(-INTAKE_SPEED / 3);
+    RobotMap::intake_talon_right->Set(-1);
 }
 
 void Intake::Stop() {
-    //RobotMap::intake_talon_right->SetSetpoint(0);
+    RobotMap::intake_talon_right->SetSetpoint(0);
 }
