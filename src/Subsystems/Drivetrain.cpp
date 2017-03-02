@@ -56,6 +56,7 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F);
         frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
         frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
+        frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", RobotMap::ultrasonic->GetRangeMM());
     });
 }
 
@@ -118,6 +119,7 @@ void Drivetrain::InitDefaultCommand() {
 void Drivetrain::TankDrive(double raw_left, double raw_right){
     double l = DeadbandHandler(raw_left);
     double r = DeadbandHandler(raw_right);
+    std::cout << "Drivetrain.cpp l: " << l << " r: " << r << std::endl;
     if (l == 0) {
         drive_ml->SetVoltageRampRate(0);
         drive_ml->Set(0);
@@ -136,8 +138,8 @@ void Drivetrain::TankDrive(double raw_left, double raw_right){
 
 void Drivetrain::HaloDrive(double wheel, double throttle, bool isQuickTurn) {
     double over_power, angular_power;
-    if(isQuickTurn) {
-        if(std::abs(throttle) < 0.2) {
+    if (isQuickTurn) {
+        if (std::abs(throttle) < 0.2) {
             m_quick_stop_accum = (1 - ALPHA) * m_quick_stop_accum + ALPHA * Limit(wheel) * 2;
         }
         over_power = 1.0;
@@ -145,30 +147,32 @@ void Drivetrain::HaloDrive(double wheel, double throttle, bool isQuickTurn) {
     } else {
         over_power = 0.0;
         angular_power = std::abs(throttle) * wheel * TURN_SENSITIVITY - m_quick_stop_accum;
-        if(m_quick_stop_accum > 1)
+        if (m_quick_stop_accum > 1) {
             m_quick_stop_accum -= 1;
-        else if(m_quick_stop_accum < -1)
+        } else if (m_quick_stop_accum < -1) {
             m_quick_stop_accum += 1;
-        else
+        } else {
             m_quick_stop_accum = 0.0;
+        }
     }
 
     double right = throttle - angular_power;
     double left = throttle + angular_power;
 
-    if(left > 1) {
-        right -= over_power * (-1.0 - left);
+    if (left > 1.0) {
+        right -= over_power * (left - 1.0);
         left = 1.0;
-    } else if(right > 1) {
+    } else if (right > 1.0) {
         left -= over_power * (right - 1.0);
         right = 1.0;
     } else if (left < -1.0) {
         right += over_power * (-1.0 - left);
         left = -1.0;
-    } else if(right < 1.0) {
+    } else if (right < -1.0) {
         left += over_power * (-1.0 - right);
         right = -1.0;
     }
+    //std::cout << "Drivetrain.cpp: Left: " << left << " Right: " << right << std::endl;
     TankDrive(left, right);
 }
 

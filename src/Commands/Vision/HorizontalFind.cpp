@@ -1,8 +1,7 @@
 #include "HorizontalFind.h"
 #include "../../Robot.h"
 
-HorizontalFind::HorizontalFind(Direction d, float timeout)
-{
+HorizontalFind::HorizontalFind(Direction d, float timeout) {
 	Requires(Robot::drivetrain.get());
 	Requires(Robot::vision.get());
 
@@ -17,23 +16,19 @@ HorizontalFind::HorizontalFind(Direction d, float timeout)
 
 void HorizontalFind::Initialize() { }
 
-void HorizontalFind::Execute()
-{
+void HorizontalFind::Execute() {
 	Robot::vision->PullValues();
-    Robot::drivetrain->ThrottleByRPM(-(dir * 0.4), (dir * 0.4));
+    Robot::drivetrain->TankDrive(-(dir * 0.4), (dir * 0.4));
 }
 
-bool HorizontalFind::IsFinished()
-{
+bool HorizontalFind::IsFinished() {
 	return Robot::vision->GetTargetAmount() > 0;
 }
 
-void HorizontalFind::End()
-{
-    Robot::drivetrain->ThrottleByRPM(0, 0);
+void HorizontalFind::End() {
+    Robot::drivetrain->TankDrive(0, 0);
 }
 
-void HorizontalFind::Interrupted()
-{
-    Robot::drivetrain->ThrottleByRPM(0, 0);
+void HorizontalFind::Interrupted() {
+    Robot::drivetrain->TankDrive(0, 0);
 }

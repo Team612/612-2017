@@ -1,7 +1,7 @@
 #include "MoveToTarget.h"
 #include "Robot.h"
 
-MoveToTarget::MoveToTarget(int dist) : PIDCommand("MoveToTarget", 0.0001, 0, 0) {
+MoveToTarget::MoveToTarget(int dist) : PIDCommand("MoveToTarget", 0.0001, 0, 0, 0.5) {
 	//ur(1, 2);
 	this->dist = dist;
 	this->GetPIDController()->SetSetpoint(dist);
@@ -18,9 +18,9 @@ void MoveToTarget::Initialize() {
 void MoveToTarget::Execute() {
 	auto pid = GetPIDController();
 	//this->GetPIDController()->SetSetpoint(SmartDashboard::GetNumber("UR DIST", 1000));
-	MIN_OUTPUT = SmartDashboard::GetNumber("MIN OUTPUT", 0);
-	pid->SetOutputRange(MIN_OUTPUT - 1, 1 - MIN_OUTPUT);
-	pid->SetPID(SmartDashboard::GetNumber("UR P", 0.0001), SmartDashboard::GetNumber("UR I", 0), SmartDashboard::GetNumber("UR D", 0));
+	//MIN_OUTPUT = SmartDashboard::GetNumber("MIN OUTPUT", 0);
+	pid->SetOutputRange(-1.0, 1.0);
+	pid->SetPID(SmartDashboard::GetNumber("UR P", 0.0001), SmartDashboard::GetNumber("UR I", 0), SmartDashboard::GetNumber("UR D", 0), SmartDashboard::GetNumber("UR F", 0.5));
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -41,17 +41,17 @@ void MoveToTarget::Interrupted() {
 }
 
 double MoveToTarget::ReturnPIDInput() {
-	std::printf("test");
+	std::printf("MoveToTarget.cpp: Returning PID Input");
 	return Robot::drivetrain->GetURCenter()->GetRangeMM();
 }
 
 void MoveToTarget::UsePIDOutput(double output) {
-	if (output < 0)
+	/*if (output < 0)
 		output -= MIN_OUTPUT;
 	else
-		output += MIN_OUTPUT;
+		output += MIN_OUTPUT;*/
 
-	SmartDashboard::PutNumber("PID Output", output);
-
-    Robot::drivetrain->ThrottleByRPM(output, output);
+	SmartDashboard::PutNumber("PID Output - Drive distance", output);
+	std::cout << "MoveToTarget.cpp: Setting output" << std::endl;
+    Robot::drivetrain->TankDrive(output, output); //see how well this works before going full PID
 }

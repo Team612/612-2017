@@ -16,8 +16,8 @@ namespace lib612 {
     }
     double SmoothController::GetSmoothed(double x) {
         if (x > 0)
-            return std::min(D + ((A - D) / (1 + std::pow(x / C, B))), 1.0); //this function is like 1.0004 or something at x = 1
+            return std::min(D + ((A - D) / (1 + std::pow(x / C, B))), 1.0);
         else
-            return std::max(-(D + ((A - D) / (1 + std::pow(-x / C, B)))), -1.0); //this function is like -1.0004 or something at x = -1
+            return std::max(-(D + ((A - D) / (1 + std::pow(-x / C, B)))), -1.0);
     }
 }
