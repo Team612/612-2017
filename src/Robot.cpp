@@ -70,6 +70,7 @@ public:
 		fr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		mr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		rr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+		frc::SmartDashboard::PutString("Chosen Autonomous Mode", "None");
 		frc::SmartDashboard::PutNumber("Time Multiplier", 4);
 		frc::SmartDashboard::PutNumber("Drive Multiplier", 0.25);
 		frc::SmartDashboard::PutNumber("Inverse", 1);
@@ -86,10 +87,9 @@ public:
 		mr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		rr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 		std::ifstream mp;
-		while(!mp.is_open()) {
-			if(GetOutputPath() != "")
-				mp.open(GetOutputPath());
-			std::cout << "Opening mp\n";
+		while(!mp.is_open() && GetOutputPath() != "") {
+			mp.open(GetOutputPath());
+			std::cout << "Opening " << GetOutputPath() << "\n";
 			frc::Wait(1);
 		}
 		std::vector<double> time = {0};
@@ -120,7 +120,7 @@ public:
 		r.pop_back();
 		l.pop_back();
 		while(t < time.size() && timer.Get() <= time.back()) {
-			while(t < time.size() && timer.Get() <= time.back() && time[t+1] < timer.Get()) {
+			while(t < time.size() && time[t+1] < timer.Get()) {
 				t++;
 			}
 			fl.Set(l[t]);
