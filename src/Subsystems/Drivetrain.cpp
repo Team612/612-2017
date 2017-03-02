@@ -5,7 +5,7 @@
 #include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
-    ur = std::make_shared<Ultrasonic>(PORTS::DIO::ultrasonic_in, PORTS::DIO::ultrasonic_out, frc::Ultrasonic::DistanceUnit::kMilliMeters);
+    ur = RobotMap::ultrasonic;
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
@@ -56,6 +56,7 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F);
         frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
         frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
+        frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", RobotMap::ultrasonic->GetRangeMM());
     });
 }
 
@@ -68,8 +69,8 @@ void Drivetrain::SetDriveProfile(lib612::DriveProfile* dp) {
 }
 
 void Drivetrain::SetVelocity(double l, double r) {
-    double TargetLeft = (60*(l/profile->WheelFriction))/(profile->WheelDiameter*pi); //Converts l to left wheel rpm
-    double TargetRight = (60*(r/profile->WheelFriction))/(profile->WheelDiameter*pi); //Converts r to right wheel rpm
+    double TargetLeft = (60*(l/profile->WheelFriction))/(profile->WheelDiameter*PI); //Converts l to left wheel rpm
+    double TargetRight = (60*(r/profile->WheelFriction))/(profile->WheelDiameter*PI); //Converts r to right wheel rpm
     SetRPM(TargetLeft, TargetRight);
 }
 
@@ -103,20 +104,8 @@ double Drivetrain::GetRightVelocity() {
     return drive_mr->GetSetpoint();
 }
 
-void Drivetrain::Throttle(double lpercent, double rpercent) {
-    double left = lpercent, right = rpercent;
-    //deal with dumb people who set motors to more than 100%
-    if(left > 0)
-        left = abs(left) > 1 ? 1 : left;
-    else
-        left = abs(left) > 1 ? -1 : left;
-
-    if(right > 0)
-        right = abs(right) > 1 ? 1 : right;
-    else
-        right = abs(right) > 1 ? -1 : right;
-        
-    SetRPM(left * profile->WheelMaxRPM, right * profile->WheelMaxRPM);
+void Drivetrain::ThrottleByRPM(double lpercent, double rpercent) {
+    SetRPM(Limit(lpercent) * profile->WheelMaxRPM, Limit(rpercent) * profile->WheelMaxRPM);
 }
 
 std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
@@ -127,16 +116,64 @@ void Drivetrain::InitDefaultCommand() {
     SetDefaultCommand(new Drive());
 }
 
-void Drivetrain::TeleOpDrive(double l, double r){
-    if (l == 0 && r == 0) {
+void Drivetrain::TankDrive(double raw_left, double raw_right){
+    double l = DeadbandHandler(raw_left);
+    double r = DeadbandHandler(raw_right);
+    std::cout << "Drivetrain.cpp l: " << l << " r: " << r << std::endl;
+    if (l == 0) {
         drive_ml->SetVoltageRampRate(0);
+        drive_ml->Set(0);
+        drive_ml->SetVoltageRampRate(RAMP_RATE);
+    } else {
+        drive_ml->Set(Limit(l));
+    }
+    if(r == 0) {
         drive_mr->SetVoltageRampRate(0);
-        RobotMap::drive->TankDrive(0.0f,0.0f);
-    } else
-        RobotMap::drive->TankDrive(l,r);
+        drive_mr->Set(0);
+        drive_mr->SetVoltageRampRate(RAMP_RATE);
+    } else {
+        drive_mr->Set(Limit(-r));
+    }
+}
 
-    drive_ml->SetVoltageRampRate(RAMP_RATE);
-    drive_mr->SetVoltageRampRate(RAMP_RATE);
+void Drivetrain::HaloDrive(double wheel, double throttle, bool isQuickTurn) {
+    double over_power, angular_power;
+    if (isQuickTurn) {
+        if (std::abs(throttle) < 0.2) {
+            m_quick_stop_accum = (1 - ALPHA) * m_quick_stop_accum + ALPHA * Limit(wheel) * 2;
+        }
+        over_power = 1.0;
+        angular_power = wheel;
+    } else {
+        over_power = 0.0;
+        angular_power = std::abs(throttle) * wheel * TURN_SENSITIVITY - m_quick_stop_accum;
+        if (m_quick_stop_accum > 1) {
+            m_quick_stop_accum -= 1;
+        } else if (m_quick_stop_accum < -1) {
+            m_quick_stop_accum += 1;
+        } else {
+            m_quick_stop_accum = 0.0;
+        }
+    }
+
+    double right = throttle - angular_power;
+    double left = throttle + angular_power;
+
+    if (left > 1.0) {
+        right -= over_power * (left - 1.0);
+        left = 1.0;
+    } else if (right > 1.0) {
+        left -= over_power * (right - 1.0);
+        right = 1.0;
+    } else if (left < -1.0) {
+        right += over_power * (-1.0 - left);
+        left = -1.0;
+    } else if (right < -1.0) {
+        left += over_power * (-1.0 - right);
+        right = -1.0;
+    }
+    //std::cout << "Drivetrain.cpp: Left: " << left << " Right: " << right << std::endl;
+    TankDrive(left, right);
 }
 
 Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
@@ -145,4 +182,12 @@ Drivetrain::DRIVE_MODE Drivetrain::getDriveMode() {
 
 void Drivetrain::setDriveMode(Drivetrain::DRIVE_MODE mode){
     drivemode = mode;
+}
+
+double Drivetrain::DeadbandHandler(double val) {
+    return (std::abs(val) > DEADBAND) ? val : 0.0;
+}
+
+double Drivetrain::Limit(double val) {
+    return (std::abs(val) > 1) ? (val > 0 ? 1 : -1) : val;
 }

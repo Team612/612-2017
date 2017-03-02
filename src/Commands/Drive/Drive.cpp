@@ -12,10 +12,11 @@ void Drive::Initialize() {
 }
 
 void Drive::Execute() {
-    if(abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kLeftHand)) > 0.1 || abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kRightHand)) > 0.1)
-        Robot::drivetrain->TeleOpDrive(-Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kLeftHand), -Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::JoystickHand::kRightHand));
-    else
-        Robot::drivetrain->TeleOpDrive(0,0);
+    //exists to facilitate smoothing function testing
+    std::cout << "Drive.cpp: " << "Throttle: " << Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) << " Wheel: " << Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) << std::endl;
+    Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand),
+                                 Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),
+                                 Robot::oi->getdriver()->GetBumper(frc::GenericHID::kRightHand));
     //motor feed safety
     frc::Wait(0.005);
 }
@@ -26,11 +27,10 @@ bool Drive::IsFinished() {
 
 void Drive::End() {
     printf("Info: Drive ended!\n");
-    Robot::drivetrain->TeleOpDrive(0, 0);
-
+    Robot::drivetrain->TankDrive(0, 0);
 }
 
 void Drive::Interrupted() {
     printf("ERROR: Drive interrupted!\n");
-    Robot::drivetrain->TeleOpDrive(0, 0);
+    Robot::drivetrain->TankDrive(0, 0);
 }

@@ -6,10 +6,10 @@
 #include "Commands/Drive/Drive.h"
 #include "Commands/Drive/DriveDistance.h"
 #include "Commands/Drive/Shift.h"
-#include "Commands/Gear/Gear.h"
 #include "Commands/Shooter/Shoot.h"
 #include "Commands/Climber/Grab.h"
 #include "Commands/Internal/IntakeFuel.h"
+#include "Commands/Vision/AutoAlign.h"
 
 std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_button;
@@ -21,26 +21,18 @@ std::unique_ptr<JoystickButton> OI::shift_down;
 OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
     grab_button = std::make_unique<JoystickButton>(gunner.get(), 5); //left bumper
-    grab_button->WhenPressed(new Grab());
+    grab_button->WhenPressed(new Grab()); //Not on robot
     align_button = std::make_unique<JoystickButton>(gunner.get(), 6); //right bumper
-    //intake_button = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
-    //intake_button->WhileHeld(new IntakeFuel(true));
-    //intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button
-    //intake_clear_button->WhileHeld(new IntakeFuel(false));
-
+    align_button->WhenPressed(new AutoAlign(HorizontalFind::RIGHT));
 
     driver.reset(new lib612::SmoothController(PORTS::OI::driver_joyport));
-    shift_up = std::make_unique<JoystickButton>(driver.get(), 5);
+    shift_up = std::make_unique<JoystickButton>(driver.get(), 1); //A button
     shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
-    shift_down = std::make_unique<JoystickButton>(driver.get(), 6);
+    shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button
     shift_down->WhenPressed(new Shift(Shift::SHIFT_DIR::DOWN));
-    align_button->WhenPressed(new HorizontalAlign(0, true));
-    intake_button = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
-    intake_button->WhileHeld(new IntakeFuel(true));
-    intake_clear_button = std::make_unique<JoystickButton>(gunner.get(), 2); //A button
-    intake_clear_button->WhileHeld(new IntakeFuel(false));
 
     // SmartDashboard Buttons
+    //These just clutter up EvenSmarterDashboard
     /*SmartDashboard::PutData("MoveBalls", new IntakeFuel(true));
     SmartDashboard::PutData("Move", new Climb());
     //SmartDashboard::PutData("DriveDistance", new DriveDistance());

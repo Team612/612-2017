@@ -19,8 +19,8 @@ void Shoot::Execute() {
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
         if (Robot::oi->getdriver()->GetStartButton())
             Robot::shooter->Spin(START_MULTIPLIER * OPTIMAL_RPM);
-        else Robot::shooter->Spin(OPTIMAL_RPM);
-
+        else
+            Robot::shooter->Spin(OPTIMAL_RPM);
         Robot::shooter->Agitate();
     } else {
         Robot::shooter->Spin(-IDLE);

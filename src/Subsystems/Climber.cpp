@@ -12,7 +12,7 @@ void Climber::InitDefaultCommand() {
     SetDefaultCommand(new Climb());
 }
 
-
+//Functions left for extendability
 void Climber::Move(float speed) {
     RobotMap::climber_l->Set(speed);
 }

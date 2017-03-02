@@ -12,11 +12,12 @@ namespace lib612 {
     double GetSmoothTrigger(frc::GenericHID::JoystickHand hand);
 
   private:
-    //quadratic curve that makes full power around 80%, half power around 35%
-    double c = 0.761341;
-    double b = 0.0289941;
-    double a = 0.0; //this should remain at 0 so that 0 is always 0
+    //specialized curve that makes full power 100%, half power around 20%
+      const double A = 0.0;
+      const double B = 2.675187;
+      const double C = 159.0;
+      const double D = 775000.0;
 
-    double GetSmoothed(double x);
+      double GetSmoothed(double x);
   };
 }

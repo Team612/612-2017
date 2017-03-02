@@ -7,6 +7,16 @@
 #include "../Ports.h"
 
 class Drivetrain: public Subsystem {
+    double DeadbandHandler(double val);
+    double Limit(double val);
+
+    double m_quick_stop_accum;
+
+    const double ALPHA = 0.1;
+    const double DEADBAND = 0.01;
+    const double TURN_SENSITIVITY = 0.7;
+    const double PI = 3.141592653;
+    const double RAMP_RATE = 20;
 public:
     enum DRIVE_MODE {SIMPLE, COMPLICATED};
 
@@ -28,8 +38,9 @@ public:
     void SetDriveProfile(lib612::DriveProfile* dp);
     void SetVelocity(double l, double r); //sets velocity of both sides in meters per second (tangentially)
     void SetRPM(double l, double r);      //sets rpm of both sides
-    void Throttle(double lpercent, double rpercent);
-    void TeleOpDrive(double l, double r);
+    void ThrottleByRPM(double lpercent, double rpercent);
+    void TankDrive(double l, double r);
+    void HaloDrive(double wheel, double throttle, bool isQuickTurn);
     double GetLeftVelocity();
     double GetRightVelocity();
     void InitDefaultCommand() override;
@@ -38,8 +49,4 @@ public:
 
     void setDriveMode(DRIVE_MODE mode);
     DRIVE_MODE getDriveMode();
-
-    double RAMP_RATE = 20;
-private:
-    double pi = 3.141592653;
 };

@@ -33,11 +33,11 @@ namespace PORTS {
         const int module = 0;
         //Drivetrain
         const uint32_t drive_talonFL = 1;
-        const uint32_t drive_talonML = 2;
-        const uint32_t drive_talonRL = 3;
+        const uint32_t drive_talonML = 3;
+        const uint32_t drive_talonRL = 2;
         const uint32_t drive_talonFR = 4;
-        const uint32_t drive_talonMR = 5;
-        const uint32_t drive_talonRR = 6;
+        const uint32_t drive_talonMR = 6;
+        const uint32_t drive_talonRR = 5;
         //Shooter
         const uint32_t shooter_talon_left = 7;
         const uint32_t shooter_talon_right = 8;
@@ -63,9 +63,7 @@ namespace PORTS {
     }
 
     namespace PCM {
-
-      const uint32_t shifter_forward = 0;
-      const uint32_t shifter_reverse = 1;
-
+        const uint32_t shifter_forward = 0;
+        const uint32_t shifter_reverse = 1;
     }
 }

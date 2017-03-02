@@ -10,14 +10,13 @@ void Climb::Initialize() {
 
 void Climb::Execute() {
     //TODO Implement when reasonable threshold is found
-    if(abs(Robot::init_climber_current - RobotMap::pdp->GetCurrent(15)) > CURRENT_THRESHOLD) {
+    //TODO consider disabling all talons and climbing automatically
+    /*if(abs(Robot::init_climber_current - RobotMap::pdp->GetCurrent(15)) > CURRENT_THRESHOLD) {
         Robot::climber->Block();
         return; //prevent controls
-    }
-    if(Robot::oi->getgunner()->GetXButton())
-        Robot::climber->Move(1);
-    /*else if(Robot::oi->getgunner()->GetYButton())
-        Robot::climber->Move(0.2);*/
+    }*/
+    if(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand) > 0.01)
+        Robot::climber->Move(-1);
     else
         Robot::climber->Block();
 }
@@ -28,9 +27,9 @@ bool Climb::IsFinished() {
 }
 
 void Climb::End() {
-
+    Robot::climber->Block();
 }
 
 void Climb::Interrupted() {
-
+    Robot::climber->Block();
 }

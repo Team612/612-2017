@@ -53,7 +53,7 @@ namespace lib612 {
             frc::SmartDashboard::PutNumber("Battery", frc::DriverStation::GetInstance().GetBatteryVoltage());
 
             for (auto function : update_functions) {
-                std::cout << "SD update" << std::endl;
+                //std::cout << "SD update" << std::endl;
                 function();
             }
         }

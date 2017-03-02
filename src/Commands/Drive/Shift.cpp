@@ -12,7 +12,7 @@ void Shift::Initialize() {
 }
 
 void Shift::Execute() {
-    Robot::drivetrain->Throttle(0,0);
+    Robot::drivetrain->ThrottleByRPM(0, 0);
     if(  TimeSinceInitialized() <= 1.5){
     if(dir == UP)
         Robot::shifter_subsys->ShiftUp();

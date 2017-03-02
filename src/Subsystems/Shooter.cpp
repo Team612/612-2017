@@ -17,7 +17,7 @@ Shooter::Shooter() : Subsystem("Shooter") {
 }
 
 void Shooter::InitDefaultCommand() {
-    //SetDefaultCommand(new Shoot());
+    SetDefaultCommand(new Shoot());
 }
 
 void Shooter::Spin(float speed) {
@@ -27,5 +27,4 @@ void Shooter::Spin(float speed) {
 
 void Shooter::Agitate() {
     RobotMap::agitator->Set(0.2f);
-
 }

@@ -1,8 +1,7 @@
 #include "HorizontalAlign.h"
 
 HorizontalAlign::HorizontalAlign(float timeout, bool continuous) :
-		PIDCommand("AlignToTarget", 0.004, 0, 0)
-{
+		PIDCommand("AlignToTarget", 0.004, 0, 0) {
 	Requires(Robot::drivetrain.get());
 	SetTimeout(8);
 
@@ -12,9 +11,8 @@ HorizontalAlign::HorizontalAlign(float timeout, bool continuous) :
 		SetTimeout(timeout);
 }
 
-void HorizontalAlign::Initialize()
-{
-	printf("test");
+void HorizontalAlign::Initialize() {
+	printf("Horizontal Align initialize\n");
 	auto pid = GetPIDController();
 	pid->SetAbsoluteTolerance(40);
 	pid->SetSetpoint(SCREEN_CENTER_X); //Point we're trying to get to
@@ -22,18 +20,14 @@ void HorizontalAlign::Initialize()
 	pid->SetOutputRange(-(ROT_SPEED_CAP - ROT_SPEED_MIN), ROT_SPEED_CAP - ROT_SPEED_MIN);
 }
 
-void HorizontalAlign::Execute()
-{
+void HorizontalAlign::Execute() {
 	//Only if we need to FIND a target
-	if (!hasTarget)
-	{
-		Robot::drivetrain->Throttle(-1*lastTargetDir, 1*lastTargetDir);
+	if (!hasTarget) {
+        Robot::drivetrain->TankDrive(-1 * lastTargetDir, 1 * lastTargetDir);
 		hasTarget = Robot::vision->UpdateCurrentTarget();
 	}
-	else
-	{
-		if (!GetPIDController()->IsEnabled())
-		{
+	else {
+		if (!GetPIDController()->IsEnabled()) {
 			PIDUserDisabled = false;
 			//GetPIDController()->SetPID(1, 0, 0);
 			auto pid = GetPIDController();
@@ -46,19 +40,16 @@ void HorizontalAlign::Execute()
 }
 
 //Inherited from PID Command, returns the input from the vision targets
-double HorizontalAlign::ReturnPIDInput()
-{
+double HorizontalAlign::ReturnPIDInput() {
 	//Makes sure that the target still exists, if not, it goes bye bye
 	std::shared_ptr<VisionTarget> target = Robot::vision->GetTrackedGoal();
-	if (target == nullptr)
-	{
+	if (target == nullptr) {
 		PIDUserDisabled = true;
 		hasTarget = false;
 		GetPIDController()->Disable();
 		return 0;
 	}
-	else
-	{
+	else {
 		int centerX = target->GetCenter().x;
 		printf("Center X %u\n", centerX);
 
@@ -69,19 +60,16 @@ double HorizontalAlign::ReturnPIDInput()
 	}
 }
 
-void HorizontalAlign::UsePIDOutput(double output)
-{
-	if (GetPIDController()->OnTarget())
-	{
+void HorizontalAlign::UsePIDOutput(double output) {
+	if (GetPIDController()->OnTarget()) {
 		onTargetCounter++;
 		if (onTargetCounter > 10) {
 			aligned = true;
-			Robot::drivetrain->Throttle(0, 0);
+            Robot::drivetrain->TankDrive(0, 0);
 			return;
 		}
 	}
-	else
-	{
+	else {
 		onTargetCounter = 0;
 	}
 
@@ -95,7 +83,7 @@ void HorizontalAlign::UsePIDOutput(double output)
 		output -= ROT_SPEED_MIN;
 
 	if (!PIDUserDisabled && !IsFinished())
-		Robot::drivetrain->Throttle(output, -output);
+        Robot::drivetrain->TankDrive(output, -output);
 	//printf("\noutput");
 
 	SmartDashboard::PutNumber("AutoAlign Output", output);
@@ -103,19 +91,16 @@ void HorizontalAlign::UsePIDOutput(double output)
 	printf("wowowow %f, %u\n" , output, PIDUserDisabled);
 }
 
-bool HorizontalAlign::IsFinished()
-{
+bool HorizontalAlign::IsFinished() {
 	return !continuous && aligned;
 }
 
-void HorizontalAlign::End()
-{
+void HorizontalAlign::End() {
 	GetPIDController()->Disable();
-	Robot::drivetrain->Throttle(0, 0);
+    Robot::drivetrain->TankDrive(0, 0);
 }
 
-void HorizontalAlign::Interrupted()
-{
+void HorizontalAlign::Interrupted() {
 	GetPIDController()->Disable();
-	Robot::drivetrain->Throttle(0, 0);
+    Robot::drivetrain->TankDrive(0, 0);
 }
