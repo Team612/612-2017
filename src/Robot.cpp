@@ -22,6 +22,8 @@ CANTalon mr { 5 };
 CANTalon rr { 4 };
 frc::Timer timer;
 double timeMulti = 1;
+double driveMulti = 1;
+double inverse = 0;
 
 std::string GetOutputPath() {
 	std::ifstream profile_reader;
@@ -69,6 +71,8 @@ public:
 		mr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		rr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		frc::SmartDashboard::PutNumber("Time Multiplier", 4);
+		frc::SmartDashboard::PutNumber("Drive Multiplier", 0.25);
+		frc::SmartDashboard::PutNumber("Inverse", 1);
 	}
 		
 	void Autonomous() {
@@ -115,8 +119,8 @@ public:
 		time.pop_back();
 		r.pop_back();
 		l.pop_back();
-		while(t < time.size() && timer.Get() < time.back()) {
-			while(t < time.size() && time[t+1] < timer.Get()) {
+		while(t < time.size() && timer.Get() <= time.back()) {
+			while(t < time.size() && timer.Get() <= time.back() && time[t+1] < timer.Get()) {
 				t++;
 			}
 			fl.Set(l[t]);
@@ -143,8 +147,16 @@ public:
 		if(GetOutputPath() != "")
 			mp.open(GetOutputPath(),std::ofstream::out | std::ofstream::app);
 		while(IsOperatorControl() && IsEnabled()) {
-            double forward = -controller.GetY(frc::GenericHID::kLeftHand) / 4;
-            double rotation = -controller.GetX(frc::GenericHID::kRightHand) / 4;
+			driveMulti = frc::SmartDashboard::GetNumber("Drive Multiplier", 0.25);
+			inverse = frc::SmartDashboard::GetNumber("Inverse",1);
+            double forward = -controller.GetY(frc::GenericHID::kLeftHand);
+			if(std::abs(forward) < 0.02) {
+				forward = 0;
+			}
+            double rotation = -controller.GetX(frc::GenericHID::kRightHand);
+			if(std::abs(rotation) < 0.02) {
+				rotation = 0;
+			}
             double left, right;
             if (forward > 0.0) {
                 if (rotation > 0.0) {
@@ -163,13 +175,21 @@ public:
                     right = -std::max(-forward, -rotation);
                 }
             }
-            ml.Set(left); fl.Set(left); rl.Set(left);
-            mr.Set(-right); fr.Set(-right); rr.Set(-right);
-            std::cout << "Set raw left: " << left << "; Set raw right: " << -right << std::endl;
+			left = left * driveMulti;
+			right = -right * driveMulti;
+			if(inverse == 1) {
+            	ml.Set(left); fl.Set(left); rl.Set(left);
+            	mr.Set(right); fr.Set(right); rr.Set(right);
+			}
+			else {
+				ml.Set(right); fl.Set(right); rl.Set(right);
+            	mr.Set(left); fr.Set(left); rr.Set(left);
+			}
+            std::cout << driveMulti << " Set raw left: " << left << "; Set raw right: " << right << std::endl;
 			if(controller.GetBButton()) {
 				mp.close();
 				if(GetOutputPath() != "")
-					mp.open(GetOutputPath());
+					mp.open(GetOutputPath(), std::ofstream::trunc);
 			}
 			if(controller.GetBumper(frc::GenericHID::kLeftHand) && mp.is_open()) {
 				mp << timer.Get() << ":" << fl.GetOutputVoltage()/fl.GetBusVoltage() << "," << fr.GetOutputVoltage()/fr.GetBusVoltage() << "\n";
