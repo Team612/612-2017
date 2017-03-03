@@ -7,6 +7,7 @@ namespace lib612 {
     public:
         AnalogUltrasonic(int port);
         double GetDistanceMM();
-        double GetDistanceInches();
+        double GetLogDistanceInches();
+        double GetLinearDistanceInches();
     };
 }

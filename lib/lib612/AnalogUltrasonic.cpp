@@ -1,13 +1,14 @@
 #include "AnalogUltrasonic.h"
 
+//consider smoothing
 namespace lib612 {
     AnalogUltrasonic::AnalogUltrasonic(int port) : AnalogInput(port) { }
-    double AnalogUltrasonic::GetDistanceMM() {
-        return GetVoltage(); //TODO
+
+    double AnalogUltrasonic::GetLogDistanceInches() {
+        return 20.52406 * std::log(GetVoltage()) + 57.11212;
     }
 
-    double AnalogUltrasonic::GetDistanceInches() {
-        //0.0248 Volts per inch
-        return std::pow(0.0248, -1) * GetVoltage();
+    double AnalogUltrasonic::GetLinearDistanceInches() {
+        return 108.34706 * GetVoltage() - 2.95295;
     }
 }
