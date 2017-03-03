@@ -2,10 +2,10 @@
 
 #include "WPILib.h"
 #include "CANTalon.h"
+#include "lib612/AnalogUltrasonic.h"
 
 class RobotMap {
 public:
-
     static std::shared_ptr<CANTalon> shooter_l;
     static std::shared_ptr<CANTalon> shooter_r;
     static std::shared_ptr<CANTalon> drive_fl;
@@ -28,6 +28,7 @@ public:
 
     static std::shared_ptr<PowerDistributionPanel> pdp;
     static std::shared_ptr<Ultrasonic> ultrasonic;
+    static std::shared_ptr<lib612::AnalogUltrasonic> new_ultrasonic;
     //static std::shared_ptr<RobotDrive> drive;
 
     static void init();

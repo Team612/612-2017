@@ -41,7 +41,7 @@ void MoveToTarget::Interrupted() {
 }
 
 double MoveToTarget::ReturnPIDInput() {
-	std::printf("MoveToTarget.cpp: Returning PID Input");
+	//std::printf("MoveToTarget.cpp: Returning PID Input");
 	return Robot::drivetrain->GetURCenter()->GetRangeMM();
 }
 
@@ -52,6 +52,6 @@ void MoveToTarget::UsePIDOutput(double output) {
 		output += MIN_OUTPUT;*/
 
 	SmartDashboard::PutNumber("PID Output - Drive distance", output);
-	std::cout << "MoveToTarget.cpp: Setting output" << std::endl;
-    Robot::drivetrain->TankDrive(output, output); //see how well this works before going full PID
+	//std::cout << "MoveToTarget.cpp: Setting output" << std::endl;
+    //Robot::drivetrain->TankDrive(output, output); //see how well this works before going full PID
 }

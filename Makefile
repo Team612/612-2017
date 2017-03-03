@@ -1,6 +1,9 @@
 all:
 	bash script/unix/build.sh
 
+competition:
+    bash script/unix/compbuild.sh
+
 verbose:
 	bash script/unix/build.sh -v
 

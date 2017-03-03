@@ -6,6 +6,7 @@
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     ur = RobotMap::ultrasonic;
+    ur2 = RobotMap::new_ultrasonic;
     profile = dp;
 
     //Make sure we're using the actual talon objects and not making our out copies
@@ -38,6 +39,8 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_rr->Set(PORTS::CAN::drive_talonMR);
     this->drive_ml->SetVoltageRampRate(RAMP_RATE);
     this->drive_mr->SetVoltageRampRate(RAMP_RATE);
+    this->drive_ml->SetInverted(true);
+    this->drive_mr->SetInverted(false);
 
     this->drive.reset(RobotMap::drive.get());
 
@@ -56,7 +59,8 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F);
         frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
         frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
-        frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", RobotMap::ultrasonic->GetRangeMM());
+        frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
+        frc::SmartDashboard::PutNumber("New Ultrasonic Distance (inches)", ur2->GetDistanceInches());
     });
 }
 
@@ -132,7 +136,7 @@ void Drivetrain::TankDrive(double raw_left, double raw_right){
         drive_mr->Set(0);
         drive_mr->SetVoltageRampRate(RAMP_RATE);
     } else {
-        drive_mr->Set(Limit(-r));
+        drive_mr->Set(Limit(r));
     }
 }
 

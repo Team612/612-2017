@@ -2,7 +2,6 @@
 #include "LiveWindow/LiveWindow.h"
 #include "Ports.h"
 
-
 std::shared_ptr<CANTalon> RobotMap::shooter_l;
 std::shared_ptr<CANTalon> RobotMap::shooter_r;
 std::shared_ptr<CANTalon> RobotMap::drive_fl;
@@ -21,6 +20,7 @@ std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
+std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
 
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
@@ -69,13 +69,13 @@ void RobotMap::init() {
     //drive.reset(new RobotDrive(drive_ml.get(), drive_mr.get()));
 
     grabber.reset(new Servo(PORTS::PWM::servo));
-    lw->AddActuator("Climber", "grabber", grabber);
+    lw->AddActuator("Climber", "grabber", grabber);                                                                                                     \
 
-    shifter.reset(new DoubleSolenoid(PORTS::PCM::shifter_forward, PORTS::PCM::shifter_reverse));
+    ultrasonic.reset(new Ultrasonic(static_cast<int>(PORTS::DIO::ultrasonic_in), static_cast<int>(PORTS::DIO::ultrasonic_in), frc::Ultrasonic::DistanceUnit::kMilliMeters)); //tfw C++
 
-    ultrasonic.reset(new Ultrasonic(PORTS::DIO::ultrasonic_in, PORTS::DIO::ultrasonic_out, frc::Ultrasonic::DistanceUnit::kMilliMeters));
+    new_ultrasonic.reset(new lib612::AnalogUltrasonic(PORTS::PWM::analog_ultrasonic));
 
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
-              drive_fr, drive_rr));
+     drive_fr, drive_rr));
     drive->SetSafetyEnabled(false);*/
 }

@@ -4,6 +4,7 @@
 #include "WPILib.h"
 #include "CANTalon.h"
 #include "lib612/DriveProfile.h"
+#include "lib612/AnalogUltrasonic.h"
 #include "../Ports.h"
 
 class Drivetrain: public Subsystem {
@@ -11,6 +12,8 @@ class Drivetrain: public Subsystem {
     double Limit(double val);
 
     double m_quick_stop_accum;
+    std::shared_ptr<Ultrasonic> ur;
+    std::shared_ptr<lib612::AnalogUltrasonic> ur2;
 
     const double ALPHA = 0.1;
     const double DEADBAND = 0.01;
@@ -28,7 +31,6 @@ public:
     std::shared_ptr<CANTalon> drive_fr;
     std::shared_ptr<CANTalon> drive_mr;
     std::shared_ptr<CANTalon> drive_rr;
-    std::shared_ptr<Ultrasonic> ur;
     std::shared_ptr<RobotDrive> drive;
     lib612::DriveProfile* profile;
     //Drivetrain();

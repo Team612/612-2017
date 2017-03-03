@@ -21,7 +21,7 @@ void Shoot::Execute() {
             Robot::shooter->Spin(START_MULTIPLIER * OPTIMAL_RPM);
         else
             Robot::shooter->Spin(OPTIMAL_RPM);
-        Robot::shooter->Agitate();
+        //Robot::shooter->Agitate();
     } else {
         Robot::shooter->Spin(-IDLE);
     }

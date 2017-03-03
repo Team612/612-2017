@@ -15,11 +15,12 @@ namespace PORTS {
     }
 
     namespace PWM {
-        const int servo = 0;
+        const int analog_ultrasonic = 0;
+        const int servo = 1;
     }
 
     namespace DIO {
-        const uint32_t ultrasonic_in = 0; //ping
+        const uint32_t ultrasonic_in = 0; //trigger
         const uint32_t ultrasonic_out = 1; //echo
     }
 

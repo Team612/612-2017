@@ -16,7 +16,7 @@ void Drive::Execute() {
     std::cout << "Drive.cpp: " << "Throttle: " << Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) << " Wheel: " << Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) << std::endl;
     Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand),
                                  Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),
-                                 Robot::oi->getdriver()->GetBumper(frc::GenericHID::kRightHand));
+                                 Robot::oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand));
     //motor feed safety
     frc::Wait(0.005);
 }
