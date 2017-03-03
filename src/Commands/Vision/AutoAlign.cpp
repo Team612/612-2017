@@ -3,5 +3,5 @@
 AutoAlign::AutoAlign(HorizontalFind::Direction dir) {
 	//AddSequential(new HorizontalFind(dir));
 	//AddSequential(new HorizontalAlign());
-	AddSequential(new MoveToTarget(457.2));
+	AddSequential(new MoveToTarget(20));
 }

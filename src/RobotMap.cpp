@@ -75,6 +75,10 @@ void RobotMap::init() {
 
     new_ultrasonic.reset(new lib612::AnalogUltrasonic(PORTS::PWM::analog_ultrasonic));
 
+    shifter.reset(new DoubleSolenoid(0, 1));
+    lw->AddActuator("Shifter", "shifter", shifter);
+    shifter->Set(DoubleSolenoid::Value::kForward);
+
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
      drive_fr, drive_rr));
     drive->SetSafetyEnabled(false);*/

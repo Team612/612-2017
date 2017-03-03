@@ -4,10 +4,11 @@
 
 namespace lib612 {
     class AnalogUltrasonic : public AnalogInput {
+        double GetLogDistanceInches();
+        double GetLinearDistanceInches();
     public:
         AnalogUltrasonic(int port);
         double GetDistanceMM();
-        double GetLogDistanceInches();
-        double GetLinearDistanceInches();
+        double GetDistanceInches();
     };
 }

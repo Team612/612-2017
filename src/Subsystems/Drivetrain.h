@@ -48,6 +48,7 @@ public:
     void InitDefaultCommand() override;
     lib612::DriveProfile* GetCurrentProfile();
     std::shared_ptr<Ultrasonic> GetURCenter();
+    std::shared_ptr<lib612::AnalogUltrasonic> GetURSide();
 
     void setDriveMode(DRIVE_MODE mode);
     DRIVE_MODE getDriveMode();

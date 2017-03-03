@@ -60,8 +60,7 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
         frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
         frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
-        frc::SmartDashboard::PutNumber("New Ultrasonic Distance (inches) using log curve", ur2->GetLogDistanceInches());
-        frc::SmartDashboard::PutNumber("New Ultrasonic Distance (inches) using linear regression", ur2->GetLinearDistanceInches());
+        frc::SmartDashboard::PutNumber("New Ultrasonic Distance (inches) by regression combination", ur2->GetDistanceInches());
     });
 }
 
@@ -115,6 +114,10 @@ void Drivetrain::ThrottleByRPM(double lpercent, double rpercent) {
 
 std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
     return ur; //guess
+}
+
+std::shared_ptr<lib612::AnalogUltrasonic> Drivetrain::GetURSide() {
+    return ur2;
 }
 void Drivetrain::InitDefaultCommand() {
     printf("Default command for Drivetrain\n");

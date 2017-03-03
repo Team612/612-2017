@@ -11,4 +11,15 @@ namespace lib612 {
     double AnalogUltrasonic::GetLinearDistanceInches() {
         return 108.34706 * GetVoltage() - 2.95295;
     }
+
+    double AnalogUltrasonic::GetDistanceInches() {
+        if(GetVoltage() < 0.07)
+            return GetLogDistanceInches();
+        else if(GetVoltage() < 0.09)
+            return GetLinearDistanceInches();
+        else if(GetVoltage() < 0.361)
+            return GetLogDistanceInches();
+        else
+            return GetLinearDistanceInches();
+    }
 }
