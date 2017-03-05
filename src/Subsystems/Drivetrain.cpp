@@ -5,7 +5,7 @@
 #include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
-    ur = RobotMap::ultrasonic;
+    //ur = RobotMap::ultrasonic;
     ur2 = RobotMap::new_ultrasonic;
     profile = dp;
 
@@ -42,6 +42,13 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_ml->SetInverted(true);
     this->drive_mr->SetInverted(false);
 
+    this->drive_mr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+    this->drive_fr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+    this->drive_rr->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+    this->drive_ml->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+    this->drive_fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+    this->drive_rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
+
     this->drive.reset(RobotMap::drive.get());
 
     //TODO: Are these being used?
@@ -59,7 +66,7 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Drivetrain F", this->profile->F);
         frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
         frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
-        frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
+        //frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
         frc::SmartDashboard::PutNumber("New Ultrasonic Distance (inches) by regression combination", ur2->GetDistanceInches());
     });
 }
@@ -113,7 +120,7 @@ void Drivetrain::ThrottleByRPM(double lpercent, double rpercent) {
 }
 
 std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
-    return ur; //guess
+    //return ur; //guess
 }
 
 std::shared_ptr<lib612::AnalogUltrasonic> Drivetrain::GetURSide() {
@@ -127,7 +134,7 @@ void Drivetrain::InitDefaultCommand() {
 void Drivetrain::TankDrive(double raw_left, double raw_right){
     double l = DeadbandHandler(raw_left);
     double r = DeadbandHandler(raw_right);
-    std::cout << "Drivetrain.cpp l: " << l << " r: " << r << std::endl;
+    //std::cout << "Drivetrain.cpp l: " << l << " r: " << r << std::endl;
     if (l == 0) {
         drive_ml->SetVoltageRampRate(0);
         drive_ml->Set(0);

@@ -17,12 +17,15 @@ std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
 std::shared_ptr<Shifter> Robot::shifter_subsys;
 std::shared_ptr<Vision> Robot::vision;
+std::shared_ptr<LEDs> Robot::leds;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
+
 std::string Robot::filePath = "/home/lvuser/";
+
 double Robot::initial_current;
 double Robot::init_climber_current;
 
@@ -35,8 +38,10 @@ void Robot::RobotInit() {
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     shifter_subsys = std::make_shared<Shifter>();
+    leds = std::make_shared<LEDs>();
     //Put this last
     oi = std::make_unique<OI>();
+    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     autonomousCommand = std::make_unique<Autonomous>();

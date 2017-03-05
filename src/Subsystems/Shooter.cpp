@@ -1,12 +1,13 @@
 #include "Shooter.h"
 #include "../RobotMap.h"
 #include "../Commands/Shooter/Shoot.h"
+#include "lib612/Networking/Networking.h"
 
 Shooter::Shooter() : Subsystem("Shooter") {
     //talon = RobotMap::talon_shoot;
-    RobotMap::shooter_l->SetPID(0.22, 0, 0, 0.1097);
+    RobotMap::shooter_l->SetPID(0.0, 0, 0, 0.037);
     //get values from connected cimcoder
-    RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
+    RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
     //allows SetSetpoint to apply to speed from cimcoder and not from
     RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
     RobotMap::shooter_l->SetSensorDirection(false);
@@ -14,6 +15,10 @@ Shooter::Shooter() : Subsystem("Shooter") {
     RobotMap::shooter_l->SelectProfileSlot(0);
     RobotMap::shooter_r->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_right);
+
+    lib612::Networking::AddFunction([](){
+        frc::SmartDashboard::PutNumber("Shooter speed", RobotMap::shooter_l->GetSpeed());
+    });
 }
 
 void Shooter::InitDefaultCommand() {
@@ -22,6 +27,7 @@ void Shooter::InitDefaultCommand() {
 
 void Shooter::Spin(float speed) {
     RobotMap::shooter_l->Set(speed);
+    RobotMap::shooter_r->Set(RobotMap::shooter_l->GetDeviceID());
     //RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_left);
 }
 

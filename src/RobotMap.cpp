@@ -19,8 +19,9 @@ std::shared_ptr<Servo> RobotMap::grabber;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
 std::shared_ptr<RobotDrive> RobotMap::drive;
-std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
+//std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
+std::shared_ptr<Compressor> RobotMap::compressor;
 
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
@@ -71,13 +72,16 @@ void RobotMap::init() {
     grabber.reset(new Servo(PORTS::PWM::servo));
     lw->AddActuator("Climber", "grabber", grabber);                                                                                                     \
 
-    ultrasonic.reset(new Ultrasonic(static_cast<int>(PORTS::DIO::ultrasonic_in), static_cast<int>(PORTS::DIO::ultrasonic_in), frc::Ultrasonic::DistanceUnit::kMilliMeters)); //tfw C++
+    //ultrasonic.reset(new Ultrasonic(static_cast<int>(PORTS::DIO::ultrasonic_in), static_cast<int>(PORTS::DIO::ultrasonic_in), frc::Ultrasonic::DistanceUnit::kMilliMeters)); //tfw C++
 
     new_ultrasonic.reset(new lib612::AnalogUltrasonic(PORTS::PWM::analog_ultrasonic));
 
     shifter.reset(new DoubleSolenoid(0, 1));
     lw->AddActuator("Shifter", "shifter", shifter);
     shifter->Set(DoubleSolenoid::Value::kForward);
+
+    compressor.reset(new Compressor(3));
+    compressor->Start();
 
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
      drive_fr, drive_rr));

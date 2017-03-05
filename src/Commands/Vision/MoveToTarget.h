@@ -15,6 +15,7 @@ public:
 
 	double ReturnPIDInput();
 	void UsePIDOutput(double output);
+	double current_power;
 
 private:
 	//Ultrasonic ur;
