@@ -44,9 +44,7 @@ void Playback::Initialize() {
 
     timer.Reset();
     timer.Start();
-}
 
-void Playback::Execute() {
     if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
         while(t < playback_vec.size() && playback_vec[t].time <= timer.Get())
             t++;
@@ -54,14 +52,18 @@ void Playback::Execute() {
         RobotMap::drive_fr->Set(playback_vec[t].r);
     }else if(t == playback_vec.size() || timer.Get() > playback_vec.back().time){
         std::cout << "Done playing back \n";
-        isFinished = true;
+        //isFinished = true;
     }else{
         std::cout << "God help us, Playback does not work! \n";
     }
 }
 
+void Playback::Execute() {
+
+}
+
 bool Playback::IsFinished() {
-    return isFinished;
+    return true;
 }
 
 void Playback::End() {

@@ -32,6 +32,8 @@ private:
     double r; //right speed
     double next_update; //update
 
+    const double TIME_MULTIPLIER = 4.0 / 3.0;
+
 public:
     Playback(std::string filePath);
     void Initialize() override;

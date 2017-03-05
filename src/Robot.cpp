@@ -23,6 +23,7 @@ std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
+frc::CameraServer* Robot::tempcam;
 
 std::string Robot::filePath = "/home/lvuser/";
 
@@ -63,7 +64,9 @@ void Robot::RobotInit() {
         s << std::ctime(&to_time_t);
         SmartDashboard::PutString("Current Time", s.str());
     });
-  }
+    tempcam = CameraServer::GetInstance();
+    tempcam->StartAutomaticCapture(); //check to see if this can be displayed on Even Smarter Dashboard
+}
 
 void Robot::DisabledInit() {
 
