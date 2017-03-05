@@ -44,10 +44,9 @@ void Robot::RobotInit() {
     std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
-    autonomousCommand = std::make_unique<Autonomous>();
+    //autonomousCommand = std::make_unique<Autonomous>();
     //wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     intakeCommand = std::make_unique<IntakeFuel>();
-    ConfigureFilePath();
     //playback = std::make_unique<Playback>(filePath.c_str());
 
     //pdp
@@ -79,8 +78,15 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
+    //get mp file
+    ConfigureFilePath();
+    //make new auto command with the correct auto mode
+    autonomousCommand = std::make_unique<Autonomous>();
+    //prevent segfaults
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
+    else
+        std::cout << "ERROR: Autonomous Command NULL!" << std::endl;
     //AutoDrive->Start();
 
 }
