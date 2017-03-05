@@ -32,9 +32,9 @@ void Playback::Initialize() {
             time_str = line.substr(0, colon_pos);
             left = line.substr(colon_pos+1, comma_pos-colon_pos-1);
             right = line.substr(comma_pos+1);
-            playback_frame_buf.time = std::stod(time_str);
-            playback_frame_buf.l = std::stod(left);
-            playback_frame_buf.r = std::stod(right);
+            playback_frame_buf.time = std::stod(time_str) / TIME_MULTIPLIER;
+            playback_frame_buf.l = std::stod(left) * TIME_MULTIPLIER;
+            playback_frame_buf.r = std::stod(right) * TIME_MULTIPLIER;
             playback_vec.push_back(playback_frame_buf);
         }
     }else{

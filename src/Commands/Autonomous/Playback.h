@@ -32,7 +32,7 @@ private:
     double r; //right speed
     double next_update; //update
 
-    const double TIME_MULTIPLIER = 4.0 / 3.0;
+    const double TIME_MULTIPLIER = 1;
 
 public:
     Playback(std::string filePath);
