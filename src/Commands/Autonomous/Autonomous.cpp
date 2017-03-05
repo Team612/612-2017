@@ -12,6 +12,8 @@ Autonomous::Autonomous() {
     //TODO !!Replace empty initializer lists with correct marks for each mode!!
     if(chosen_mode == "Simple") {
         AddSequential(new AutoDrive(auto_time, auto_speed));
+        //TODO REMOVE!!
+        AddSequential(new Playback("home/lvuser/simple"));
     } else if(chosen_mode == "1 Gear Auto") {
         //drive up to the peg, place gear
         AddSequential(new Playback(Robot::filePath));
