@@ -15,7 +15,7 @@ void Climb::Execute() {
         Robot::climber->Block();
         return; //prevent controls
     }*/
-    if(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand) > 0.01)
+    if(std::abs(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand)) > 0.01)
         Robot::climber->Move(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand));
     else
         Robot::climber->Block();
