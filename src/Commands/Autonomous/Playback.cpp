@@ -15,13 +15,13 @@ void Playback::Initialize() {
     RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 
     RobotMap::drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    RobotMap::drive_fl->Set(RobotMap::drive_fl->GetDeviceID());
+    RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
     RobotMap::drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    RobotMap::drive_fr->Set(RobotMap::drive_fr->GetDeviceID());
+    RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
     RobotMap::drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    RobotMap::drive_rl->Set(RobotMap::drive_fl->GetDeviceID());
+    RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
     RobotMap::drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    RobotMap::drive_rr->Set(RobotMap::drive_fr->GetDeviceID());
+    RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
     inputFile.open(filePath);
     if(inputFile.is_open()) {
         std::cout << "Reading file at " << filePath << std::endl;
