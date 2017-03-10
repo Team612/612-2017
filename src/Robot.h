@@ -11,14 +11,17 @@
 #include "Subsystems/Shooter.h"
 #include "Subsystems/Shifter.h"
 #include "Subsystems/Vision.h"
+#include "Subsystems/LEDs.h"
+#include "Subsystems/Shifter.h"
 #include "Timer.h"
 #include "OI.h"
-#include "Subsystems/Shifter.h"
+
 class Robot : public IterativeRobot {
 private:
     void ConfigureFilePath();
 public:
     static std::string filePath;
+    static frc::CameraServer* tempcam;
 
     std::unique_ptr<Command> autonomousCommand;
     static std::unique_ptr<OI> oi;
@@ -29,6 +32,7 @@ public:
     static std::shared_ptr<Shifter> shifter_subsys;
     static std::shared_ptr<Climber> climber;
     static std::shared_ptr<Vision> vision;
+    static std::shared_ptr<LEDs> leds;
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that

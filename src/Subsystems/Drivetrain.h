@@ -12,14 +12,14 @@ class Drivetrain: public Subsystem {
     double Limit(double val);
 
     double m_quick_stop_accum;
-    std::shared_ptr<Ultrasonic> ur;
+    //std::shared_ptr<Ultrasonic> ur;
     std::shared_ptr<lib612::AnalogUltrasonic> ur2;
 
     const double ALPHA = 0.1;
     const double DEADBAND = 0.01;
     const double TURN_SENSITIVITY = 0.7;
     const double PI = 3.141592653;
-    const double RAMP_RATE = 20;
+    const double RAMP_RATE = 0; //TODO This is disabled
 public:
     enum DRIVE_MODE {SIMPLE, COMPLICATED};
 

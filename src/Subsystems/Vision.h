@@ -17,7 +17,7 @@ private:
 
 	std::shared_ptr<VisionTarget> goal;
 
-	const float TARGET_ASPECT = 1.66/1.00;
+	const float TARGET_ASPECT = 1.66f/1.00f;
 
 public:
 	Vision();

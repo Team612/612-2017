@@ -10,7 +10,7 @@ AutoDrive::AutoDrive(float time, float speed) {
 }
 
 void AutoDrive::Initialize() {
-    Robot::drivetrain->SetVelocity(_speed, _speed);
+    Robot::drivetrain->TankDrive(_speed, _speed);
 }
 
 void AutoDrive::Execute() {

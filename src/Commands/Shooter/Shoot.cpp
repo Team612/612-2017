@@ -11,19 +11,19 @@ Shoot::Shoot(): Command() {
 // Called just before this Command runs the first time
 void Shoot::Initialize() {
     printf("Shoot init\n");
-    Robot::shooter->Spin(-IDLE);
+    Robot::shooter->Spin(IDLE);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-    if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.1) {
-        if (Robot::oi->getdriver()->GetStartButton())
-            Robot::shooter->Spin(START_MULTIPLIER * OPTIMAL_RPM);
+    if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
+        if (Robot::oi->getgunner()->GetStartButton())
+            Robot::shooter->Spin(START_MULTIPLIER * OPTIMAL_RPM * -Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand));
         else
-            Robot::shooter->Spin(OPTIMAL_RPM);
+            Robot::shooter->Spin(OPTIMAL_RPM * -Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand));
         //Robot::shooter->Agitate();
     } else {
-        Robot::shooter->Spin(-IDLE);
+        Robot::shooter->Spin(IDLE);
     }
 
 }
