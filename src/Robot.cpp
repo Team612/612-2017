@@ -2,6 +2,7 @@
 #include "Robot.h"
 
 #include <string>
+#include <Commands/Shooter/SetShooter.h>
 
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Autonomous/Autonomous.h"
@@ -23,6 +24,7 @@ std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
+std::unique_ptr<Command> Robot::testshooter;
 frc::CameraServer* Robot::tempcam;
 
 std::string Robot::filePath = "/home/lvuser/";
@@ -49,6 +51,7 @@ void Robot::RobotInit() {
     //wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     intakeCommand = std::make_unique<IntakeFuel>();
     //playback = std::make_unique<Playback>(filePath.c_str());
+    testshooter = std::make_unique<SetShooter>(1000);
 
     //pdp
     initial_current = RobotMap::pdp->GetTotalCurrent();
@@ -109,6 +112,7 @@ void Robot::TeleopInit() {
         CheckSystem->Start();
     intakeCommand->Start();
     std::cout << "Robot.cpp: " << __LINE__ << std::endl;
+
 }
 
 void Robot::TeleopPeriodic() {
@@ -118,10 +122,37 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestInit() {
-
+    testshooter->Start();
 }
 
 void Robot::TestPeriodic() {
+    if (oi->getgunner()->GetAButton()) {
+        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
+            frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) - 0.01);
+        else
+            frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) + 0.01);
+    }
+    if (oi->getgunner()->GetBButton()) {
+        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
+            frc::SmartDashboard::PutNumber("Test Shooter I", frc::SmartDashboard::GetNumber("Test Shooter I", 0) - 0.01);
+        else
+            frc::SmartDashboard::PutNumber("Test Shooter I", frc::SmartDashboard::GetNumber("Test Shooter I", 0) + 0.01);
+    }
+    if (oi->getgunner()->GetXButton()) {
+        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
+            frc::SmartDashboard::PutNumber("Test Shooter D", frc::SmartDashboard::GetNumber("Test Shooter D", 0) - 0.01);
+        else
+            frc::SmartDashboard::PutNumber("Test Shooter D", frc::SmartDashboard::GetNumber("Test Shooter D", 0) + 0.01);
+    }
+    if (oi->getgunner()->GetYButton()) {
+        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
+            frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) - 0.01);
+        else
+            frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) + 0.01);
+    }
+
+
+
     Scheduler::GetInstance()->Run();
 }
 

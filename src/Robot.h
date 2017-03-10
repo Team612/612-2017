@@ -38,6 +38,7 @@ public:
     static std::unique_ptr<Command> wiggle; //defined by default with default values, reset it to something if you don't like that
     static std::unique_ptr<Command> intakeCommand;
     static std::unique_ptr<Command> playback;
+    static std::unique_ptr<Command> testshooter;
     static double initial_current;
     static double init_climber_current;
     virtual void RobotInit() override;
@@ -50,4 +51,5 @@ public:
     virtual void TeleopPeriodic() override;
     virtual void TestInit() override;
     virtual void TestPeriodic() override;
+
 };

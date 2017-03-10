@@ -3,9 +3,10 @@
 #include "../Commands/Shooter/Shoot.h"
 #include "lib612/Networking/Networking.h"
 
-Shooter::Shooter() : Subsystem("Shooter") {
+Shooter::Shooter() :
+        Subsystem("Shooter") {
     //talon = RobotMap::talon_shoot;
-    RobotMap::shooter_l->SetPID(0.0, 0, 0, 0.037);
+    RobotMap::shooter_l->SetPID(SmartDashboard::GetNumber("Test Shooter P", 0), SmartDashboard::GetNumber("Test Shooter I", 0), SmartDashboard::GetNumber("Test Shooter D", 0), SmartDashboard::GetNumber("Test Shooter F", 0.037));
     //get values from connected cimcoder
     RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
     //allows SetSetpoint to apply to speed from cimcoder and not from

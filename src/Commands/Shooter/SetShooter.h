@@ -4,7 +4,7 @@
 
 class SetShooter : public Command {
 public:
-    SetShooter(double time, double multiplier = 1);
+    SetShooter(double speed);
 
     virtual void Initialize();
     virtual void Execute();
@@ -15,5 +15,5 @@ public:
 private:
     const double OPTIMAL_RPM = 3200;
     const double IDLE = OPTIMAL_RPM / 10;
-    double multiplier = 1;
+    double speed;
 };

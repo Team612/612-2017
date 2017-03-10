@@ -1,9 +1,9 @@
 #include "SetShooter.h"
 #include "../../Robot.h"
 
-SetShooter::SetShooter(double time, double multiplier) : Command("Set Shooter") {
-    this->multiplier = multiplier;
-    SetTimeout(time);
+SetShooter::SetShooter(double speed) : Command("Set Shooter") {
+    this->speed = speed;
+//    SetTimeout(time);
     Requires(Robot::shooter.get());
 }
 
@@ -12,11 +12,11 @@ void SetShooter::Initialize() {
 }
 
 void SetShooter::Execute() {
-    Robot::shooter->Spin(OPTIMAL_RPM * multiplier);
+    Robot::shooter->Spin(speed);
 }
 
 bool SetShooter::IsFinished() {
-    return IsTimedOut();
+    return false;
 }
 
 void SetShooter::End() {
