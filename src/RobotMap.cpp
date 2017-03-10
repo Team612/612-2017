@@ -21,6 +21,7 @@ std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
+std::shared_ptr<Compressor> RobotMap::compressor;
 
 void RobotMap::init() {
     LiveWindow *lw = LiveWindow::GetInstance();
@@ -78,6 +79,9 @@ void RobotMap::init() {
     shifter.reset(new DoubleSolenoid(0, 1));
     lw->AddActuator("Shifter", "shifter", shifter);
     shifter->Set(DoubleSolenoid::Value::kForward);
+
+    compressor.reset(new Compressor(PORTS::PCM::compressor));
+    compressor->Start();
 
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
      drive_fr, drive_rr));
