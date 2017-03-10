@@ -20,7 +20,8 @@ void MoveToTarget::Initialize() {
 void MoveToTarget::Execute() {
     //this->GetPIDController()->SetSetpoint(SmartDashboard::GetNumber("UR DIST", 1000));
     //MIN_OUTPUT = SmartDashboard::GetNumber("MIN OUTPUT", 0);
-    GetPIDController()->SetPID(SmartDashboard::GetNumber("UR P", 0.0001), SmartDashboard::GetNumber("UR I", 0), SmartDashboard::GetNumber("UR D", 0), SmartDashboard::GetNumber("UR F", 0.5));
+    //GetPIDController()->SetPID(SmartDashboard::GetNumber("UR P", 0.0001), SmartDashboard::GetNumber("UR I", 0), SmartDashboard::GetNumber("UR D", 0), SmartDashboard::GetNumber("UR F", 0.5));
+    Robot::drivetrain->TankDrive(current_power, current_power);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -52,5 +53,6 @@ void MoveToTarget::UsePIDOutput(double output) {
         output += MIN_OUTPUT;*/
 
     SmartDashboard::PutNumber("PID Output - Drive distance", output);
-    Robot::drivetrain->TankDrive(output, output); //see how well this works before going full PID
+    //std::cout << "Why am I being called?" << std::endl;
+    current_power = output;
 }

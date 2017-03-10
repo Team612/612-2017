@@ -13,4 +13,5 @@ public:
     void Stop();
 private:
     const double INTAKE_SPEED = 1000;
+    const double RAMP_RATE = 16                                                                                                               ;
 };

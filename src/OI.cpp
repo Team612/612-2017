@@ -10,6 +10,8 @@
 #include "Commands/Climber/Grab.h"
 #include "Commands/Internal/IntakeFuel.h"
 #include "Commands/Vision/AutoAlign.h"
+#include "Commands/Internal/ChangeLED.h"
+#include "Commands/Internal/LEDOnOff.h"
 
 std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_button;
@@ -17,6 +19,8 @@ std::unique_ptr<JoystickButton> OI::intake_button;
 std::unique_ptr<JoystickButton> OI::intake_clear_button;
 std::unique_ptr<JoystickButton> OI::shift_up;
 std::unique_ptr<JoystickButton> OI::shift_down;
+std::unique_ptr<JoystickButton> OI::led_color;
+std::unique_ptr<JoystickButton> OI::led_power;
 
 OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
@@ -30,6 +34,10 @@ OI::OI() {
     shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
     shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button
     shift_down->WhenPressed(new Shift(Shift::SHIFT_DIR::DOWN));
+    led_power = std::make_unique<JoystickButton>(driver.get(), 3); //X button
+    led_power->WhenPressed(new LEDOnOff());
+    led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
+    led_color->WhenPressed(new ChangeLED());
 
     // SmartDashboard Buttons
     //These just clutter up EvenSmarterDashboard
