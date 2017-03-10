@@ -125,7 +125,7 @@ void Robot::TestPeriodic() {
     Scheduler::GetInstance()->Run();
 }
 
-void Robot::ConfigureFilePath(){
+void Robot::ConfigureFilePath() {
     filePath = "home/lvuser/";
     if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "Simple") == 0){
         filePath+="simple";

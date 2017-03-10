@@ -49,6 +49,13 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
     this->drive_rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 
+    this->drive_ml->SetCurrentLimit(30);
+    this->drive_rl->SetCurrentLimit(30);
+    this->drive_fl->SetCurrentLimit(30);
+    this->drive_mr->SetCurrentLimit(30);
+    this->drive_fr->SetCurrentLimit(30);
+    this->drive_rr->SetCurrentLimit(30);
+
     this->drive.reset(RobotMap::drive.get());
 
     //TODO: Are these being used?
