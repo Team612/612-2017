@@ -66,5 +66,6 @@ namespace PORTS {
     namespace PCM {
         const uint32_t shifter_forward = 0;
         const uint32_t shifter_reverse = 1;
+        const uint32_t compressor = 3;
     }
 }

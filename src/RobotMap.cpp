@@ -79,8 +79,8 @@ void RobotMap::init() {
     shifter.reset(new DoubleSolenoid(0, 1));
     lw->AddActuator("Shifter", "shifter", shifter);
     shifter->Set(DoubleSolenoid::Value::kForward);
-
-    compressor.reset(new Compressor(3));
+  
+    compressor.reset(new Compressor(PORTS::PCM::compressor));
     compressor->Start();
 
     /*drive.reset(new RobotDrive(drive_fl, drive_rl,
