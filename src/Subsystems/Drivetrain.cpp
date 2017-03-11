@@ -49,12 +49,13 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_fl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
     this->drive_rl->ConfigNeutralMode(CANTalon::NeutralMode::kNeutralMode_Brake);
 
-    this->drive_ml->SetCurrentLimit(30);
-    this->drive_rl->SetCurrentLimit(30);
-    this->drive_fl->SetCurrentLimit(30);
-    this->drive_mr->SetCurrentLimit(30);
-    this->drive_fr->SetCurrentLimit(30);
-    this->drive_rr->SetCurrentLimit(30);
+    //TODO Test this current limit
+    this->drive_ml->SetCurrentLimit(MAX_AMPS);
+    this->drive_rl->SetCurrentLimit(MAX_AMPS);
+    this->drive_fl->SetCurrentLimit(MAX_AMPS);
+    this->drive_mr->SetCurrentLimit(MAX_AMPS);
+    this->drive_fr->SetCurrentLimit(MAX_AMPS);
+    this->drive_rr->SetCurrentLimit(MAX_AMPS);
 
     this->drive.reset(RobotMap::drive.get());
 
@@ -127,7 +128,9 @@ void Drivetrain::ThrottleByRPM(double lpercent, double rpercent) {
 }
 
 std::shared_ptr<Ultrasonic> Drivetrain::GetURCenter() {
-    //return ur; //guess
+    //This is only here in case we put back the old ultrasonic and should never be called.
+    std::cout << "Crashing robot code... Drivetrain.cpp: " << __LINE__ << std::endl;
+    return nullptr; //mfw segfault
 }
 
 std::shared_ptr<lib612::AnalogUltrasonic> Drivetrain::GetURSide() {

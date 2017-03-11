@@ -8,11 +8,16 @@ Playback::Playback(std::string filePath) {
 void Playback::Initialize() {
     RobotMap::drive_ml->SetVoltageRampRate(0);
     RobotMap::drive_mr->SetVoltageRampRate(0);
+    //TODO the docs suggest 24, check to make sure this doesn't break anything
+    RobotMap::drive_ml->SetVoltageCompensationRampRate(0);
+    RobotMap::drive_mr->SetVoltageCompensationRampRate(0);
+
     RobotMap::drive_ml->Set(0);
     RobotMap::drive_mr->Set(0);
 
-    RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-    RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+
+    RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
+    RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
 
     RobotMap::drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
@@ -73,16 +78,16 @@ bool Playback::IsFinished() {
 }
 
 void Playback::End() {
-    RobotMap::drive_fl->SetVoltageRampRate(22);
-    RobotMap::drive_fr->SetVoltageRampRate(22);
+    RobotMap::drive_fl->SetVoltageRampRate(0);
+    RobotMap::drive_fr->SetVoltageRampRate(0);
     RobotMap::drive_fl->Set(0);
     RobotMap::drive_fr->Set(0);
     std::cout << "Playback is over, you can rest easy (unless it didn't do what it was supposed to, then you gotta panick 'till the code is fixed) \n";
 }
 
 void Playback::Interrupted() {
-    RobotMap::drive_fl->SetVoltageRampRate(22);
-    RobotMap::drive_fr->SetVoltageRampRate(22);
+    RobotMap::drive_fl->SetVoltageRampRate(0);
+    RobotMap::drive_fr->SetVoltageRampRate(0);
     RobotMap::drive_fl->Set(0);
     RobotMap::drive_fr->Set(0);
     std::cout << "How the heck was Playback interrupted, it doesn't even require anything?! \n";

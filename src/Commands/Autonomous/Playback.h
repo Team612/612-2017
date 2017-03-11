@@ -28,10 +28,6 @@ private:
 
     frc::Timer timer;
 
-    double l; //left speed
-    double r; //right speed
-    double next_update; //update
-
     const double TIME_MULTIPLIER = 1;
 
 public:

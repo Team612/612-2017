@@ -68,7 +68,7 @@ void Robot::RobotInit() {
         SmartDashboard::PutString("Current Time", s.str());
     });
     tempcam = CameraServer::GetInstance();
-    tempcam->StartAutomaticCapture(); //check to see if this can be displayed on Even Smarter Dashboard
+    tempcam->StartAutomaticCapture();
 }
 
 void Robot::DisabledInit() {
@@ -112,7 +112,6 @@ void Robot::TeleopInit() {
         CheckSystem->Start();
     intakeCommand->Start();
     std::cout << "Robot.cpp: " << __LINE__ << std::endl;
-
 }
 
 void Robot::TeleopPeriodic() {
@@ -150,8 +149,6 @@ void Robot::TestPeriodic() {
         else
             frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) + 0.01);
     }
-
-
 
     Scheduler::GetInstance()->Run();
 }
