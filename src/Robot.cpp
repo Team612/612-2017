@@ -14,12 +14,12 @@
 class Robot: public frc::SampleRobot {
 	
 frc::XboxController controller { 0 };
-CANTalon fl { 3 };
-CANTalon ml { 2 };
-CANTalon rl { 1 };
-CANTalon fr { 6 };
-CANTalon mr { 5 };
-CANTalon rr { 4 };
+CANTalon fl { 1 };
+CANTalon ml { 3 };
+CANTalon rl { 2 };
+CANTalon fr { 4 };
+CANTalon mr { 6 };
+CANTalon rr { 5 };
 frc::Timer timer;
 double timeMulti = 1;
 double driveMulti = 1;
@@ -70,7 +70,7 @@ public:
 		fr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		mr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
 		rr.SetFeedbackDevice(CANTalon::FeedbackDevice::QuadEncoder);
-		frc::SmartDashboard::PutString("Chosen Autonomous Mode", "None");
+		frc::SmartDashboard::PutString("Chosen Autonomous Mode", "Simple");
 		frc::SmartDashboard::PutNumber("Time Multiplier", 4);
 		frc::SmartDashboard::PutNumber("Drive Multiplier", 0.25);
 		frc::SmartDashboard::PutNumber("Inverse", 1);
@@ -80,12 +80,12 @@ public:
 		timer.Reset();
 		timer.Start();
 		timeMulti = frc::SmartDashboard::GetNumber("Time Multiplier", 4);
-		fl.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		ml.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		rl.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		fr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		mr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-		rr.SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+		fl.SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
+		ml.SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
+		rl.SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
+		fr.SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
+		mr.SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
+		rr.SetTalonControlMode(CANTalon::TalonControlMode::kVoltageMode);
 		std::ifstream mp;
 		while(!mp.is_open() && GetOutputPath() != "") {
 			mp.open(GetOutputPath());
@@ -185,14 +185,14 @@ public:
 				ml.Set(right); fl.Set(right); rl.Set(right);
             	mr.Set(left); fr.Set(left); rr.Set(left);
 			}
-            std::cout << driveMulti << " Set raw left: " << left << "; Set raw right: " << right << std::endl;
+            std::cout << driveMulti << " Set raw left: " << fl.GetOutputVoltage() << "; Set raw right: " << fr.GetOutputVoltage() << std::endl;
 			if(controller.GetBButton()) {
 				mp.close();
 				if(GetOutputPath() != "")
 					mp.open(GetOutputPath(), std::ofstream::trunc);
 			}
 			if(controller.GetBumper(frc::GenericHID::kLeftHand) && mp.is_open()) {
-				mp << timer.Get() << ":" << fl.GetOutputVoltage()/fl.GetBusVoltage() << "," << fr.GetOutputVoltage()/fr.GetBusVoltage() << "\n";
+				mp << timer.Get() << ":" << fl.GetOutputVoltage() << "," << fr.GetOutputVoltage() << "\n";
 			}
 		}
 		mp.close();
