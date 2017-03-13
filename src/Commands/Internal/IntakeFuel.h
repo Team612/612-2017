@@ -14,5 +14,5 @@ public:
     void Interrupted() override;
 private:
     bool in;
-    float STALL_OUTPUT_THRESHOLD = 8.0;
+    float STALL_OUTPUT_THRESHOLD = 3.0;
 };
