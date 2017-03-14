@@ -29,9 +29,12 @@ public:
     static std::shared_ptr<PowerDistributionPanel> pdp;
     //static std::shared_ptr<Ultrasonic> ultrasonic;
     static std::shared_ptr<lib612::AnalogUltrasonic> new_ultrasonic;
-  
+
     static std::shared_ptr<Compressor> compressor;
     //static std::shared_ptr<RobotDrive> drive;
 
+    /*! \brief Initializes RobotMap, places things in live window
+        takes no arguments
+    */
     static void init();
 };
