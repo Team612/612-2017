@@ -11,9 +11,9 @@ Intake::Intake() : Subsystem("Intake") {
                                          frc::SmartDashboard::GetNumber("Intake ff", 0.08));
     RobotMap::intake_talon_right->SetSensorDirection(false);*/
     RobotMap::intake_talon_right->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-    RobotMap::intake_talon_right->SetVoltageRampRate(RAMP_RATE);
-    RobotMap::intake_talon_left->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
-    RobotMap::intake_talon_left->Set(RobotMap::intake_talon_right->GetDeviceID());
+    RobotMap::intake_talon_right->SetVoltageRampRate(RAMP_RATE); //TODO Set voltage ramp on the other one
+    RobotMap::intake_talon_left->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode); //TODO Oh god why, this should be follow mode
+    RobotMap::intake_talon_left->Set(RobotMap::intake_talon_right->GetDeviceID()); //TODO see above
 }
 
 void Intake::InitDefaultCommand() {
@@ -33,5 +33,5 @@ void Intake::ClearBalls() {
 
 void Intake::Stop() {
     RobotMap::intake_talon_right->SetSetpoint(0);
-    RobotMap::intake_talon_left->SetSetpoint(0);
+    RobotMap::intake_talon_left->SetSetpoint(0); //TODO why are we using SetSetpoint?
 }

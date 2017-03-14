@@ -54,3 +54,8 @@ CTRE/
 .idea/
 cmake-build-debug
 .idea/*
+
+#Doxygen
+Doxyfile
+html/*
+latex/*
