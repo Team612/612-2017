@@ -4,6 +4,11 @@
 #include "../RobotMap.h"
 #include "WPILib.h"
 
+/*! \brief Code for the climber on the robot
+
+    Code that controls the climber subsystem on the robot
+*/
+
 class Climber: public Subsystem {
 private:
 public:
@@ -28,8 +33,9 @@ public:
     */
     void Block();
     /*! \brief A Servo was initially used to grab the rope, we no longer do this
-    
-        Unused
+
+        Deprecated
+        @param position to move the servo to
     */
     void Grab(double position); //TODO get rid of this
 };

@@ -21,7 +21,7 @@ private:
     void ConfigureFilePath();
 public:
     static std::string filePath;
-    static frc::CameraServer* tempcam;
+    static frc::CameraServer* tempcam; /*! A pointer to a CameraServer object. */
 
     std::unique_ptr<Command> autonomousCommand;
     static std::unique_ptr<OI> oi;
