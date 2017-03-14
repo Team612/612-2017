@@ -11,27 +11,29 @@
 #include "Commands/Autonomous/Playback.h"
 #include "lib612/Networking/Networking.h"
 
+/*! \brief Initializes the robot and runs the robot's autonomous and teleoperative commands.
+*/
 
-std::shared_ptr<Shooter> Robot::shooter;
-std::shared_ptr<Drivetrain> Robot::drivetrain;
-std::shared_ptr<Intake> Robot::intake;
-std::shared_ptr<Climber> Robot::climber;
-std::shared_ptr<Shifter> Robot::shifter_subsys;
-std::shared_ptr<Vision> Robot::vision;
-std::shared_ptr<LEDs> Robot::leds;
-std::unique_ptr<OI> Robot::oi;
-std::unique_ptr<Command> Robot::CheckSystem;
-std::unique_ptr<Command> Robot::wiggle;
-std::unique_ptr<Command> Robot::intakeCommand;
-std::unique_ptr<Command> Robot::playback;
-std::unique_ptr<Command> Robot::testshooter;
-frc::CameraServer* Robot::tempcam;
+std::shared_ptr<Shooter> Robot::shooter; /*! A pointer to the robot's Shooter subsystem.*/
+std::shared_ptr<Drivetrain> Robot::drivetrain; /*! A pointer to the robot's Drivetrain subsystem.*/
+std::shared_ptr<Intake> Robot::intake; /*! A pointer to the robot's Intake subsystem.*/
+std::shared_ptr<Climber> Robot::climber; /*! A pointer to the robot's Climber subsystem.*/
+std::shared_ptr<Shifter> Robot::shifter_subsys; /*! A pointer to the robot's Shifter subsystem.*/
+std::shared_ptr<Vision> Robot::vision; /*! A pointer to the robot's Vision subsystem.*/
+std::shared_ptr<LEDs> Robot::leds; /*! A pointer to the robot's LEDs.*/
+std::unique_ptr<OI> Robot::oi; /*! A pointer to the robot's OI, used to convey controller input.*/
+std::unique_ptr<Command> Robot::CheckSystem; /*! A pointer to a SystemCheck command, used for testing.*/
+std::unique_ptr<Command> Robot::wiggle; /*! A pointer to a Wiggle command. (Currently unused)*/
+std::unique_ptr<Command> Robot::intakeCommand; /*! A pointer to an IntakeFuel command, used to control the Intake motors.*/
+std::unique_ptr<Command> Robot::playback; /*! A pointer to a Playback command, used for Autonomous routines. (Currently unused) */
+std::unique_ptr<Command> Robot::testshooter; /*! A pointer to a SetShooter command, which sets the shooter to 1000 for testing purposes. */
+frc::CameraServer* Robot::tempcam; /*! A pointer to a CameraServer object. */
 
-std::string Robot::filePath = "/home/lvuser/";
+std::string Robot::filePath = "/home/lvuser/"; /*! The default filepath for the robot to run from. */
 
 double Robot::initial_current;
 double Robot::init_climber_current;
-
+/*! Initializes all of the robot's pointers, sets up PDP, and puts the time on the dashboard. */
 void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
@@ -71,18 +73,22 @@ void Robot::RobotInit() {
     tempcam->StartAutomaticCapture();
 }
 
+/*! No function.*/
 void Robot::DisabledInit() {
 
 }
 
+/*! Runs the Scheduler. */
 void Robot::DisabledPeriodic() {
     Scheduler::GetInstance()->Run();
 }
 
+/*! Updates Networking.*/
 void Robot::RobotPeriodic() {
     lib612::Networking::UpdateAll();
 }
 
+/*! Runs the Autonomous command. */
 void Robot::AutonomousInit() {
     //get mp file
     ConfigureFilePath();
@@ -96,10 +102,11 @@ void Robot::AutonomousInit() {
     //AutoDrive->Start();
 
 }
-
+/*! Runs the Scheduler. */
 void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
 }
+/*! Ends the Autonomous command and prepares for teleop. */
 void Robot::TeleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -114,16 +121,22 @@ void Robot::TeleopInit() {
     std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
+/*! Runs the Scheduler. */
 void Robot::TeleopPeriodic() {
     //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     Scheduler::GetInstance()->Run();
     //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
-
+/*! Tests the shooter. */
 void Robot::TestInit() {
     testshooter->Start();
 }
-
+/*! Allows the gunner to tune the shooter's PID while test routines are running.
+While the left bumper is held, values will increase, else, values will decrease.
+The A button will manipulate the P value.
+The B button will manipulate the I value.
+The X button will manipulate the D value.
+The Y button will manipulate the F value. */
 void Robot::TestPeriodic() {
     if (oi->getgunner()->GetAButton()) {
         if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
@@ -152,7 +165,7 @@ void Robot::TestPeriodic() {
 
     Scheduler::GetInstance()->Run();
 }
-
+/*! Internal command which allows the AutonomousInit command to locate the user-chosen autonomous command. */
 void Robot::ConfigureFilePath() {
     filePath = "home/lvuser/";
     if(strcmp(frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None").c_str(), "Simple") == 0){
