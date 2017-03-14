@@ -30,9 +30,11 @@ private:
 	const double TARGET_ASPECT = 1.66/1.00; //Aspect ratio of game-target (it's 1'8" x 1')
 	const int SCREEN_CENTER_X = 320; //Center of the screen. This is the point to which we will rotate
 								     //using PID.
+    const int PIXEL_TOLERANCE = 15;
+    const int TICK_TOLERANCE = 5;
 
-	const double ROT_SPEED_CAP = 0.8;
-	const double ROT_SPEED_MIN = 0.3;
+	const double ROT_SPEED_CAP = 0.4;
+	const double ROT_SPEED_MIN = 0.0;
 
 	int lastTargetDir = -1;
 	int lastCenter = 0;
