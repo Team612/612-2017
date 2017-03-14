@@ -11,21 +11,21 @@ Shoot::Shoot(): Command() {
 // Called just before this Command runs the first time
 void Shoot::Initialize() {
     printf("Shoot init\n");
-    Robot::shooter->Spin(IDLE);
+    frc::SmartDashboard::PutNumber("Shooter Setpoint", 1000);
+    Robot::shooter->Spin(0);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
         if (Robot::oi->getgunner()->GetStartButton())
-            Robot::shooter->Spin(START_MULTIPLIER * OPTIMAL_RPM * -Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand));
+            Robot::shooter->Spin(frc::SmartDashboard::GetNumber("Shooter Setpoint", 1000) * 1.25);
         else
-            Robot::shooter->Spin(OPTIMAL_RPM * -Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand));
+            Robot::shooter->Spin(frc::SmartDashboard::GetNumber("Shooter Setpoint", 1000));
         //Robot::shooter->Agitate();
     } else {
-        Robot::shooter->Spin(IDLE);
+        Robot::shooter->Spin(0);
     }
-
 }
 
 // Make this return true when this Command no longer needs to run execute()

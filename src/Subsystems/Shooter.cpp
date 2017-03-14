@@ -6,7 +6,7 @@
 Shooter::Shooter() :
         Subsystem("Shooter") {
     //talon = RobotMap::talon_shoot;
-    RobotMap::shooter_l->SetPID(SmartDashboard::GetNumber("Test Shooter P", 0), SmartDashboard::GetNumber("Test Shooter I", 0), SmartDashboard::GetNumber("Test Shooter D", 0), SmartDashboard::GetNumber("Test Shooter F", 0.037));
+    RobotMap::shooter_l->SetPID(0, 0, 0, 0);
     //get values from connected cimcoder
     RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
     //allows SetSetpoint to apply to speed from cimcoder and not from
@@ -16,9 +16,14 @@ Shooter::Shooter() :
     RobotMap::shooter_l->SelectProfileSlot(0);
     RobotMap::shooter_r->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_right);
+    frc::SmartDashboard::PutNumber("Shooter I Zone", 0);
 
     lib612::Networking::AddFunction([](){
         frc::SmartDashboard::PutNumber("Shooter speed", RobotMap::shooter_l->GetSpeed());
+        frc::SmartDashboard::PutNumber("I Error", RobotMap::shooter_l->GetIaccum());
+        frc::SmartDashboard::PutNumber("I Zone", RobotMap::shooter_l->GetIzone());
+        frc::SmartDashboard::PutNumber("Error", RobotMap::shooter_l->GetClosedLoopError());
+        frc::SmartDashboard::PutNumber("Shooter voltage", RobotMap::shooter_l->GetOutputVoltage());
     });
 }
 
@@ -28,6 +33,7 @@ void Shooter::InitDefaultCommand() {
 
 void Shooter::Spin(float speed) {
     RobotMap::shooter_l->Set(speed);
+    RobotMap::shooter_l->SetIzone((unsigned)frc::SmartDashboard::GetNumber("Shooter I Zone", 0));
     RobotMap::shooter_r->Set(RobotMap::shooter_l->GetDeviceID());
     //RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_left);
 }

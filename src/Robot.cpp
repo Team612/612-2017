@@ -41,6 +41,7 @@ void Robot::RobotInit() {
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     shifter_subsys = std::make_shared<Shifter>();
+    vision = std::make_shared<Vision>();
     leds = std::make_shared<LEDs>();
     //Put this last
     oi = std::make_unique<OI>();
@@ -116,16 +117,20 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
     //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
+    if(oi->getdriver()->GetBackButton())
+        RobotMap::shooter_l->ClearIaccum();
+    vision->PullValues();
     Scheduler::GetInstance()->Run();
     //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TestInit() {
-    testshooter->Start();
+    //testshooter->Start();
 }
 
 void Robot::TestPeriodic() {
-    if (oi->getgunner()->GetAButton()) {
+    //A = P, B = I, X = D, Y = f
+    /*if (oi->getgunner()->GetAButton()) {
         if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
             frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) - 0.01);
         else
@@ -148,8 +153,7 @@ void Robot::TestPeriodic() {
             frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) - 0.01);
         else
             frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) + 0.01);
-    }
-
+    }*/
     Scheduler::GetInstance()->Run();
 }
 
