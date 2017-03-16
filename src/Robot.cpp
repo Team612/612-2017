@@ -136,6 +136,10 @@ void Robot::TestPeriodic() {
     if(oi->getdriver()->GetBumper(rc::GenericHID::kLeftHand) && file.is_open()) {
         file << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
     }
+    if(oi->getdriver()->GetBButton()) {
+        file.close();
+        file.open(filePath, std::ios::trunc)
+    }
     Scheduler::GetInstance()->Run();
 }
 
