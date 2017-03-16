@@ -1,8 +1,8 @@
 #include "Playback.h"
-#include <iostream>
 
-Playback::Playback(std::string filePath) {
+Playback::Playback(std::string filePath, bool reverse) {
     this->filePath = filePath;
+    this->reverse = reverse;
 }
 
 void Playback::Initialize() {
@@ -62,12 +62,17 @@ void Playback::Execute() {
     if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
         while(t < playback_vec.size() && playback_vec[t].time <= timer.Get())
             t++;
-        RobotMap::drive_ml->Set(playback_vec[t].l);
-        RobotMap::drive_mr->Set(playback_vec[t].r);
-    }else if(t == playback_vec.size() || timer.Get() > playback_vec.back().time){
+        if(!reverse) {
+            RobotMap::drive_ml->Set(playback_vec[t].l);
+            RobotMap::drive_mr->Set(playback_vec[t].r);
+        } else {
+            RobotMap::drive_ml->Set(playback_vec[t].r);
+            RobotMap::drive_mr->Set(playback_vec[t].l);
+        }
+    } else if (t == playback_vec.size() || timer.Get() > playback_vec.back().time) {
         std::cout << "Done playing back \n";
         isFinished = true;
-    }else{
+    } else {
         std::cout << "God help us, Playback does not work! \n";
         isFinished = true;
     }
