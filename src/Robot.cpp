@@ -125,34 +125,21 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TestInit() {
     //testshooter->Start();
+    ConfigureFilePath();
+    file.open(filePath, std::ios::out);
+    timer.Reset();
+    timer.Start();
 }
 
 void Robot::TestPeriodic() {
-    //A = P, B = I, X = D, Y = f
-    /*if (oi->getgunner()->GetAButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) + 0.01);
+    drivetrain->tankdrive(oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand));
+    if(oi->getdriver()->GetBumper(rc::GenericHID::kLeftHand) && file.is_open()) {
+        file << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
     }
-    if (oi->getgunner()->GetBButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter I", frc::SmartDashboard::GetNumber("Test Shooter I", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter I", frc::SmartDashboard::GetNumber("Test Shooter I", 0) + 0.01);
+    if(oi->getdriver()->GetBButton()) {
+        file.close();
+        file.open(filePath, std::ios::trunc)
     }
-    if (oi->getgunner()->GetXButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter D", frc::SmartDashboard::GetNumber("Test Shooter D", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter D", frc::SmartDashboard::GetNumber("Test Shooter D", 0) + 0.01);
-    }
-    if (oi->getgunner()->GetYButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) + 0.01);
-    }*/
     Scheduler::GetInstance()->Run();
 }
 
