@@ -4,6 +4,7 @@
 #include "Commands/Command.h"
 #include "RobotMap.h"
 #include "LiveWindow/LiveWindow.h"
+#include <fstream>
 
 #include "Subsystems/Climber.h"
 #include "Subsystems/Intake.h"
@@ -21,6 +22,8 @@ private:
     void ConfigureFilePath();
 public:
     static std::string filePath;
+    static std::fstream recordFile;
+    static frc::timer timer;
     static frc::CameraServer* tempcam;
 
     std::unique_ptr<Command> autonomousCommand;
