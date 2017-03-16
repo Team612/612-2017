@@ -23,7 +23,7 @@ private:
 public:
     static std::string filePath;
     static std::fstream recordFile;
-    static frc::timer timer;
+    static frc::Timer timer;
     static frc::CameraServer* tempcam;
 
     std::unique_ptr<Command> autonomousCommand;

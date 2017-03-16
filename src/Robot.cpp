@@ -23,6 +23,8 @@ std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
 frc::CameraServer* Robot::tempcam;
+std::fstream Robot::recordFile;
+frc::Timer Robot::timer;
 
 std::string Robot::filePath = "/home/lvuser/";
 
@@ -126,19 +128,21 @@ void Robot::TeleopPeriodic() {
 void Robot::TestInit() {
     //testshooter->Start();
     ConfigureFilePath();
-    file.open(filePath, std::ios::out);
+    recordFile.open(filePath, std::ios::out);
+    std::cout << "Opening: " << filePath << std::endl;
     timer.Reset();
     timer.Start();
 }
 
 void Robot::TestPeriodic() {
-    drivetrain->tankdrive(oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand));
-    if(oi->getdriver()->GetBumper(rc::GenericHID::kLeftHand) && file.is_open()) {
-        file << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
+    drivetrain->TankDrive(oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * 0.6, oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * 0.6);
+    if(oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand) && recordFile.is_open()) {
+        std::cout << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
+        recordFile << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
     }
     if(oi->getdriver()->GetBButton()) {
-        file.close();
-        file.open(filePath, std::ios::trunc)
+        recordFile.close();
+        recordFile.open(filePath, std::ios::trunc);
     }
     Scheduler::GetInstance()->Run();
 }
