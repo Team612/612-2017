@@ -34,7 +34,7 @@ void Vision::PullValues()
 		for (int i = 0; i < VisionTarget::PARAM_COUNT; i++)
 		{
 			if(!(coords.empty()))
-				vec.push_back((int) coords[(x * VisionTarget::PARAM_COUNT) + i]);
+				vec.push_back(static_cast<int>(coords[((int)x * VisionTarget::PARAM_COUNT) + i]));
 		}
 		//Only updates if it finds that the ID already exists
 		if (TargetExists(ids[x]))

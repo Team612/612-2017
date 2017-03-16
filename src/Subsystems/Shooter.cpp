@@ -24,6 +24,7 @@ Shooter::Shooter() :
         frc::SmartDashboard::PutNumber("I Zone", RobotMap::shooter_l->GetIzone());
         frc::SmartDashboard::PutNumber("Error", RobotMap::shooter_l->GetClosedLoopError());
         frc::SmartDashboard::PutNumber("Shooter voltage", RobotMap::shooter_l->GetOutputVoltage());
+        frc::SmartDashboard::PutNumber("Shooter current", RobotMap::shooter_l->GetOutputCurrent());
     });
 }
 

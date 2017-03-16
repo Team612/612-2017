@@ -72,7 +72,8 @@ void TalonTest::Initialize() {
 void TalonTest::Execute() {
     if(chosen != nullptr) {
         chosen->Set(speed);
-        std::cout << "Encoder test: " << chosen->GetAnalogIn() << std::endl;
+        if(OriginalControlMode == CANTalon::TalonControlMode::kSpeedMode)
+            std::cout << "Encoder test: " << chosen->GetAnalogIn() << std::endl;
     }
 }
 
