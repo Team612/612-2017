@@ -18,7 +18,7 @@ void HorizontalFind::Initialize() { }
 
 void HorizontalFind::Execute() {
 	Robot::vision->PullValues();
-    Robot::drivetrain->TankDrive(-(dir * 0.4), (dir * 0.4));
+    Robot::drivetrain->TankDrive((dir * 0.4), -(dir * 0.4));
 }
 
 bool HorizontalFind::IsFinished() {

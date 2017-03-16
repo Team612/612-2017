@@ -89,7 +89,7 @@ void HorizontalAlign::UsePIDOutput(double output) {
         output -= ROT_SPEED_MIN;
 
     if (!PIDUserDisabled && !IsFinished())
-        Robot::drivetrain->TankDrive(output, -output);
+        Robot::drivetrain->TankDrive(-output, output); //camera is upside down
     //printf("\noutput");
 
     SmartDashboard::PutNumber("AutoAlign Output", output);
