@@ -54,3 +54,11 @@ CTRE/
 .idea/
 cmake-build-debug
 .idea/*
+
+#eclipse (ughhh)
+.cproject
+.project
+.settings/
+build.properties
+build.xml
+spec.i
