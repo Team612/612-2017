@@ -70,6 +70,8 @@ void Robot::RobotInit() {
     });
     tempcam = CameraServer::GetInstance();
     tempcam->StartAutomaticCapture();
+    //default to Joe Mode
+    SmartDashboard::PutBoolean("Joe Mode", true);
 }
 
 void Robot::DisabledInit() {

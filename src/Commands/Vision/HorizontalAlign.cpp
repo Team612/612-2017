@@ -16,9 +16,10 @@ HorizontalAlign::HorizontalAlign(float timeout, bool continuous) :
 void HorizontalAlign::Initialize() {
     printf("Horizontal Align initialize\n");
     auto pid = GetPIDController();
-    pid->SetAbsoluteTolerance(PIXEL_TOLERANCE);
+    //pid->SetAbsoluteTolerance(PIXEL_TOLERANCE);
+    pid->SetTolerance(PERCENT_TOLERANCE);
     pid->SetSetpoint(SCREEN_CENTER_X); //Point we're trying to get to
-    pid->SetOutputRange(-0.3, 0.3);
+    pid->SetOutputRange(-(ROT_SPEED_CAP - ROT_SPEED_MIN), ROT_SPEED_CAP - ROT_SPEED_MIN);
     pid->Disable();
 }
 
@@ -82,10 +83,10 @@ void HorizontalAlign::UsePIDOutput(double output) {
 
     printf("%f", output);
 
-    /*if (output > 0)
+    if (output > 0)
         output += ROT_SPEED_MIN;
     else if (output < 0)
-        output -= ROT_SPEED_MIN;*/
+        output -= ROT_SPEED_MIN;
 
     if (!PIDUserDisabled && !IsFinished())
         Robot::drivetrain->TankDrive(output, -output);
@@ -97,7 +98,13 @@ void HorizontalAlign::UsePIDOutput(double output) {
 
 bool HorizontalAlign::IsFinished() {
     if(IsTimedOut()) {
-        std::cout << "Warning: Horizontal Align timed out" << std::endl;
+        std::cout << "Warning: Horizontal Align timed out without full alignment!" << std::endl;
+        return true;
+    }
+    if(std::abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand)) > 0.01 ||
+            std::abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand)) > 0.01 ||
+            Robot::oi->getgunner()->GetYButton()) {
+        std::cout  << "Warning: Auto Align interrupted by drive!" << std::endl;
         return true;
     }
     return !continuous && aligned;

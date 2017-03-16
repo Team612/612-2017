@@ -75,7 +75,7 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         frc::SmartDashboard::PutNumber("Total Robot Current (Sum of all Channels)", RobotMap::pdp->GetTotalCurrent());
         frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
         //frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
-        frc::SmartDashboard::PutNumber("New Ultrasonic Distance (inches) by regression combination", ur2->GetDistanceInches());
+        frc::SmartDashboard::PutNumber("New Ultrasonic Distance in inches by regression combination", ur2->GetDistanceInches());
     });
 }
 
