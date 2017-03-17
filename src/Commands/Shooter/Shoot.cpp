@@ -11,7 +11,7 @@ Shoot::Shoot(): Command() {
 // Called just before this Command runs the first time
 void Shoot::Initialize() {
     printf("Shoot init\n");
-    frc::SmartDashboard::PutNumber("Shooter Setpoint", 1000);
+    //frc::SmartDashboard::PutNumber("Shooter Setpoint", 1000);
     Robot::shooter->Spin(0);
 }
 

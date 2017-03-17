@@ -26,6 +26,7 @@ public:
     static std::ofstream recordFile;
     static frc::Timer timer;
     static frc::CameraServer* tempcam;
+    static double drive_limit;
 
     std::unique_ptr<Command> autonomousCommand;
     static std::unique_ptr<OI> oi;

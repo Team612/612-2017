@@ -1,18 +1,18 @@
 #include "SmoothController.h"
 namespace lib612 {
-    SmoothController::SmoothController(int port) : XboxController(port) {	}
+    SmoothController::SmoothController(int port) : XboxController(port) { }
 
     //x y trigger
     double SmoothController::GetSmoothX(frc::GenericHID::JoystickHand hand) {
-            return GetSmoothed(GetX(hand));
+        return GetSmoothed(GetX(hand));
     }
 
     double SmoothController::GetSmoothY(frc::GenericHID::JoystickHand hand) {
-            return GetSmoothed(GetY(hand));
+        return GetSmoothed(GetY(hand));
     }
 
     double SmoothController::GetSmoothTrigger(frc::GenericHID::JoystickHand hand) {
-            return GetSmoothed(GetTriggerAxis(hand));
+        return GetSmoothed(GetTriggerAxis(hand));
     }
     double SmoothController::GetSmoothed(double x) {
         if (x > 0)

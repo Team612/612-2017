@@ -31,6 +31,8 @@ std::string Robot::filePath = "/home/lvuser/";
 double Robot::initial_current;
 double Robot::init_climber_current;
 
+double Robot::drive_limit;
+
 void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
@@ -69,6 +71,9 @@ void Robot::RobotInit() {
     });
     tempcam = CameraServer::GetInstance();
     tempcam->StartAutomaticCapture();
+
+    drive_limit = 0.6;
+
     //default to Joe Mode
     SmartDashboard::PutBoolean("Joe Mode", true);
 }
@@ -135,12 +140,31 @@ void Robot::TestInit() {
 }
 
 void Robot::TestPeriodic() {
-    drivetrain->TankDrive(oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * 0.6, oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * 0.6);
+    /*
+     * How to record an autonomous mode
+     * 1. Switch robot to Test
+     * 2. Select desired autonomous mode on Even Smarter Dashboard
+     * 3. Enable the robot and press B
+     * 4. Disable the robot
+     * 5. Enable the robot and drive while holding down the left bumper button (the robot assumes its on the red side)
+     * 6 Disable the robot
+     * 7. Switch the robot to autonomous mode
+     * 8. Select the mode you recorded and indicate the alliance color
+     * 9. Enable
+     * 10. Cry
+     */
+
+    drivetrain->TankDrive(oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * drive_limit, oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * drive_limit);
+
     if(oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand) && recordFile.is_open()) {
+        //kill me pls
+        recordFile.close();
+        recordFile.open(filePath, std::ios::out | std::ios::app);
         std::cout << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
         recordFile << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
     }
     if(oi->getdriver()->GetBButton()) {
+        std::cout << "FUN STUFF!!!" << std::endl;
         recordFile.close();
         recordFile.open(filePath, std::ios::trunc);
     }
