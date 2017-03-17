@@ -164,9 +164,9 @@ void Robot::TestPeriodic() {
         recordFile << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
     }
     if(oi->getdriver()->GetBButton()) {
-        std::cout << "FUN STUFF!!!" << std::endl;
         recordFile.close();
         recordFile.open(filePath, std::ios::trunc);
+        std::cout << "File: " << filePath << " cleared!" << std::endl;
     }
     Scheduler::GetInstance()->Run();
 }
