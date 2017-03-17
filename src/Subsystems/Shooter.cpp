@@ -6,7 +6,8 @@
 Shooter::Shooter() :
         Subsystem("Shooter") {
     //talon = RobotMap::talon_shoot;
-    RobotMap::shooter_l->SetPID(0, 0, 0, 0);
+    RobotMap::shooter_l->SetPID(0.2, 0.001, 0.0, 0.025);
+    RobotMap::shooter_l->SetIzone(1000);
     //get values from connected cimcoder
     RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
     //allows SetSetpoint to apply to speed from cimcoder and not from

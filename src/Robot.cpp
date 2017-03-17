@@ -23,7 +23,7 @@ std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
 frc::CameraServer* Robot::tempcam;
-std::fstream Robot::recordFile;
+std::ofstream Robot::recordFile;
 frc::Timer Robot::timer;
 
 std::string Robot::filePath = "/home/lvuser/";
@@ -128,7 +128,7 @@ void Robot::TeleopPeriodic() {
 void Robot::TestInit() {
     //testshooter->Start();
     ConfigureFilePath();
-    recordFile.open(filePath, std::ios::out);
+    recordFile.open(filePath, std::ios::out | std::ios::app);
     std::cout << "Opening: " << filePath << std::endl;
     timer.Reset();
     timer.Start();

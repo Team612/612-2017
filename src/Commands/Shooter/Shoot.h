@@ -15,7 +15,7 @@ public:
     virtual void Interrupted();
 
 private:
-    const double OPTIMAL_RPM = -3600;
-    double IDLE = 1000;
-    const float START_MULTIPLIER = 1.25;
+    const float OPTIMAL_RPM = -3300.0f;
+    const float IDLE = 1000.0f;
+    const float START_MULTIPLIER = 1.25f;
 };

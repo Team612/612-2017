@@ -43,9 +43,13 @@ void Playback::Initialize() {
             time_str = line.substr(0, colon_pos);
             left = line.substr(colon_pos+1, comma_pos-colon_pos-1);
             right = line.substr(comma_pos+1);
+            std::cout << __LINE__ << ": Time string - " << time_str << std::endl;
             playback_frame_buf.time = std::stod(time_str) / TIME_MULTIPLIER;
+            std::cout << __LINE__ << ": Left - " << left << std::endl;
             playback_frame_buf.l = std::stod(left) * TIME_MULTIPLIER;
+            std::cout << __LINE__ << ": Right - " << right << std::endl;
             playback_frame_buf.r = std::stod(right) * TIME_MULTIPLIER;
+            std::cout << __LINE__ << std::endl;
             playback_vec.push_back(playback_frame_buf);
         }
     }else{
@@ -60,7 +64,7 @@ void Playback::Initialize() {
 void Playback::Execute() {
     //should only run once
     if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
-        while(t < playback_vec.size() && playback_vec[t].time <= timer.Get())
+        while(t < playback_vec.size() && playback_vec[t+1].time <= timer.Get())
             t++;
         if(!reverse) {
             RobotMap::drive_ml->Set(playback_vec[t].l);
@@ -87,7 +91,9 @@ void Playback::End() {
     RobotMap::drive_fr->SetVoltageRampRate(0);
     RobotMap::drive_fl->Set(0);
     RobotMap::drive_fr->Set(0);
-    std::cout << "Playback is over, you can rest easy (unless it didn't do what it was supposed to, then you gotta panick 'till the code is fixed) \n";
+    std::cout << "Playback is over, you can rest easy (unless it didn't do what it was supposed to, then you gotta panic 'till the code is fixed) \n";
+    RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 }
 
 void Playback::Interrupted() {
@@ -96,4 +102,6 @@ void Playback::Interrupted() {
     RobotMap::drive_fl->Set(0);
     RobotMap::drive_fr->Set(0);
     std::cout << "How the heck was Playback interrupted, it doesn't even require anything?! \n";
+    RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
 }
