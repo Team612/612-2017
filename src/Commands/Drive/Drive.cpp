@@ -17,12 +17,12 @@ void Drive::Execute() {
     //std::cout << "Drive.cpp: " << "Throttle: " << Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) << " Wheel: " << Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) << std::endl;
 
     if(!SmartDashboard::GetBoolean("Joe Mode", true)) {
-        Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) * 0.6,
-                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * 0.6,
+        Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand),
+                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),
                                      Robot::oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand));
     } else {
-        Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * -0.6,
-                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * -0.6);
+        Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),
+                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand));
     }
     //motor feed safety
     frc::Wait(0.005);

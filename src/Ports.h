@@ -34,21 +34,21 @@ namespace PORTS {
         const int module = 0;
         //Drivetrain
         const uint32_t drive_talonFL = 1;
-        const uint32_t drive_talonML = 3;
-        const uint32_t drive_talonRL = 2;
+        const uint32_t drive_talonML = 2; // 3
+        const uint32_t drive_talonRL = 11; // 2
         const uint32_t drive_talonFR = 4;
         const uint32_t drive_talonMR = 6;
         const uint32_t drive_talonRR = 5;
         //Shooter
         const uint32_t shooter_talon_left = 7;
         const uint32_t shooter_talon_right = 8;
-        const uint32_t agitator = 13; //filler
+        const uint32_t agitator = 73; // filler
         //Intake
         const uint32_t intake_talon_left = 9;
         const uint32_t intake_talon_right = 10;
         //Climber
-        const uint32_t climber_talon_left = 11;
-        const uint32_t climber_talon_right = 12;
+        const uint32_t climber_talon_left = 12; // 11
+        const uint32_t climber_talon_right = 72; // filler
 
         /*
             talons 1,2,3 are left drivetrain

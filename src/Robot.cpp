@@ -2,6 +2,7 @@
 #include "Robot.h"
 
 #include <Commands/Shooter/SetShooter.h>
+#include <Commands/Drive/Shift.h>
 
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Autonomous/Autonomous.h"
@@ -22,6 +23,7 @@ std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
+std::unique_ptr<Command> Robot::shiftCommand;
 frc::CameraServer* Robot::tempcam;
 
 std::string Robot::filePath = "/home/lvuser/";
@@ -72,7 +74,12 @@ void Robot::RobotInit() {
 }
 
 void Robot::DisabledInit() {
-
+	if(shiftCommand.get() != nullptr) {
+		shiftCommand->Cancel();
+		shiftCommand.release();
+	}
+	shiftCommand = std::make_unique<Shift>(Shift::SHIFT_DIR::DOWN);
+	shiftCommand->Start();
 }
 
 void Robot::DisabledPeriodic() {
@@ -84,10 +91,18 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::AutonomousInit() {
+	if(shiftCommand.get() != nullptr) {
+		shiftCommand->Cancel();
+		shiftCommand.release();
+	}
+	shiftCommand = std::make_unique<Shift>(Shift::SHIFT_DIR::DOWN);
+	shiftCommand->Start();
+
     //get mp file
     ConfigureFilePath();
     //make new auto command with the correct auto mode
     autonomousCommand = std::make_unique<Autonomous>();
+
     //prevent segfaults
     if (autonomousCommand.get() != nullptr)
         autonomousCommand->Start();
@@ -101,6 +116,13 @@ void Robot::AutonomousPeriodic() {
     Scheduler::GetInstance()->Run();
 }
 void Robot::TeleopInit() {
+	if(shiftCommand.get() != nullptr) {
+		shiftCommand->Cancel();
+		shiftCommand.release();
+	}
+	shiftCommand = std::make_unique<Shift>(Shift::SHIFT_DIR::DOWN);
+	shiftCommand->Start();
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

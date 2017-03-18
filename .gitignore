@@ -62,3 +62,4 @@ cmake-build-debug
 build.properties
 build.xml
 spec.i
+/Debug/

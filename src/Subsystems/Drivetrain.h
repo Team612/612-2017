@@ -19,7 +19,7 @@ class Drivetrain: public Subsystem {
     const double DEADBAND = 0.01;
     const double TURN_SENSITIVITY = 0.7;
     const double PI = 3.141592653;
-    const double RAMP_RATE = 0; //TODO This is disabled
+    const double RAMP_RATE = 0; // TODO This is disabled
     const uint32_t MAX_AMPS = 30;
 public:
     enum DRIVE_MODE {SIMPLE, COMPLICATED};
