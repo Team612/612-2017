@@ -3,14 +3,7 @@
 #include "../Commands/Shooter/Shoot.h"
 #include "lib612/Networking/Networking.h"
 
-Shooter::Shooter() :
-        Subsystem("Shooter") {
-    //talon = RobotMap::talon_shoot;
-    RobotMap::shooter_l->SetPID(0.2, 0.001, 0.0, 0.025);
-    frc::SmartDashboard::PutNumber("Shooter I Zone", 1000);
-    RobotMap::shooter_l->SetIzone((unsigned)frc::SmartDashboard::GetNumber("Shooter I Zone", 1000));
-    //get values from connected cimcoder
-
+Shooter::Shooter() : Subsystem("Shooter") {
     RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
     RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
     RobotMap::shooter_l->SetSensorDirection(false);
@@ -20,7 +13,6 @@ Shooter::Shooter() :
 
     RobotMap::shooter_l->SelectProfileSlot(0);
     RobotMap::shooter_l->SetPID(0.2, 0.001, 0.0, 0.025);
-
     RobotMap::shooter_l->SetIzone(2000);
 
     lib612::Networking::AddFunction([](){

@@ -13,7 +13,7 @@ void SimpleSideGear::Initialize() {
     time.Reset();
     time.Start();
     //start driving with the robot angled towards the side of the airship
-    Robot::drivetrain->TankDrive(base_speed, base_speed);
+    Robot::drivetrain->TankDrive(base_speed * .95, base_speed);
 }
 
 void SimpleSideGear::Execute() {
@@ -22,9 +22,9 @@ void SimpleSideGear::Execute() {
     if(Robot::drivetrain->GetURSide()->GetDistanceInches() < 15) {
         //slowly curve in the correct direction
         if(is_inverted)
-            Robot::drivetrain->TankDrive(base_speed / 2.0, base_speed / 4.0);
+            Robot::drivetrain->TankDrive(base_speed * 0.95 / 2.0, base_speed / 4.0);
         else
-            Robot::drivetrain->TankDrive(base_speed / 4.0, base_speed / 2.0);
+            Robot::drivetrain->TankDrive(base_speed * 0.95 / 4.0, base_speed / 2.0);
     } else
         Robot::drivetrain->TankDrive(base_speed, base_speed); //TODO, watch if jumpyness in Ultrasonic values causes robot to come off course
 }

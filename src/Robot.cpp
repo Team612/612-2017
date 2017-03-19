@@ -74,7 +74,7 @@ void Robot::RobotInit() {
     tempcam = CameraServer::GetInstance();
     tempcam->StartAutomaticCapture();
 
-    drive_limit = 0.6;
+    drive_limit = 1.0;
 
     //default to Joe Mode
     SmartDashboard::PutBoolean("Joe Mode", true);
