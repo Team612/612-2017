@@ -2,7 +2,7 @@
 
 #include "WPILib.h"
 #include "CANTalon.h"
-#include <Spark.h>
+#include <TalonSRX.h>
 #include "lib612/AnalogUltrasonic.h"
 
 class RobotMap {
@@ -17,7 +17,7 @@ public:
     static std::shared_ptr<CANTalon> drive_rr;
     static std::shared_ptr<CANTalon> climber_l;
     static std::shared_ptr<CANTalon> climber_r;
-    static std::shared_ptr<Spark> climber_spark;
+    static std::shared_ptr<TalonSRX> climber_srx;
     static std::shared_ptr<RobotDrive> drive;
 
     static std::shared_ptr<CANTalon> agitator;

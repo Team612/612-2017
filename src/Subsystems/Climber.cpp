@@ -19,11 +19,11 @@ void Climber::InitDefaultCommand() {
 //Functions left for extendability
 void Climber::Move(float speed) {
 //    RobotMap::climber_l->Set(speed);
-	RobotMap::climber_spark->Set(speed);
+	RobotMap::climber_srx->Set(speed);
 }
 
 void Climber::Block() {
-    RobotMap::climber_spark->Set(0);
+    RobotMap::climber_srx->Set(0);
 }
 
 void Climber::Grab(double position) {
