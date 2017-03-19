@@ -5,16 +5,22 @@
 #include "../Vision/AutoAlign.h"
 #include "../Shooter/SetShooter.h"
 #include "../Internal/SetIntake.h"
+#include "AutoDriveEnc.h"
+#include <Commands/WaitCommand.h>
 
 Autonomous::Autonomous() {
     auto chosen_mode = frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None");
     std::cout << "Chosen Autonomous mode: " << chosen_mode << std::endl;
     //IMPORTANT: the mode is chosen when the command is created
     //TODO !!Replace empty initializer lists with correct marks for each mode!!
+    AddSequential(new WaitCommand(1));
     if(chosen_mode == "Simple") {
-        AddSequential(new AutoDrive(auto_time, auto_speed));
+        AddSequential(new AutoDrive(3, auto_speed));
         //TODO REMOVE!!
         //AddSequential(new Playback("home/lvuser/simple"));
+    } else if(chosen_mode == "Enc") {
+    	// TODO: Replace with real distance
+    	AddSequential(new AutoDriveEnc(100, auto_speed));
     } else if(chosen_mode == "Simple Side Gear") {
         AddSequential(new SimpleSideGear(0.8, 10, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "1 Gear Auto") {

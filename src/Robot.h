@@ -44,6 +44,7 @@ public:
     static std::unique_ptr<Command> intakeCommand;
     static std::unique_ptr<Command> playback;
     static std::unique_ptr<Command> testshooter;
+    static std::unique_ptr<Command> shiftCommand;
     static double initial_current;
     static double init_climber_current;
     virtual void RobotInit() override;

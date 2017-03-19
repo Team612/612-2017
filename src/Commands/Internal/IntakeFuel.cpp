@@ -19,15 +19,15 @@ void IntakeFuel::Execute() {
         Robot::intake->Stop();
     }
 
-    if (RobotMap::intake_talon_left->GetOutputCurrent() > STALL_OUTPUT_THRESHOLD ||
-       (RobotMap::intake_talon_left->GetSetpoint() != 0 && RobotMap::intake_talon_left->GetOutputCurrent() < 0.1))
-       Robot::oi->getgunner()->SetRumble(GenericHID::kLeftRumble, 1.0);
-    else Robot::oi->getgunner()->SetRumble(GenericHID::kLeftRumble, 0.0);
-
-    if (RobotMap::intake_talon_right->GetOutputCurrent() > STALL_OUTPUT_THRESHOLD ||
-       (RobotMap::intake_talon_right->GetSetpoint() != 0 && RobotMap::intake_talon_right->GetOutputCurrent() < 0.1))
-       Robot::oi->getgunner()->SetRumble(GenericHID::kRightRumble, 1.0);
-    else Robot::oi->getgunner()->SetRumble(GenericHID::kRightRumble, 0.0);
+//    if (RobotMap::intake_talon_left->GetOutputCurrent() > STALL_OUTPUT_THRESHOLD ||
+//       (RobotMap::intake_talon_left->GetSetpoint() != 0 && RobotMap::intake_talon_left->GetOutputCurrent() < 0.1))
+//       Robot::oi->getgunner()->SetRumble(GenericHID::kLeftRumble, 1.0);
+//    else Robot::oi->getgunner()->SetRumble(GenericHID::kLeftRumble, 0.0);
+//
+//    if (RobotMap::intake_talon_right->GetOutputCurrent() > STALL_OUTPUT_THRESHOLD ||
+//       (RobotMap::intake_talon_right->GetSetpoint() != 0 && RobotMap::intake_talon_right->GetOutputCurrent() < 0.1))
+//       Robot::oi->getgunner()->SetRumble(GenericHID::kRightRumble, 1.0);
+//    else Robot::oi->getgunner()->SetRumble(GenericHID::kRightRumble, 0.0);
 
 }
 

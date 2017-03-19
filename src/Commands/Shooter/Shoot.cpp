@@ -17,13 +17,14 @@ void Shoot::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
+	printf("Shoot Execute");
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
         if (Robot::oi->getgunner()->GetStartButton())
             Robot::shooter->Spin(OPTIMAL_RPM * START_MULTIPLIER);
         else
             Robot::shooter->Spin(OPTIMAL_RPM);
     } else {
-        Robot::shooter->Spin(IDLE);
+        Robot::shooter->Spin(0);
     }
 }
 
@@ -35,18 +36,12 @@ bool Shoot::IsFinished() {
 // Called once after isFinished returns true
 void Shoot::End() {
     printf("Info: Shoot ended\n");
-    RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     Robot::shooter->Spin(0.0f);
-    RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void Shoot::Interrupted() {
     printf("Warning: Shoot Interrupted!\n");
-    RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     Robot::shooter->Spin(0.0f);
-    RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
-    RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
 }
