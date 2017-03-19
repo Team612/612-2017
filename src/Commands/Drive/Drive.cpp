@@ -18,8 +18,8 @@ void Drive::Execute() {
                                      Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * -Robot::drive_limit,
                                      Robot::oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand));
     } else {
-        Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * -Robot::drive_limit,
-                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * -Robot::drive_limit);
+        Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * Robot::drive_limit,
+                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * Robot::drive_limit);
     }
     //motor feed safety
     frc::Wait(0.005);
