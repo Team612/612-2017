@@ -30,8 +30,10 @@ private:
 
     const double TIME_MULTIPLIER = 1;
 
+    bool reverse;
+
 public:
-    Playback(std::string filePath);
+    Playback(std::string filePath, bool reverse = false);
     void Initialize() override;
     void Execute() override;
     bool IsFinished() override;

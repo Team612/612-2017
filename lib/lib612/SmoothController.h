@@ -12,7 +12,7 @@ namespace lib612 {
     double GetSmoothTrigger(frc::GenericHID::JoystickHand hand);
 
   private:
-    //specialized curve that makes full power 100%, half power around 20%
+      //specialized curve that makes full power 100%, half power around 20%
       const double A = 0.0;
       const double B = 2.675187;
       const double C = 159.0;
