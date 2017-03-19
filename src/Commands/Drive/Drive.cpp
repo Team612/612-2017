@@ -13,16 +13,13 @@ void Drive::Initialize() {
 }
 
 void Drive::Execute() {
-    //exists to facilitate smoothing function testing
-    //std::cout << "Drive.cpp: " << "Throttle: " << Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) << " Wheel: " << Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) << std::endl;
-
     if(!SmartDashboard::GetBoolean("Joe Mode", true)) {
-        Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand),
-                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),
+        Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) * Robot::drive_limit,
+                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * -Robot::drive_limit,
                                      Robot::oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand));
     } else {
-        Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand),
-                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand));
+        Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * -Robot::drive_limit,
+                                     Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * -Robot::drive_limit);
     }
     //motor feed safety
     frc::Wait(0.005);
@@ -38,6 +35,6 @@ void Drive::End() {
 }
 
 void Drive::Interrupted() {
-    printf("ERROR: Drive interrupted!\n");
+    printf("Warning: Drive interrupted!\n");
     Robot::drivetrain->TankDrive(0, 0);
 }

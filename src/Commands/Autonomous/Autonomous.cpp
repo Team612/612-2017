@@ -1,6 +1,7 @@
 #include "Autonomous.h"
 #include "AutoDrive.h"
 #include "Playback.h"
+#include "SimpleSideGear.h"
 #include "../Vision/AutoAlign.h"
 #include "../Shooter/SetShooter.h"
 #include "../Internal/SetIntake.h"
@@ -20,26 +21,28 @@ Autonomous::Autonomous() {
     } else if(chosen_mode == "Enc") {
     	// TODO: Replace with real distance
     	AddSequential(new AutoDriveEnc(100, auto_speed));
+    } else if(chosen_mode == "Simple Side Gear") {
+        AddSequential(new SimpleSideGear(0.8, 10, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "1 Gear Auto") {
         //drive up to the peg, place gear
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "10 Ball Auto") {
         //drive up to hopper
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
         //Align to target
         AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
         //Shoot for 5 seconds
         AddParallel(new SetShooter(5));
         AddParallel(new SetIntake(5));
         //cross line
-        AddSequential(new Playback(Robot::filePath)); //TODO this requires a second motion profile
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true))); //TODO this requires a second motion profile
     } else if(chosen_mode == "Full Gear Auto") {
         //drive up to peg, place gear, wait 2 seconds, drive to loading station
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "The Polymath") {
         //NOTE: Same as 10 ball auto
         //drive up to hopper
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
         //Align to target
         AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
         //Shoot for 5 seconds
@@ -47,13 +50,13 @@ Autonomous::Autonomous() {
         AddParallel(new SetIntake(5));
         //NOTE: Same as full gear auto
         //drive up to peg, place gear, wait 2 seconds, drive 2 loading station
-        AddSequential(new Playback(Robot::filePath)); //TODO this requires a second motion profile
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true))); //TODO this requires a second motion profile
     } else if(chosen_mode == "Operation: Hopper Hack") {
         //hack every hopper on the field
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "60 Ball Madlad Autonomous") {
         //Drive to hopper and activate it, wait for balls, drive back to goal
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
         //Shoot for the rest of the time
         AddParallel(new SetShooter(30.0));
         AddParallel(new SetIntake(30));
@@ -64,7 +67,7 @@ Autonomous::Autonomous() {
          * wait for balls
          * Drive back to goal
          */
-        AddSequential(new Playback(Robot::filePath));
+        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
         AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
         //Shoot for the rest of the time
         AddParallel(new SetShooter(30.0));

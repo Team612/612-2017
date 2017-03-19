@@ -25,11 +25,15 @@ std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
 std::unique_ptr<Command> Robot::shiftCommand;
 frc::CameraServer* Robot::tempcam;
+std::ofstream Robot::recordFile;
+frc::Timer Robot::timer;
 
 std::string Robot::filePath = "/home/lvuser/";
 
 double Robot::initial_current;
 double Robot::init_climber_current;
+
+double Robot::drive_limit;
 
 void Robot::RobotInit() {
     RobotMap::init();
@@ -69,6 +73,9 @@ void Robot::RobotInit() {
     });
     tempcam = CameraServer::GetInstance();
     tempcam->StartAutomaticCapture();
+
+    drive_limit = 0.6;
+
     //default to Joe Mode
     SmartDashboard::PutBoolean("Joe Mode", true);
 }
@@ -147,34 +154,42 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TestInit() {
     //testshooter->Start();
+    ConfigureFilePath();
+    recordFile.open(filePath, std::ios::out | std::ios::app);
+    std::cout << "Opening: " << filePath << std::endl;
+    timer.Reset();
+    timer.Start();
 }
 
 void Robot::TestPeriodic() {
-    //A = P, B = I, X = D, Y = f
-    /*if (oi->getgunner()->GetAButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter P", frc::SmartDashboard::GetNumber("Test Shooter P", 0) + 0.01);
+    /*
+     * How to record an autonomous mode
+     * 1. Switch robot to Test
+     * 2. Select desired autonomous mode on Even Smarter Dashboard
+     * 3. Enable the robot and press B
+     * 4. Disable the robot
+     * 5. Enable the robot and drive while holding down the left bumper button (the robot assumes its on the red side)
+     * 6 Disable the robot
+     * 7. Switch the robot to autonomous mode
+     * 8. Select the mode you recorded and indicate the alliance color
+     * 9. Enable
+     * 10. Cry
+     */
+
+    drivetrain->TankDrive(oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * drive_limit, oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * drive_limit);
+
+    if(oi->getdriver()->GetBumper(frc::GenericHID::kLeftHand) && recordFile.is_open()) {
+        //kill me pls
+        recordFile.close();
+        recordFile.open(filePath, std::ios::out | std::ios::app);
+        std::cout << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
+        recordFile << timer.Get() << ":" << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << "\n";
     }
-    if (oi->getgunner()->GetBButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter I", frc::SmartDashboard::GetNumber("Test Shooter I", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter I", frc::SmartDashboard::GetNumber("Test Shooter I", 0) + 0.01);
+    if(oi->getdriver()->GetBButton()) {
+        recordFile.close();
+        recordFile.open(filePath, std::ios::trunc);
+        std::cout << "File: " << filePath << " cleared!" << std::endl;
     }
-    if (oi->getgunner()->GetXButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter D", frc::SmartDashboard::GetNumber("Test Shooter D", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter D", frc::SmartDashboard::GetNumber("Test Shooter D", 0) + 0.01);
-    }
-    if (oi->getgunner()->GetYButton()) {
-        if(oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
-            frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) - 0.01);
-        else
-            frc::SmartDashboard::PutNumber("Test Shooter F", frc::SmartDashboard::GetNumber("Test Shooter F", 0) + 0.01);
-    }*/
     Scheduler::GetInstance()->Run();
 }
 

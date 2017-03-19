@@ -11,7 +11,7 @@ Shoot::Shoot(): Command() {
 // Called just before this Command runs the first time
 void Shoot::Initialize() {
     printf("Shoot init\n");
-    frc::SmartDashboard::PutNumber("Shooter Setpoint", 1000);
+    //frc::SmartDashboard::PutNumber("Shooter Setpoint", 1000);
     Robot::shooter->Spin(0);
 }
 
@@ -20,10 +20,9 @@ void Shoot::Execute() {
 	printf("Shoot Execute");
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
         if (Robot::oi->getgunner()->GetStartButton())
-            Robot::shooter->Spin(OPTIMAL_RPM * 1.25);
+            Robot::shooter->Spin(OPTIMAL_RPM * START_MULTIPLIER);
         else
             Robot::shooter->Spin(OPTIMAL_RPM);
-        //Robot::shooter->Agitate();
     } else {
         Robot::shooter->Spin(0);
     }
