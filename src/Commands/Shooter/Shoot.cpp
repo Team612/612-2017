@@ -20,9 +20,9 @@ void Shoot::Execute() {
 	printf("Shoot Execute");
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
         if (Robot::oi->getgunner()->GetStartButton())
-            Robot::shooter->Spin(frc::SmartDashboard::GetNumber("Shooter Setpoint", 1000) * 1.25);
+            Robot::shooter->Spin(OPTIMAL_RPM * 1.25);
         else
-            Robot::shooter->Spin(frc::SmartDashboard::GetNumber("Shooter Setpoint", 1000));
+            Robot::shooter->Spin(OPTIMAL_RPM);
         //Robot::shooter->Agitate();
     } else {
         Robot::shooter->Spin(0);

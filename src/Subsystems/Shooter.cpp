@@ -5,18 +5,18 @@
 
 Shooter::Shooter() :
         Subsystem("Shooter") {
-    //talon = RobotMap::talon_shoot;
-    RobotMap::shooter_l->SetPID(0.2, 0.001, 0.0, 0.025);
-    //get values from connected cimcoder
+
     RobotMap::shooter_l->SetFeedbackDevice(CANTalon::FeedbackDevice::CtreMagEncoder_Relative);
-    //allows SetSetpoint to apply to speed from cimcoder and not from
     RobotMap::shooter_l->SetTalonControlMode(CANTalon::TalonControlMode::kSpeedMode);
     RobotMap::shooter_l->SetSensorDirection(false);
+
     RobotMap::shooter_l->ConfigNominalOutputVoltage(+0.0f, -0.0f);
+    RobotMap::shooter_l->ConfigPeakOutputVoltage(0, -12.0);
+
     RobotMap::shooter_l->SelectProfileSlot(0);
-    RobotMap::shooter_r->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    RobotMap::shooter_r->Set(PORTS::CAN::shooter_talon_right);
-    RobotMap::shooter_l->SetIzone(275);
+    RobotMap::shooter_l->SetPID(0.2, 0.001, 0.0, 0.025);
+
+    RobotMap::shooter_l->SetIzone(2000);
 
     lib612::Networking::AddFunction([](){
         frc::SmartDashboard::PutNumber("Shooter speed", RobotMap::shooter_l->GetSpeed());
