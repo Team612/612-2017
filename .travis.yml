@@ -7,7 +7,7 @@ compiler:
   - gcc
 # Change this to your needs
 install: make update
-script: make competition
+script: travis_wait make competition
 deploy:
   provider: releases
   file: ./.build/FRCUserProgram #should auto install all dependencies.
