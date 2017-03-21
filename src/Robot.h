@@ -1,12 +1,12 @@
 #pragma once
 
-#include "WPILib.h"
 #include "Commands/Command.h"
-#include "RobotMap.h"
 #include "LiveWindow/LiveWindow.h"
+#include "Timer.h"
+#include "OI.h"
 #include <fstream>
-#include <ostream>
 
+#include "RobotMap.h"
 #include "Subsystems/Climber.h"
 #include "Subsystems/Intake.h"
 #include "Subsystems/Drivetrain.h"
@@ -15,22 +15,22 @@
 #include "Subsystems/Vision.h"
 #include "Subsystems/LEDs.h"
 #include "Subsystems/Shifter.h"
-#include "Timer.h"
-#include "OI.h"
 
 class Robot : public IterativeRobot {
 private:
     void ConfigureFilePath();
 public:
+    //global robot objects
     static std::string filePath;
     static std::ofstream recordFile;
     static frc::Timer timer;
     static frc::CameraServer* tempcam;
     static double drive_limit;
 
+    //commands and subsystems
     std::unique_ptr<Command> autonomousCommand;
     static std::unique_ptr<OI> oi;
-    LiveWindow *lw = LiveWindow::GetInstance();
+    LiveWindow* lw = LiveWindow::GetInstance();
     static std::shared_ptr<Shooter> shooter;
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Intake> intake;
@@ -47,6 +47,8 @@ public:
     static std::unique_ptr<Command> shiftCommand;
     static double initial_current;
     static double init_climber_current;
+
+    //Iterative Robot overrides
     virtual void RobotInit() override;
     virtual void RobotPeriodic() override;
     virtual void DisabledInit() override;

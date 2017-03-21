@@ -1,7 +1,7 @@
 #pragma once
 
 #include "WPILib.h"
-#include "../lib/lib612/SmoothController.h"
+#include "lib612/SmoothController.h"
 
 class OI {
 private:

@@ -4,7 +4,6 @@
 #include "WPILib.h"
 #include "../VisionTarget.h"
 #include <vector>
-#include "DigitalOutput.h"
 
 class Vision: public Subsystem
 {

@@ -2,7 +2,6 @@
 
 #include "WPILib.h"
 #include "CANTalon.h"
-#include <TalonSRX.h>
 #include "lib612/AnalogUltrasonic.h"
 
 class RobotMap {

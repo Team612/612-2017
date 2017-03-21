@@ -29,7 +29,7 @@ OI::OI() {
     //grab_button->WhenPressed(new Grab()); //Not on robot
     align_left = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
     align_left->WhenPressed(new AutoAlign(HorizontalFind::RIGHT));
-    align_right = std::make_unique<JoystickButton>(gunner.get(), 3);
+    align_right = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
     align_right->WhenPressed(new AutoAlign(HorizontalFind::LEFT));
 
     driver.reset(new lib612::SmoothController(PORTS::OI::driver_joyport));

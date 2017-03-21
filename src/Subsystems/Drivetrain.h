@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Commands/Subsystem.h"
-#include "WPILib.h"
 #include "CANTalon.h"
 #include "lib612/DriveProfile.h"
 #include "lib612/AnalogUltrasonic.h"

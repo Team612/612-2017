@@ -1,13 +1,10 @@
-#include <lib612/DriveProfile.h>
 #include "Robot.h"
 
-#include <Commands/Shooter/SetShooter.h>
-#include <Commands/Drive/Shift.h>
-
+#include "Commands/Shooter/SetShooter.h"
+#include "Commands/Drive/Shift.h"
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Internal/IntakeFuel.h"
-#include "Commands/Autonomous/Playback.h"
 #include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
@@ -40,7 +37,7 @@ void Robot::RobotInit() {
     //using pointers the way C++ intended
     //subsystems
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
+    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0)); //TODO actually use
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     shifter_subsys = std::make_shared<Shifter>();
@@ -48,7 +45,6 @@ void Robot::RobotInit() {
     leds = std::make_shared<LEDs>();
     //Put this last
     oi = std::make_unique<OI>();
-    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     //autonomousCommand = std::make_unique<Autonomous>();
@@ -75,7 +71,6 @@ void Robot::RobotInit() {
     tempcam->StartAutomaticCapture();
 
     drive_limit = 1.0;
-
     //default to Joe Mode
     SmartDashboard::PutBoolean("Joe Mode", true);
 }
@@ -116,7 +111,6 @@ void Robot::AutonomousInit() {
     else
         std::cout << "ERROR: Autonomous Command NULL!" << std::endl;
     //AutoDrive->Start();
-
 }
 
 void Robot::AutonomousPeriodic() {
@@ -221,6 +215,7 @@ START_ROBOT_CLASS(Robot)
 
 /*
  * Controls:
- * Gunner - X: full climb, Y: partial climb, Left bumper: grab, Right Bumper: Auto Align, Left Stick Y: Shoot, B: intake, A: slow outtake
- * Driver - Tank Drive
+ * Gunner - X: Auto align left, B: Auto align right, Y: Cancel Auto align, Right Trigger: Intake, Left Bumper + Right trigger: Reverse intake,
+ * Left stick: shoot (at boiler), Left stick + Start: Shoot (away from boiler), Right stick: climb
+ * Driver - Joe Mode: Tank Drive, Ben Mode: Halo Drive, A: shift up, B: shift down, X: Toggle LEDs, Y: Change LED color
  */
