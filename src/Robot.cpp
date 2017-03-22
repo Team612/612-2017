@@ -20,7 +20,7 @@ class Robot : public IterativeRobot {
     CANTalon fr { PORTS::drive_talonFR };
     CANTalon mr { PORTS::drive_talonMR };
     CANTalon rr { PORTS::drive_talonRR };
-    lib612::SmoothController controller  { 0 };
+    lib612::SmoothController controller { 0 };
 public:
     Robot() { }
 
@@ -56,11 +56,11 @@ public:
 
     void TeleopPeriodic() override {
         if(frc::SmartDashboard::GetBoolean("Speed Mode", false)) {
-            ml.SetSetpoint(controller.GetY(frc::GenericHID::kLeftHand) * MAX_RPM);
-            mr.SetSetpoint(controller.GetY(frc::GenericHID::kLeftHand) * MAX_RPM);
+            ml.SetSetpoint(controller.GetSmoothY(frc::GenericHID::kLeftHand) * MAX_RPM);
+            mr.SetSetpoint(controller.GetSmoothY(frc::GenericHID::kLeftHand) * MAX_RPM);
         } else {
-            ml.Set(controller.GetY(frc::GenericHID::kLeftHand));
-            mr.Set(controller.GetY(frc::GenericHID::kLeftHand));
+            ml.Set(controller.GetSmoothY(frc::GenericHID::kLeftHand));
+            mr.Set(controller.GetSmoothY(frc::GenericHID::kLeftHand));
         }
         fl.Set(ml.GetDeviceID());
         rl.Set(ml.GetDeviceID());
