@@ -66,6 +66,9 @@ public:
         rl.Set(ml.GetDeviceID());
         fr.Set(mr.GetDeviceID());
         rr.Set(mr.GetDeviceID());
+
+        frc::SmartDashboard::PutNumber("Left Side Speed", ml.GetSpeed());
+        frc::SmartDashboard::PutNumber("Right Side Speed", mr.GetSpeed());
     };
 };
 
