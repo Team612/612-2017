@@ -134,7 +134,6 @@ void Robot::TeleopInit() {
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
     intakeCommand->Start();
-    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TeleopPeriodic() {

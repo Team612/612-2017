@@ -25,7 +25,8 @@ void SimpleSideGear::Execute() {
             Robot::drivetrain->TankDrive(base_speed * 0.95 / 2.0, base_speed / 4.0);
         else
             Robot::drivetrain->TankDrive(base_speed * 0.95 / 4.0, base_speed / 2.0);
-    } else
+    } 
+else
         Robot::drivetrain->TankDrive(base_speed, base_speed); //TODO, watch if jumpyness in Ultrasonic values causes robot to come off course
 }
 
