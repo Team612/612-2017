@@ -1,0 +1,18 @@
+#Build with travis.yml
+
+sudo: required
+dist: trusty
+language: cpp
+compiler:
+  - gcc
+# Change this to your needs
+install: make update
+script: travis_wait make competition
+deploy:
+  provider: releases
+  file: ./.build/FRCUserProgram #should auto install all dependencies.
+  skip_cleanup: true
+  on:
+    repo: Team612/612-2017
+    tags: true
+    all_branches: true
