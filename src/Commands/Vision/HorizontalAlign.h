@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef AlignToTarget_H
 #define AlignToTarget_H
 
