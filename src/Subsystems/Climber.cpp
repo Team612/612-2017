@@ -4,7 +4,7 @@
 
 Climber::Climber() : Subsystem("Climber") {
     lib612::Networking::AddFunction([](){
-       frc::SmartDashboard::PutNumber("Climber current", RobotMap::climber_srx->GetOutputCurrent());
+       //frc::SmartDashboard::PutNumber("Climber current", RobotMap::climber_srx->GetOutputCurrent());
     });
 }
 
@@ -20,4 +20,3 @@ void Climber::Move(float speed) {
 void Climber::Block() {
     RobotMap::climber_srx->Set(0);
 }
-

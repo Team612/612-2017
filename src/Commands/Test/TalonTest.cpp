@@ -43,13 +43,13 @@ void TalonTest::Initialize() {
         chosen = RobotMap::drive_rr;
         std::cout << "Testing Rear Right Talon" << std::endl;
         break;
-    case TalonENUM::CLIMBER_L:
+  /*  case TalonENUM::CLIMBER_L:
         chosen = RobotMap::climber_l;
         std::cout << "Testing Climber Talon (Left)" << std::endl;
-        break;
-    case TalonENUM::CLIMBER_R:
-        chosen = RobotMap::climber_r;
-        std::cout << "Testing Climber Talon (Right)" << std::endl;
+        break;*/
+    case TalonENUM::CLIMBER:
+        chosenSRX = RobotMap::climber_srx;
+        std::cout << "Testing Climber Talon" << std::endl;
         break;
     case TalonENUM::INTAKE_L:
         chosen = RobotMap::intake_talon_left;
@@ -74,6 +74,10 @@ void TalonTest::Execute() {
         chosen->Set(speed);
         if(OriginalControlMode == CANTalon::TalonControlMode::kSpeedMode)
             std::cout << "Encoder test: " << chosen->GetAnalogIn() << std::endl;
+    }
+    if(chosenSRX != nullptr) {
+        chosenSRX->Set(speed);
+            std::cout << "Encoder test: " << chosenSRX->Get()<< std::endl;
     }
 }
 
