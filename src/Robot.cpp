@@ -16,7 +16,6 @@ std::shared_ptr<Vision> Robot::vision;
 std::shared_ptr<LEDs> Robot::leds;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
-std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
@@ -48,7 +47,6 @@ void Robot::RobotInit() {
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     //autonomousCommand = std::make_unique<Autonomous>();
-    //wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     intakeCommand = std::make_unique<IntakeFuel>();
     //playback = std::make_unique<Playback>(filePath.c_str());
     testshooter = std::make_unique<SetShooter>(1000);
@@ -134,7 +132,6 @@ void Robot::TeleopInit() {
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
     intakeCommand->Start();
-    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TeleopPeriodic() {

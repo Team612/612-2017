@@ -7,7 +7,6 @@
 #include "Commands/Drive/DriveDistance.h"
 #include "Commands/Drive/Shift.h"
 #include "Commands/Shooter/Shoot.h"
-#include "Commands/Climber/Grab.h"
 #include "Commands/Internal/IntakeFuel.h"
 #include "Commands/Vision/AutoAlign.h"
 #include "Commands/Internal/ChangeLED.h"
