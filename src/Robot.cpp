@@ -75,6 +75,13 @@ public:
         rl.Set(ml.GetDeviceID());
         fr.Set(mr.GetDeviceID());
         rr.Set(mr.GetDeviceID());
+
+        //Put speed on ESB to be graphed
+        frc::SmartDashboard::PutNumber("Left Side Speed", ml.GetSpeed());
+        frc::SmartDashboard::PutNumber("Right Side Speed", mr.GetSpeed());
+        //Put error on ESB to be graphed
+        frc::SmartDashboard::PutNumber("Left error", ml.GetClosedLoopError());
+        frc::SmartDashboard::PutNumber("Right error", mr.GetClosedLoopError());
     }
 };
 
