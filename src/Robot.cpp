@@ -21,6 +21,7 @@ class Robot : public IterativeRobot {
     CANTalon mr { PORTS::drive_talonMR };
     CANTalon rr { PORTS::drive_talonRR };
     lib612::SmoothController controller { 0 };
+    const uint32_t MAX_AMPS = 30;
 public:
     Robot() { }
 
@@ -42,6 +43,14 @@ public:
         //right follow
         fr.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
         rr.SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+
+        //Test using the max amps set on the real code
+        fl.SetCurrentLimit(MAX_AMPS);
+        ml.SetCurrentLimit(MAX_AMPS);
+        rl.SetCurrentLimit(MAX_AMPS);
+        fr.SetCurrentLimit(MAX_AMPS);
+        mr.SetCurrentLimit(MAX_AMPS);
+        rr.SetCurrentLimit(MAX_AMPS);
     }
 
     void TeleopInit() override {
@@ -66,7 +75,7 @@ public:
         rl.Set(ml.GetDeviceID());
         fr.Set(mr.GetDeviceID());
         rr.Set(mr.GetDeviceID());
-    };
+    }
 };
 
 START_ROBOT_CLASS(Robot)
