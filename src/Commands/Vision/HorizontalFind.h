@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef FIND_TARGET_H
 #define FIND_TARGET_H
 

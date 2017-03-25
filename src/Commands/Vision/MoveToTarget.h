@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef MoveToTarget_H
 #define MoveToTarget_H
 
