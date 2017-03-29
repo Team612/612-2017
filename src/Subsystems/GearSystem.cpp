@@ -1,5 +1,6 @@
 #include "GearSystem.h"
 #include "RobotMap.h"
+#include "Commands/Internal/ToggleGear.h"
 
 //TODO check to make sure kReverse is closed and kForward is open
 

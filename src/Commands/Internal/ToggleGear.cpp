@@ -1,17 +1,18 @@
-#include "ToggleGear.h"
 #include "Robot.h"
+#include "ToggleGear.h"
 
-ToggleGear::ToggleGear() : Command("ToggleGear") {
+ToggleGear::ToggleGear(GearState set_state) : Command("ToggleGear") {
+    state = set_state;
     Requires(Robot::gear_system.get());
 }
 
 void ToggleGear::Initialize() {
-    switch(Robot::gear_system->GetGearState()) {
+    switch(state) {
         case GearState::OPEN:
-            Robot::gear_system->GearClose();
+            Robot::gear_system->GearOpen();
             break;
         case GearState::CLOSED:
-            Robot::gear_system->GearOpen();
+            Robot::gear_system->GearClose();
             break;
     }
 }

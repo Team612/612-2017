@@ -12,6 +12,7 @@
 #include "Commands/Internal/ChangeLED.h"
 #include "Commands/Internal/LEDOnOff.h"
 #include "Commands/Internal/ToggleGear.h"
+#include "Subsystems/GearSystem.h"
 
 std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_left;
@@ -22,7 +23,8 @@ std::unique_ptr<JoystickButton> OI::shift_up;
 std::unique_ptr<JoystickButton> OI::shift_down;
 std::unique_ptr<JoystickButton> OI::led_color;
 std::unique_ptr<JoystickButton> OI::led_power;
-std::unique_ptr<JoystickButton> OI::gear_button;
+std::unique_ptr<JoystickButton> OI::gear_open_button;
+std::unique_ptr<JoystickButton> OI::gear_close_button;
 
 OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
@@ -32,6 +34,10 @@ OI::OI() {
     align_left->WhenPressed(new AutoAlign(HorizontalFind::RIGHT));
     align_right = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
     align_right->WhenPressed(new AutoAlign(HorizontalFind::LEFT));
+    gear_close_button = std::make_unique<JoystickButton>(gunner.get(), 7); //back button
+    gear_close_button->WhenPressed(new ToggleGear(GearState::CLOSED));
+    gear_open_button = std::make_unique<JoystickButton>(gunner.get(), 8); //start button
+    gear_open_button->WhenPressed(new ToggleGear(GearState::OPEN));
 
     driver.reset(new lib612::SmoothController(PORTS::OI::driver_joyport));
     shift_up = std::make_unique<JoystickButton>(driver.get(), 1); //A button
@@ -42,7 +48,6 @@ OI::OI() {
     led_power->WhenPressed(new LEDOnOff());
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
-    gear_button->WhenPressed(new ToggleGear());
 
     // SmartDashboard Buttons
     //These just clutter up EvenSmarterDashboard
