@@ -14,6 +14,7 @@ std::shared_ptr<Climber> Robot::climber;
 std::shared_ptr<Shifter> Robot::shifter_subsys;
 std::shared_ptr<Vision> Robot::vision;
 std::shared_ptr<LEDs> Robot::leds;
+std::shared_ptr<GearSystem> Robot::gear_system;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::intakeCommand;
@@ -42,6 +43,7 @@ void Robot::RobotInit() {
     shifter_subsys = std::make_shared<Shifter>();
     vision = std::make_shared<Vision>();
     leds = std::make_shared<LEDs>();
+    gear_system = std::make_shared<GearSystem>();
     //Put this last
     oi = std::make_unique<OI>();
     //commands

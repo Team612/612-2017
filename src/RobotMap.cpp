@@ -15,6 +15,7 @@ std::shared_ptr<TalonSRX> RobotMap::climber_srx;
 std::shared_ptr<CANTalon> RobotMap::agitator;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
+std::shared_ptr<DoubleSolenoid> RobotMap::gear_actuator;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 //std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
@@ -64,9 +65,12 @@ void RobotMap::init() {
 
     new_ultrasonic.reset(new lib612::AnalogUltrasonic(PORTS::PWM::analog_ultrasonic));
 
-    shifter.reset(new DoubleSolenoid(0, 1));
+    shifter.reset(new DoubleSolenoid(PORTS::PCM::shifter_forward, PORTS::PCM::shifter_reverse));
     lw->AddActuator("Shifter", "shifter", shifter);
     shifter->Set(DoubleSolenoid::Value::kForward);
+
+    gear_actuator.reset(new DoubleSolenoid(PORTS::PCM::gear_forward, PORTS::PCM::gear_reverse));
+    lw->AddActuator("Gear Actuator", "gearsystem", gear_actuator);
   
     compressor.reset(new Compressor(PORTS::PCM::compressor));
     compressor->Start();

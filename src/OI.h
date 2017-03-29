@@ -20,6 +20,7 @@ public:
     static std::unique_ptr<JoystickButton> shift_down;
     static std::unique_ptr<JoystickButton> led_color;
     static std::unique_ptr<JoystickButton> led_power;
+    static std::unique_ptr<JoystickButton> gear_button;
 
     std::shared_ptr<lib612::SmoothController> getdriver();
     std::shared_ptr<lib612::SmoothController> getgunner();

@@ -11,6 +11,7 @@
 #include "Commands/Vision/AutoAlign.h"
 #include "Commands/Internal/ChangeLED.h"
 #include "Commands/Internal/LEDOnOff.h"
+#include "Commands/Internal/ToggleGear.h"
 
 std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_left;
@@ -21,6 +22,7 @@ std::unique_ptr<JoystickButton> OI::shift_up;
 std::unique_ptr<JoystickButton> OI::shift_down;
 std::unique_ptr<JoystickButton> OI::led_color;
 std::unique_ptr<JoystickButton> OI::led_power;
+std::unique_ptr<JoystickButton> OI::gear_button;
 
 OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
@@ -40,6 +42,7 @@ OI::OI() {
     led_power->WhenPressed(new LEDOnOff());
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
+    gear_button->WhenPressed(new ToggleGear());
 
     // SmartDashboard Buttons
     //These just clutter up EvenSmarterDashboard

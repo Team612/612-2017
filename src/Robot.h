@@ -15,6 +15,7 @@
 #include "Subsystems/Vision.h"
 #include "Subsystems/LEDs.h"
 #include "Subsystems/Shifter.h"
+#include "Subsystems/GearSystem.h"
 
 class Robot : public IterativeRobot {
 private:
@@ -38,6 +39,7 @@ public:
     static std::shared_ptr<Climber> climber;
     static std::shared_ptr<Vision> vision;
     static std::shared_ptr<LEDs> leds;
+    static std::shared_ptr<GearSystem> gear_system;
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> intakeCommand;
