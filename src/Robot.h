@@ -34,12 +34,11 @@ public:
     static std::shared_ptr<Shooter> shooter;
     static std::shared_ptr<Drivetrain> drivetrain;
     static std::shared_ptr<Intake> intake;
-    static std::shared_ptr<Shifter> shifter_subsys;
+    static std::shared_ptr<Shifter> shifter;
     static std::shared_ptr<Climber> climber;
     static std::shared_ptr<Vision> vision;
     static std::shared_ptr<LEDs> leds;
     static std::unique_ptr<Command> CheckSystem;
-    static std::unique_ptr<Command> talontesttest;
     static std::unique_ptr<Command> intakeCommand;
     static std::unique_ptr<Command> playback;
     static std::unique_ptr<Command> testshooter;

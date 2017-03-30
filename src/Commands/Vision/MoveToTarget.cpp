@@ -42,17 +42,12 @@ void MoveToTarget::Interrupted() {
 }
 
 double MoveToTarget::ReturnPIDInput() {
-    //std::printf("MoveToTarget.cpp: Returning PID Input");
+
     return Robot::drivetrain->GetURSide()->GetDistanceInches();
 }
 
 void MoveToTarget::UsePIDOutput(double output) {
-    /*if (output < 0)
-        output -= MIN_OUTPUT;
-    else
-        output += MIN_OUTPUT;*/
 
     SmartDashboard::PutNumber("PID Output - Drive distance", output);
-    //std::cout << "Why am I being called?" << std::endl;
     current_power = output;
 }
