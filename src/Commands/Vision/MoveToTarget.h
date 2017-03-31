@@ -1,5 +1,4 @@
-#ifndef MoveToTarget_H
-#define MoveToTarget_H
+#pragma once
 
 #include <WPILib.h>
 #include <Robot.h>
@@ -22,5 +21,3 @@ private:
 	int dist;
 	double MIN_OUTPUT = 0.22;
 };
-
-#endif  // MoveToTarget_H

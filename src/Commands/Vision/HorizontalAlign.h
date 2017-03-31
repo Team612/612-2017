@@ -1,6 +1,4 @@
-#ifndef AlignToTarget_H
-#define AlignToTarget_H
-
+#pragma once
 #include "Robot.h"
 #include "WPILib.h"
 #include "VisionTarget.h"
@@ -40,5 +38,3 @@ private:
     int lastTargetDir = -1;
     int lastCenter = 0;
 };
-
-#endif
