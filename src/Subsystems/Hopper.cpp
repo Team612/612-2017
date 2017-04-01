@@ -1,5 +1,5 @@
 #include "Hopper.h"
-#include "../RobotMap.h" 
+#include "../RobotMap.h"
 Hopper::Hopper() :
     frc::Subsystem("Hopper") {
 
@@ -8,14 +8,14 @@ Hopper::Hopper() :
 void Hopper::InitDefaultCommand() {
 
 }
-void Shifter::ShiftUp(){
+void Hopper::ShiftUp(){
     RobotMap::hopper->Set(DoubleSolenoid::Value::kForward);
 }
 
-void Shifter::ShiftDown(){
+void Hopper::ShiftDown(){
     RobotMap::hopper->Set(DoubleSolenoid::Value::kReverse);
 }
 
-void Shifter::ShiftOff(){
+void Hopper::ShiftOff(){
     RobotMap::hopper->Set(DoubleSolenoid::Value::kOff);
 }
