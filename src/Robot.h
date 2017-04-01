@@ -16,7 +16,7 @@
 #include "Subsystems/LEDs.h"
 #include "Subsystems/Shifter.h"
 #include "Subsystems/GearSystem.h"
-
+#include "Subsystems/Hopper.h"
 class Robot : public IterativeRobot {
 private:
     void ConfigureFilePath();
@@ -45,6 +45,8 @@ public:
     static std::unique_ptr<Command> playback;
     static std::unique_ptr<Command> testshooter;
     static std::unique_ptr<Command> shiftCommand;
+      static std::unique_ptr<Command> shiftHopper;
+
     static double initial_current;
     static double init_climber_current;
 

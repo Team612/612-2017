@@ -21,6 +21,7 @@ std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
 std::unique_ptr<Command> Robot::shiftCommand;
+std::unique_ptr<Command> Robot::shiftHopper;
 frc::CameraServer* Robot::tempcam;
 std::ofstream Robot::recordFile;
 frc::Timer Robot::timer;
@@ -36,6 +37,7 @@ void Robot::RobotInit() {
     RobotMap::init();
     //using pointers the way C++ intended
     //subsystems
+    shiftHopper = std::make_shared<Hopper>();
     shooter = std::make_shared<Shooter>();
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0)); //TODO actually use
     intake = std::make_shared<Intake>();

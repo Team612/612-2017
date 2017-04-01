@@ -12,6 +12,7 @@
 #include "Commands/Internal/ChangeLED.h"
 #include "Commands/Internal/LEDOnOff.h"
 #include "Commands/Internal/ToggleGear.h"
+#include "Commands/Hopper/SolenoidShift.h"
 
 std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_left;
@@ -48,7 +49,9 @@ OI::OI() {
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
     hopper = std::make_unique<JoystickButton>(driver.get(), 5 ); // left bumper
-    //hopper->WhenPressed(new ());
+    hopper->WhenPressed(new SolenoidShift(0));
+    hopper->WhenReleased(new SolenoidShift(1));
+
     //shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
     //shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button
 

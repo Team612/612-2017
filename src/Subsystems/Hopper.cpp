@@ -1,5 +1,5 @@
 #include "Hopper.h"
-
+#include "../RobotMap.h" 
 Hopper::Hopper() :
     frc::Subsystem("Hopper") {
 

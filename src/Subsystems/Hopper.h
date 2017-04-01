@@ -1,7 +1,8 @@
 #pragma once
 
-#incldude "WPILib.h"
+#include  "WPILib.h"
 #include "Commands/Subsystem.h"
+
 
 class Hopper: public frc::Subsystem {
 public:
