@@ -2,27 +2,27 @@
 
 #include "../../Robot.h"
 
-SolenoidUp::SolenoidUp(int Shifter) : Command("SolenoidShift") {
+SolenoidShift::SolenoidShift(int Shifter) : Command("SolenoidShift") {
 Requires(Robot::shiftHopper.get());
 this->UpDown = Shifter;
 }
 
-void SolenoidUp::Initialize() {
+void SolenoidShift::Initialize() {
 }
 
-void SolenoidUp::Execute() {
-  if(UpDown == 0){
+void SolenoidShift::Execute() {
+  if(SolenoidShift::UpDown == 0){
     Robot::shiftHopper->ShiftUp();
   }
-  if(UpDown == 1){
+  if(SolenoidShift::UpDown == 1){
     Robot::shiftHopper->ShiftDown();
   }
 }
 
-bool SolenoidUp::IsFinished() {
+bool SolenoidShift::IsFinished() {
     return true;
 }
 
-void SolenoidUp::End() { }
+void SolenoidShift::End() { }
 
-void SolenoidUp::Interrupted() { }
+void SolenoidShift::Interrupted() { }

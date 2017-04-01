@@ -16,12 +16,13 @@ std::shared_ptr<Vision> Robot::vision;
 std::shared_ptr<LEDs> Robot::leds;
 std::shared_ptr<GearSystem> Robot::gear_system;
 std::unique_ptr<OI> Robot::oi;
+std::unique_ptr<Hopper> Robot::shiftHopper;
 std::unique_ptr<Command> Robot::CheckSystem;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
 std::unique_ptr<Command> Robot::shiftCommand;
-std::unique_ptr<Command> Robot::shiftHopper;
+
 frc::CameraServer* Robot::tempcam;
 std::ofstream Robot::recordFile;
 frc::Timer Robot::timer;
