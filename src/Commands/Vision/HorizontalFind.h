@@ -1,5 +1,4 @@
-#ifndef FIND_TARGET_H
-#define FIND_TARGET_H
+#pragma once
 
 #include "Commands/Command.h"
 #include "WPILib.h"
@@ -22,5 +21,3 @@ private:
 	int dir;
 
 };
-
-#endif

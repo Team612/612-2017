@@ -11,7 +11,7 @@ std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
-std::shared_ptr<Shifter> Robot::shifter_subsys;
+std::shared_ptr<Shifter> Robot::shifter;
 std::shared_ptr<Vision> Robot::vision;
 std::shared_ptr<LEDs> Robot::leds;
 std::shared_ptr<GearSystem> Robot::gear_system;
@@ -40,7 +40,7 @@ void Robot::RobotInit() {
     drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0)); //TODO actually use
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
-    shifter_subsys = std::make_shared<Shifter>();
+    shifter = std::make_shared<Shifter>();
     vision = std::make_shared<Vision>();
     leds = std::make_shared<LEDs>();
     gear_system = std::make_shared<GearSystem>();
