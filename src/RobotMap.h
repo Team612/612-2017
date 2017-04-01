@@ -26,6 +26,7 @@ public:
     static std::shared_ptr<CANTalon> intake_talon_right;
     static std::shared_ptr<Servo> grabber;
     static std::shared_ptr<DoubleSolenoid> shifter;
+    static std::shared_ptr<DoubleSolenoid> gear_actuator;
 
     static std::shared_ptr<PowerDistributionPanel> pdp;
     //static std::shared_ptr<Ultrasonic> ultrasonic;

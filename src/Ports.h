@@ -69,5 +69,7 @@ namespace PORTS {
         const uint32_t shifter_forward = 0;
         const uint32_t shifter_reverse = 1;
         const uint32_t compressor = 3;
+        const uint32_t gear_forward = 4;
+        const uint32_t gear_reverse = 5;
     }
 }
