@@ -12,7 +12,6 @@
 #include "Commands/Internal/ChangeLED.h"
 #include "Commands/Internal/LEDOnOff.h"
 #include "Commands/Internal/ToggleGear.h"
-#include "Subsystems/GearSystem.h"
 
 std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_left;
