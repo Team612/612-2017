@@ -47,6 +47,11 @@ OI::OI() {
     led_power->WhenPressed(new LEDOnOff());
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
+    hopper = std::make_unique<JoystickButton>(driver.get(), 5 ); // left bumper
+    //hopper->WhenPressed(new ());
+    //shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
+    //shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button
+
 
     // SmartDashboard Buttons
     //These just clutter up EvenSmarterDashboard
@@ -67,3 +72,9 @@ std::shared_ptr<lib612::SmoothController> OI::getdriver() {
 std::shared_ptr<lib612::SmoothController> OI::getgunner() {
    return gunner;
 }
+/*
+ * Controls:
+ * Gunner - X: Auto align left, B: Auto align right, Y: Cancel Auto align, Right Trigger: Intake, Left Bumper + Right trigger: Reverse intake,
+ * Left stick: shoot (at boiler), Left stick + Start: Shoot (away from boiler), Right stick: climb
+ * Driver - Joe Mode: Tank Drive, Ben Mode: Halo Drive, A: shift up, B: shift down, X: Toggle LEDs, Y: Change LED color
+ */

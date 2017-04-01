@@ -27,11 +27,12 @@ public:
     static std::shared_ptr<Servo> grabber;
     static std::shared_ptr<DoubleSolenoid> shifter;
     static std::shared_ptr<DoubleSolenoid> gear_actuator;
+    static std::shared_ptr<DoubleSolenoid> hopper;
 
     static std::shared_ptr<PowerDistributionPanel> pdp;
     //static std::shared_ptr<Ultrasonic> ultrasonic;
     static std::shared_ptr<lib612::AnalogUltrasonic> new_ultrasonic;
-  
+
     static std::shared_ptr<Compressor> compressor;
     //static std::shared_ptr<RobotDrive> drive;
 

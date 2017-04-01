@@ -71,5 +71,7 @@ namespace PORTS {
         const uint32_t compressor = 3;
         const uint32_t gear_forward = 4;
         const uint32_t gear_reverse = 5;
+        const uint32_t hopper_forward = 10;// TODO find the real port numbers for the hopper
+        const uint32_t hopper_reverse = 11;
     }
 }
