@@ -38,6 +38,9 @@ OI::OI() {
     gear_close_button->WhenPressed(new ToggleGear(GearState::CLOSED));
     gear_open_button = std::make_unique<JoystickButton>(gunner.get(), 8); //start button
     gear_open_button->WhenPressed(new ToggleGear(GearState::OPEN));
+    hopper = std::make_unique<JoystickButton>(gunner.get(), 1 ); // A button 
+    hopper->WhenPressed(new SolenoidShift(0));
+    hopper->WhenReleased(new SolenoidShift(1));
 
     driver.reset(new lib612::SmoothController(PORTS::OI::driver_joyport));
     shift_up = std::make_unique<JoystickButton>(driver.get(), 1); //A button
@@ -48,9 +51,6 @@ OI::OI() {
     led_power->WhenPressed(new LEDOnOff());
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
-    hopper = std::make_unique<JoystickButton>(Hopper.get(), 5 ); // left bumper
-    hopper->WhenPressed(new SolenoidShift(0));
-    hopper->WhenReleased(new SolenoidShift(1));
 
     //shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
     //shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button
