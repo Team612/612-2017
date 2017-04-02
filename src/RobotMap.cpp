@@ -18,7 +18,6 @@ std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
 std::shared_ptr<DoubleSolenoid> RobotMap::gear_actuator;
 std::shared_ptr<DoubleSolenoid> RobotMap::hopper;
 std::shared_ptr<RobotDrive> RobotMap::drive;
-s
 //std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
 std::shared_ptr<Compressor> RobotMap::compressor;
