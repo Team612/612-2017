@@ -25,7 +25,7 @@ std::unique_ptr<JoystickButton> OI::led_color;
 std::unique_ptr<JoystickButton> OI::led_power;
 std::unique_ptr<JoystickButton> OI::gear_open_button;
 std::unique_ptr<JoystickButton> OI::gear_close_button;
-
+std::unique_ptr<JoystickButton> OI::hopper;
 OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
     //grab_button = std::make_unique<JoystickButton>(gunner.get(), 5); //left bumper
@@ -48,7 +48,7 @@ OI::OI() {
     led_power->WhenPressed(new LEDOnOff());
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
-    hopper = std::make_unique<JoystickButton>(driver.get(), 5 ); // left bumper
+    hopper = std::make_unique<JoystickButton>(Hopper.get(), 5 ); // left bumper
     hopper->WhenPressed(new SolenoidShift(0));
     hopper->WhenReleased(new SolenoidShift(1));
 
