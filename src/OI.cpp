@@ -14,7 +14,7 @@
 #include "Commands/Internal/ToggleGear.h"
 #include "Commands/Hopper/SolenoidShift.h"
 
-std::unique_ptr<JoystickButton> OI::grab_button;
+//std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_left;
 std::unique_ptr<JoystickButton> OI::align_right;
 std::unique_ptr<JoystickButton> OI::intake_button;
@@ -23,34 +23,40 @@ std::unique_ptr<JoystickButton> OI::shift_up;
 std::unique_ptr<JoystickButton> OI::shift_down;
 std::unique_ptr<JoystickButton> OI::led_color;
 std::unique_ptr<JoystickButton> OI::led_power;
-std::unique_ptr<JoystickButton> OI::gear_open_button;
+std::unique_ptr<JoystickButton> OI::gear_button;
 std::unique_ptr<JoystickButton> OI::gear_close_button;
 std::unique_ptr<JoystickButton> OI::hopper;
 OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
     //grab_button = std::make_unique<JoystickButton>(gunner.get(), 5); //left bumper
     //grab_button->WhenPressed(new Grab()); //Not on robot
-    align_left = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
+    align_left = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
     align_left->WhenPressed(new AutoAlign(HorizontalFind::RIGHT));
-    align_right = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
+
+
+    align_right = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
     align_right->WhenPressed(new AutoAlign(HorizontalFind::LEFT));
-    gear_close_button = std::make_unique<JoystickButton>(gunner.get(), 7); //back button
-    gear_close_button->WhenPressed(new ToggleGear(GearState::CLOSED));
-    gear_open_button = std::make_unique<JoystickButton>(gunner.get(), 8); //start button
-    gear_open_button->WhenPressed(new ToggleGear(GearState::OPEN));
-    hopper = std::make_unique<JoystickButton>(gunner.get(), 1 ); // A button 
-    hopper->WhenPressed(new SolenoidShift(0));
+
+
+    gear_button = std::make_unique<JoystickButton>(gunner.get(), 6); //back button
+    gear_button->WhenPressed(new GearToggle());
+
+
+    hopper = std::make_unique<JoystickButton>(gunner.get(), 1 ); // A button
+    hopper->WhenPressed(new SolenoidShift(0));//TODO
     hopper->WhenReleased(new SolenoidShift(1));
 
     driver.reset(new lib612::SmoothController(PORTS::OI::driver_joyport));
-    shift_up = std::make_unique<JoystickButton>(driver.get(), 1); //A button
+    shift_up = std::make_unique<JoystickButton>(driver.get(), 1); //A button//TODO
     shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
-    shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button
+    shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button//TODO
     shift_down->WhenPressed(new Shift(Shift::SHIFT_DIR::DOWN));
-    led_power = std::make_unique<JoystickButton>(driver.get(), 3); //X button
+    led_power = std::make_unique<JoystickButton>(driver.get(), 3); //X button//TODO
     led_power->WhenPressed(new LEDOnOff());
-    led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
+    led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button//TODO
     led_color->WhenPressed(new ChangeLED());
+
+// Button map
 
     //shift_up->WhenPressed(new Shift(Shift::SHIFT_DIR::UP));
     //shift_down = std::make_unique<JoystickButton>(driver.get(), 2); //B button

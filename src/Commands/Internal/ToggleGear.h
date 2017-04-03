@@ -7,8 +7,8 @@ class ToggleGear: public Command {
     GearState state;
 public:
     ToggleGear(GearState set_state);
-
     void Initialize() override;
     bool IsFinished() override;
+  private:
+    bool toggler = true;
 };
-

@@ -18,6 +18,7 @@ void Shoot::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
 	printf("Shoot Execute");
+  if(Robot::)
     if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
         if (Robot::oi->getgunner()->GetStartButton())
             Robot::shooter->Spin(OPTIMAL_RPM * START_MULTIPLIER);
