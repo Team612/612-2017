@@ -30,11 +30,11 @@ OI::OI() {
     gunner.reset(new lib612::SmoothController(PORTS::OI::gunner_joyport));
     //grab_button = std::make_unique<JoystickButton>(gunner.get(), 5); //left bumper
     //grab_button->WhenPressed(new Grab()); //Not on robot
-    align_left = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
+    align_left = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
     align_left->WhenPressed(new AutoAlign(HorizontalFind::RIGHT));
 
 
-    align_right = std::make_unique<JoystickButton>(gunner.get(), 2); //B button
+    align_right = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
     align_right->WhenPressed(new AutoAlign(HorizontalFind::LEFT));
 
 
