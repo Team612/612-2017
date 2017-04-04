@@ -10,7 +10,7 @@ void GearToggle::Initialize() {
             Robot::gear_system->GearClose();
             break;
         case GearState::CLOSED:
-            Robot::gear_system->(GearOpen);
+            Robot::gear_system->GearOpen();
             break;
 
 }

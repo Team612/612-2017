@@ -12,6 +12,7 @@ public:
     OI();
 
     //static std::unique_ptr<JoystickButton> grab_button;
+    static std::unique_ptr<JoystickButton> intake_button;
     static std::unique_ptr<JoystickButton> align_left;
     static std::unique_ptr<JoystickButton> align_right;
     static std::unique_ptr<JoystickButton> intake_clear_button;

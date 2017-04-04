@@ -1,6 +1,6 @@
 #include "SolenoidShift.h"
 
-#include "../../Robot.h"
+#include "../../../Robot.h"
 
 SolenoidShift::SolenoidShift(int Shifter) : Command("SolenoidShift") {
 Requires(Robot::shiftHopper.get());

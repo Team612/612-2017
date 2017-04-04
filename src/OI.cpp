@@ -12,8 +12,8 @@
 #include "Commands/Internal/ChangeLED.h"
 #include "Commands/Internal/LEDOnOff.h"
 #include "Commands/Internal/ToggleGear.h"
-#include "Commands/Hopper/SolenoidShift.h"
-
+#include "Commands/Drive/Hopper/SolenoidShift.h"
+#include "Commands/Internal/GearToggle.h"
 //std::unique_ptr<JoystickButton> OI::grab_button;
 std::unique_ptr<JoystickButton> OI::align_left;
 std::unique_ptr<JoystickButton> OI::align_right;

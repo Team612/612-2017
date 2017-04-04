@@ -18,7 +18,7 @@ void Shoot::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
 	printf("Shoot Execute");
-  if(Robot::io->getgunner()->getA() == true){
+  if(Robot::oi->getgunner()->getAButton() == true){
         Robot::shooter->Spin(OPTIMAL_RPM);
 
   }
