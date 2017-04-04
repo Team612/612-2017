@@ -16,6 +16,7 @@ std::shared_ptr<CANTalon> RobotMap::agitator;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
 std::shared_ptr<DoubleSolenoid> RobotMap::gear_actuator;
+std::shared_ptr<DoubleSolenoid> RobotMap::hopper;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 //std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
@@ -60,7 +61,7 @@ void RobotMap::init() {
     pdp.reset(new PowerDistributionPanel(PORTS::CAN::module));
 
     //drive.reset(new RobotDrive(drive_ml.get(), drive_mr.get()));
-                                                                                                
+
     //ultrasonic.reset(new Ultrasonic(static_cast<int>(PORTS::DIO::ultrasonic_in), static_cast<int>(PORTS::DIO::ultrasonic_in), frc::Ultrasonic::DistanceUnit::kMilliMeters)); //tfw C++
 
     new_ultrasonic.reset(new lib612::AnalogUltrasonic(PORTS::PWM::analog_ultrasonic));
@@ -71,7 +72,10 @@ void RobotMap::init() {
 
     gear_actuator.reset(new DoubleSolenoid(PORTS::PCM::gear_forward, PORTS::PCM::gear_reverse));
     lw->AddActuator("Gear Actuator", "gearsystem", gear_actuator);
-  
+
+    hopper.reset(new DoubleSolenoid(PORTS::PCM::hopper_forward, PORTS::PCM::hopper_reverse)); // TODO find the real port numbers for the hopper
+    lw->AddActuator("Hopper Double Solenoid", "Hopper", hopper);
+
     compressor.reset(new Compressor(PORTS::PCM::compressor));
     compressor->Start();
 

@@ -15,7 +15,9 @@ void ToggleGear::Initialize() {
             Robot::gear_system->GearClose();
             break;
     }
+
 }
+
 
 bool ToggleGear::IsFinished() {
     return true;

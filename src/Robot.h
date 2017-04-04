@@ -16,7 +16,7 @@
 #include "Subsystems/LEDs.h"
 #include "Subsystems/Shifter.h"
 #include "Subsystems/GearSystem.h"
-
+#include "Subsystems/Hopper.h"
 class Robot : public IterativeRobot {
 private:
     void ConfigureFilePath();
@@ -40,11 +40,14 @@ public:
     static std::shared_ptr<Vision> vision;
     static std::shared_ptr<LEDs> leds;
     static std::shared_ptr<GearSystem> gear_system;
+    static std::shared_ptr<Hopper> shiftHopper;
     static std::unique_ptr<Command> CheckSystem;
     static std::unique_ptr<Command> intakeCommand;
     static std::unique_ptr<Command> playback;
     static std::unique_ptr<Command> testshooter;
     static std::unique_ptr<Command> shiftCommand;
+
+
     static double initial_current;
     static double init_climber_current;
 
