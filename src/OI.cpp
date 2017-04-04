@@ -31,9 +31,9 @@ OI::OI() {
     align_right = std::make_unique<JoystickButton>(gunner.get(), 3); //X button
     align_right->WhenPressed(new AutoAlign(HorizontalFind::RIGHT));
 
-
     gear_button = std::make_unique<JoystickButton>(gunner.get(), 6); //right bumper
     gear_button->WhenPressed(new ToggleGear());
+
 
     driver.reset(new lib612::SmoothController(PORTS::OI::driver_joyport));
 
@@ -47,7 +47,7 @@ OI::OI() {
     led_color = std::make_unique<JoystickButton>(driver.get(), 4); //Y button
     led_color->WhenPressed(new ChangeLED());
 
-    hopper = std::make_unique<JoystickButton>(gunner.get(), 1); // A button
+    hopper = std::make_unique<JoystickButton>(driver.get(), 1); // A button
     hopper->WhenPressed(new SolenoidShift());
 
 // Button map
