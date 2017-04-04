@@ -4,11 +4,8 @@
 #include "Subsystems/GearSystem.h"
 
 class ToggleGear: public Command {
-    GearState state;
 public:
-    ToggleGear(GearState set_state);
+    ToggleGear();
     void Initialize() override;
     bool IsFinished() override;
-  private:
-    bool toggler = true;
 };

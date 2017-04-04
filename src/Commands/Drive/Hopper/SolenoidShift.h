@@ -5,7 +5,7 @@
 class SolenoidShift: public Command {
 
 public:
-    SolenoidShift(int Shifter);
+    SolenoidShift();
 
     void Initialize() override;
     void Execute() override;

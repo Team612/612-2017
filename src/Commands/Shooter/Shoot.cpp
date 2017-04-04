@@ -12,24 +12,22 @@ Shoot::Shoot(): Command() {
 void Shoot::Initialize() {
     printf("Shoot init\n");
     //frc::SmartDashboard::PutNumber("Shooter Setpoint", 1000);
-    Robot::shooter->Spin(0);
+    Robot::shooter->Spin(0.0f);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-	printf("Shoot Execute");
-  if(Robot::oi->getgunner()->getAButton() == true){
-        Robot::shooter->Spin(OPTIMAL_RPM);
-
-  }
-   else if (-Robot::oi->getgunner()->GetY(frc::GenericHID::kLeftHand) > 0.02) {
-        if (Robot::oi->getgunner()->GetStartButton())
-            Robot::shooter->Spin(OPTIMAL_RPM * START_MULTIPLIER);
-        else
-            Robot::shooter->Spin(OPTIMAL_RPM);
-    } else {
-        Robot::shooter->Spin(0);
-    }
+	printf("Shoot Execute\n");
+    if(Robot::oi->getgunner()->GetAButton()) {
+          auto b = static_cast<float>(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand));
+          // If the joystick is not up or not greater than the dead band
+          if (!(std::abs(b) > DEADBAND && b < 0))
+              b = 0.0f;
+          // at this stage, b should be negative, so b * a positive throttle makes the shooter go faster
+          // in the negative direction
+          Robot::shooter->Spin(OPTIMAL_RPM + b * THROTTLE);
+    } else
+        Robot::shooter->Spin(IDLE);
 }
 
 // Make this return true when this Command no longer needs to run execute()

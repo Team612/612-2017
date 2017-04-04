@@ -2,21 +2,23 @@
 
 #include "../../../Robot.h"
 
-SolenoidShift::SolenoidShift(int Shifter) : Command("SolenoidShift") {
-Requires(Robot::shiftHopper.get());
-this->UpDown = Shifter;
+SolenoidShift::SolenoidShift() : Command("SolenoidShift") {
+    Requires(Robot::shiftHopper.get());
 }
 
 void SolenoidShift::Initialize() {
+    switch(Robot::shiftHopper->GetFlapState()) {
+        case FLAP_STATE::UP:
+            Robot::shiftHopper->ShiftDown();
+            break;
+        case FLAP_STATE::DOWN:
+            Robot::shiftHopper->ShiftUp();
+            break;
+    }
 }
 
 void SolenoidShift::Execute() {
-  if(SolenoidShift::UpDown == 0){
-    Robot::shiftHopper->ShiftUp();
-  }
-  if(SolenoidShift::UpDown == 1){
-    Robot::shiftHopper->ShiftDown();
-  }
+
 }
 
 bool SolenoidShift::IsFinished() {
