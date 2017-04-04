@@ -25,7 +25,7 @@ bool HorizontalFind::IsFinished() {
 	if(std::abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand)) > 0.01 ||
 	   std::abs(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand)) > 0.01 ||
 	   Robot::oi->getgunner()->GetYButton()) {
-		std::cout  << "Warning: Auto Align interrupted by drive!" << std::endl;
+		std::cout  << "Warning: Auto Align interrupted by user!" << std::endl;
 		return true;
 	}
 	return Robot::vision->GetTargetAmount() > 0;
