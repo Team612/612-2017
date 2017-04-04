@@ -9,8 +9,8 @@ void IntakeFuel::Initialize() {
 }
 
 void IntakeFuel::Execute() {
-    //Drive team liked this when it was on soda
-    //fuck drive team
+    // Drive team liked this when it was on soda
+    // Drive team can go recycle rush themselves
      if(Robot::oi->getgunner()->GetSmoothTrigger(frc::GenericHID::kRightHand) > 0.01) {
         if(Robot::oi->getgunner()->GetBumper(frc::GenericHID::kLeftHand))
             Robot::intake->ClearBalls();
