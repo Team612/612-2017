@@ -20,7 +20,7 @@ bool SetShooter::IsFinished() {
 }
 
 void SetShooter::End() {
-    Robot::shooter->Spin(0.0);
+    //Robot::shooter->Spin(0.0);
 }
 
 void SetShooter::Interrupted() {
