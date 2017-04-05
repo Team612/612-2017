@@ -17,10 +17,10 @@ Intake::Intake() : Subsystem("Intake") {
     RobotMap::intake_talon_left->SetVoltageRampRate(RAMP_RATE);
 //    RobotMap::intake_talon_left->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 //    RobotMap::intake_talon_left->SetClosedLoopOutputDirection(true);
-//    lib612::Networking::AddFunction([](){
-//        frc::SmartDashboard::PutNumber("Total Intake current", RobotMap::intake_talon_left->GetOutputCurrent() +
-//                                                               RobotMap::intake_talon_right->GetOutputCurrent());
-//    });
+    lib612::Networking::AddFunction([](){
+        frc::SmartDashboard::PutNumber("Total Intake current", RobotMap::intake_talon_left->GetOutputCurrent() +
+                                                               RobotMap::intake_talon_right->GetOutputCurrent());
+    });
 }
 
 void Intake::InitDefaultCommand() {

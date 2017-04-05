@@ -15,13 +15,13 @@ void Shift::Execute() {
     Robot::drivetrain->ThrottleByRPM(0, 0);
     if(TimeSinceInitialized() <= .25){
     if(dir == UP)
-        Robot::shifter_subsys->ShiftUp();
+        Robot::shifter->ShiftUp();
     else if(dir == DOWN)
-        Robot::shifter_subsys->ShiftDown();
+        Robot::shifter->ShiftDown();
     else if(dir == OFF)
-        Robot::shifter_subsys->ShiftOff();
+        Robot::shifter->ShiftOff();
     else
-        std::cout << "God has made a mistake giving humanity intelligence, we do not know how to use it. (Shift.cpp:" << __LINE__ << ") \n";
+        std::cout << "why is the shifter not working?(Shift.cpp:" << __LINE__ << ") \n";
     }
 }
 

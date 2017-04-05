@@ -1,6 +1,7 @@
 #pragma once
 
-#include "WPILib.h"
+#include "networktables/NetworkTable.h"
+#include "Commands/Subsystem.h"
 
 enum class COLORS { RED = 0, GREEN = 1, BLUE = 2 };
 enum class STATE { OFF = 0, ON = 1 };

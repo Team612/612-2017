@@ -5,7 +5,7 @@
 #include "CANTalon.h"
 #include <stdio.h>
 
-enum class TalonENUM {SHOOTER_L, SHOOTER_R, FL, FR, MR, ML, RL, RR, CLIMBER_L, CLIMBER_R, INTAKE_L, INTAKE_R};
+enum class TalonENUM {SHOOTER_L, SHOOTER_R, FL, FR, MR, ML, RL, RR, CLIMBER, INTAKE_L, INTAKE_R};
 
 class TalonTest: public Command {
 public:
@@ -21,5 +21,6 @@ private:
     TalonENUM position;
     std::shared_ptr<CANTalon> chosen;
     CANTalon::TalonControlMode OriginalControlMode;
+    std::shared_ptr<TalonSRX> chosenSRX;
     //float timer;
 };

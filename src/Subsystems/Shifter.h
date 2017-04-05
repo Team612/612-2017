@@ -1,6 +1,5 @@
 #pragma once
 
-#include "WPILib.h"
 #include "Commands/Subsystem.h"
 #include "../RobotMap.h"
 

@@ -1,5 +1,4 @@
 #include "RobotMap.h"
-#include "LiveWindow/LiveWindow.h"
 #include "Ports.h"
 
 std::shared_ptr<CANTalon> RobotMap::shooter_l;
@@ -12,13 +11,11 @@ std::shared_ptr<CANTalon> RobotMap::drive_mr;
 std::shared_ptr<CANTalon> RobotMap::drive_rr;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_left;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_right;
-std::shared_ptr<CANTalon> RobotMap::climber_l;
-std::shared_ptr<CANTalon> RobotMap::climber_r;
 std::shared_ptr<TalonSRX> RobotMap::climber_srx;
 std::shared_ptr<CANTalon> RobotMap::agitator;
-std::shared_ptr<Servo> RobotMap::grabber;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
+std::shared_ptr<DoubleSolenoid> RobotMap::gear_actuator;
 std::shared_ptr<RobotDrive> RobotMap::drive;
 //std::shared_ptr<Ultrasonic> RobotMap::ultrasonic;
 std::shared_ptr<lib612::AnalogUltrasonic> RobotMap::new_ultrasonic;
@@ -58,28 +55,22 @@ void RobotMap::init() {
     intake_talon_left.reset(new CANTalon(PORTS::CAN::intake_talon_left));
     lw->AddActuator("Intake", "intake_talon_left", intake_talon_left);
 
-    climber_l.reset(new CANTalon(PORTS::CAN::climber_talon_left));
-    lw->AddActuator("Climber", "climber_l", climber_l);
-
-    climber_r.reset(new CANTalon(PORTS::CAN::climber_talon_right));
-    lw->AddActuator("Climber", "climber_r", climber_r);
-
     agitator.reset(new CANTalon(PORTS::CAN::agitator));
 
     pdp.reset(new PowerDistributionPanel(PORTS::CAN::module));
 
     //drive.reset(new RobotDrive(drive_ml.get(), drive_mr.get()));
-
-    grabber.reset(new Servo(PORTS::PWM::servo));
-    lw->AddActuator("Climber", "grabber", grabber);                                                                                                     \
-
+                                                                                                
     //ultrasonic.reset(new Ultrasonic(static_cast<int>(PORTS::DIO::ultrasonic_in), static_cast<int>(PORTS::DIO::ultrasonic_in), frc::Ultrasonic::DistanceUnit::kMilliMeters)); //tfw C++
 
     new_ultrasonic.reset(new lib612::AnalogUltrasonic(PORTS::PWM::analog_ultrasonic));
 
-    shifter.reset(new DoubleSolenoid(0, 1));
+    shifter.reset(new DoubleSolenoid(PORTS::PCM::shifter_forward, PORTS::PCM::shifter_reverse));
     lw->AddActuator("Shifter", "shifter", shifter);
     shifter->Set(DoubleSolenoid::Value::kForward);
+
+    gear_actuator.reset(new DoubleSolenoid(PORTS::PCM::gear_forward, PORTS::PCM::gear_reverse));
+    lw->AddActuator("Gear Actuator", "gearsystem", gear_actuator);
   
     compressor.reset(new Compressor(PORTS::PCM::compressor));
     compressor->Start();
@@ -89,4 +80,5 @@ void RobotMap::init() {
     drive->SetSafetyEnabled(false);*/
 
     climber_srx.reset(new TalonSRX(PORTS::PWM::climber));
+    lw->AddActuator("Climber", "climber_srx", climber_srx);
 }

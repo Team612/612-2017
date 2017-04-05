@@ -1,7 +1,7 @@
 #pragma once
 
 #include "WPILib.h"
-#include "../lib/lib612/SmoothController.h"
+#include "lib612/SmoothController.h"
 
 class OI {
 private:
@@ -20,6 +20,8 @@ public:
     static std::unique_ptr<JoystickButton> shift_down;
     static std::unique_ptr<JoystickButton> led_color;
     static std::unique_ptr<JoystickButton> led_power;
+    static std::unique_ptr<JoystickButton> gear_open_button;
+    static std::unique_ptr<JoystickButton> gear_close_button;
 
     std::shared_ptr<lib612::SmoothController> getdriver();
     std::shared_ptr<lib612::SmoothController> getgunner();

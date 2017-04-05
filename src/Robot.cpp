@@ -1,25 +1,22 @@
-#include <lib612/DriveProfile.h>
 #include "Robot.h"
 
-#include <Commands/Shooter/SetShooter.h>
-#include <Commands/Drive/Shift.h>
-
+#include "Commands/Shooter/SetShooter.h"
+#include "Commands/Drive/Shift.h"
 #include "Commands/Test/SystemCheck.h"
 #include "Commands/Autonomous/Autonomous.h"
 #include "Commands/Internal/IntakeFuel.h"
-#include "Commands/Autonomous/Playback.h"
 #include "lib612/Networking/Networking.h"
 
 std::shared_ptr<Shooter> Robot::shooter;
 std::shared_ptr<Drivetrain> Robot::drivetrain;
 std::shared_ptr<Intake> Robot::intake;
 std::shared_ptr<Climber> Robot::climber;
-std::shared_ptr<Shifter> Robot::shifter_subsys;
+std::shared_ptr<Shifter> Robot::shifter;
 std::shared_ptr<Vision> Robot::vision;
 std::shared_ptr<LEDs> Robot::leds;
+std::shared_ptr<GearSystem> Robot::gear_system;
 std::unique_ptr<OI> Robot::oi;
 std::unique_ptr<Command> Robot::CheckSystem;
-std::unique_ptr<Command> Robot::wiggle;
 std::unique_ptr<Command> Robot::intakeCommand;
 std::unique_ptr<Command> Robot::playback;
 std::unique_ptr<Command> Robot::testshooter;
@@ -40,19 +37,18 @@ void Robot::RobotInit() {
     //using pointers the way C++ intended
     //subsystems
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0));
+    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0)); //TODO actually use
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
-    shifter_subsys = std::make_shared<Shifter>();
+    shifter = std::make_shared<Shifter>();
     vision = std::make_shared<Vision>();
     leds = std::make_shared<LEDs>();
+    gear_system = std::make_shared<GearSystem>();
     //Put this last
     oi = std::make_unique<OI>();
-    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     //commands
     CheckSystem = std::make_unique<SystemCheck>(); //#polymorphism
     //autonomousCommand = std::make_unique<Autonomous>();
-    //wiggle = std::make_unique<Wiggle>(Wiggle::Direction::RIGHT);
     intakeCommand = std::make_unique<IntakeFuel>();
     //playback = std::make_unique<Playback>(filePath.c_str());
     testshooter = std::make_unique<SetShooter>(1000);
@@ -75,7 +71,6 @@ void Robot::RobotInit() {
     tempcam->StartAutomaticCapture();
 
     drive_limit = 1.0;
-
     //default to Joe Mode
     SmartDashboard::PutBoolean("Joe Mode", true);
 }
@@ -116,7 +111,6 @@ void Robot::AutonomousInit() {
     else
         std::cout << "ERROR: Autonomous Command NULL!" << std::endl;
     //AutoDrive->Start();
-
 }
 
 void Robot::AutonomousPeriodic() {
@@ -140,7 +134,6 @@ void Robot::TeleopInit() {
     if(frc::SmartDashboard::GetBoolean("debug", false))
         CheckSystem->Start();
     intakeCommand->Start();
-    std::cout << "Robot.cpp: " << __LINE__ << std::endl;
 }
 
 void Robot::TeleopPeriodic() {
@@ -221,6 +214,7 @@ START_ROBOT_CLASS(Robot)
 
 /*
  * Controls:
- * Gunner - X: full climb, Y: partial climb, Left bumper: grab, Right Bumper: Auto Align, Left Stick Y: Shoot, B: intake, A: slow outtake
- * Driver - Tank Drive
+ * Gunner - X: Auto align left, B: Auto align right, Y: Cancel Auto align, Right Trigger: Intake, Left Bumper + Right trigger: Reverse intake,
+ * Left stick: shoot (at boiler), Left stick + Start: Shoot (away from boiler), Right stick: climb
+ * Driver - Joe Mode: Tank Drive, Ben Mode: Halo Drive, A: shift up, B: shift down, X: Toggle LEDs, Y: Change LED color
  */

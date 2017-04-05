@@ -1,11 +1,9 @@
 #include "Autonomous.h"
 #include "AutoDrive.h"
 #include "Playback.h"
-#include "SimpleSideGear.h"
 #include "../Vision/AutoAlign.h"
 #include "../Shooter/SetShooter.h"
 #include "../Internal/SetIntake.h"
-#include "AutoDriveEnc.h"
 #include <Commands/WaitCommand.h>
 
 Autonomous::Autonomous() {
@@ -18,11 +16,6 @@ Autonomous::Autonomous() {
         AddSequential(new AutoDrive(3, auto_speed));
         //TODO REMOVE!!
         //AddSequential(new Playback("home/lvuser/simple"));
-    } else if(chosen_mode == "Enc") {
-    	// TODO: Replace with real distance
-    	AddSequential(new AutoDriveEnc(100, auto_speed));
-    } else if(chosen_mode == "Simple Side Gear") {
-        AddSequential(new SimpleSideGear(0.8, 10, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "1 Gear Auto") {
         //drive up to the peg, place gear
         AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
