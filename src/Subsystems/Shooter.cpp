@@ -22,6 +22,7 @@ Shooter::Shooter() : Subsystem("Shooter") {
         frc::SmartDashboard::PutNumber("Shooter Error", RobotMap::shooter_l->GetClosedLoopError());
         frc::SmartDashboard::PutNumber("Shooter voltage", RobotMap::shooter_l->GetOutputVoltage());
         //frc::SmartDashboard::PutNumber("Shooter current", RobotMap::shooter_l->GetOutputCurrent());
+        frc::SmartDashboard::PutNumber("Total Shooter Current", RobotMap::shooter_l->GetOutputCurrent());
     });
 }
 

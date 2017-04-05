@@ -43,14 +43,14 @@ void TalonTest::Initialize() {
         chosen = RobotMap::drive_rr;
         std::cout << "Testing Rear Right Talon" << std::endl;
         break;
-  /*  case TalonENUM::CLIMBER_L:
+    case TalonENUM::CLIMBER:
         chosen = RobotMap::climber_l;
         std::cout << "Testing Climber Talon (Left)" << std::endl;
-        break;*/
-    case TalonENUM::CLIMBER:
+        break;
+    /*case TalonENUM::CLIMBER:
         chosenSRX = RobotMap::climber_srx;
         std::cout << "Testing Climber Talon" << std::endl;
-        break;
+        break;*/
     case TalonENUM::INTAKE_L:
         chosen = RobotMap::intake_talon_left;
         std::cout << "Testing Left Intake Talon" << std::endl;

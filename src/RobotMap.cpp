@@ -11,7 +11,9 @@ std::shared_ptr<CANTalon> RobotMap::drive_mr;
 std::shared_ptr<CANTalon> RobotMap::drive_rr;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_left;
 std::shared_ptr<CANTalon> RobotMap::intake_talon_right;
-std::shared_ptr<TalonSRX> RobotMap::climber_srx;
+std::shared_ptr<CANTalon> RobotMap::climber_l;
+std::shared_ptr<CANTalon> RobotMap::climber_r;
+//std::shared_ptr<TalonSRX> RobotMap::climber_srx;
 std::shared_ptr<CANTalon> RobotMap::agitator;
 std::shared_ptr<PowerDistributionPanel> RobotMap::pdp;
 std::shared_ptr<DoubleSolenoid> RobotMap::shifter;
@@ -83,6 +85,12 @@ void RobotMap::init() {
      drive_fr, drive_rr));
     drive->SetSafetyEnabled(false);*/
 
-    climber_srx.reset(new TalonSRX(PORTS::PWM::climber));
-    lw->AddActuator("Climber", "climber_srx", climber_srx);
+    /*climber_srx.reset(new TalonSRX(PORTS::PWM::climber));
+    lw->AddActuator("Climber", "climber_srx", climber_srx);*/
+
+    climber_l.reset(new CANTalon(PORTS::CAN::climber_talon_left));
+    lw->AddActuator("Climber", "climber_l", climber_l);
+
+    climber_r.reset(new CANTalon(PORTS::CAN::climber_talon_right));
+    lw->AddActuator("Climber", "climber_r", climber_r);
 }
