@@ -4,7 +4,7 @@
 #include "../Vision/AutoAlign.h"
 #include "../Shooter/SetShooter.h"
 #include "../Internal/SetIntake.h"
-#include <Commands/WaitCommand.h>
+#include "../Internal/ToggleGear.h"
 
 Autonomous::Autonomous() {
     auto chosen_mode = frc::SmartDashboard::GetString("Chosen Autonomous Mode", "None");
@@ -33,17 +33,20 @@ Autonomous::Autonomous() {
         //drive up to peg, place gear, wait 2 seconds, drive to loading station
         AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
     } else if(chosen_mode == "The Polymath") {
-        //NOTE: Same as 10 ball auto
-        //drive up to hopper
+        //place gear
+        AddSequential(new Playback("/home/lvuser/oneGearAuto", !frc::SmartDashboard::GetBoolean("Red side", true)));
+        AddSequential(new ToggleGear());
+        AddSequential(new WaitCommand(0.5));
+        AddSequential(new ToggleGear());
+        //drive up to goal
         AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
         //Align to target
         AddSequential(new AutoAlign(HorizontalFind::Direction::RIGHT));
-        //Shoot for 5 seconds
-        AddParallel(new SetShooter(5.0));
-        AddParallel(new SetIntake(5));
-        //NOTE: Same as full gear auto
-        //drive up to peg, place gear, wait 2 seconds, drive 2 loading station
-        AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true))); //TODO this requires a second motion profile
+        //Shoot for the rest of the time
+        AddSequential(new SetShooter(-3300.0f), 1);
+        AddParallel(new SetShooter(-3300.0f), 30);
+        AddParallel(new SetIntake(30));
+         //TODO this requires a second motion profile
     } else if(chosen_mode == "Operation: Hopper Hack") {
         //hack every hopper on the field
         AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));
