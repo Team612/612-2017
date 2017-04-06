@@ -8,8 +8,8 @@ Playback::Playback(std::string filePath, bool reverse) {
 void Playback::Initialize() {
     RobotMap::drive_ml->SetVoltageRampRate(0);
     RobotMap::drive_mr->SetVoltageRampRate(0);
-    RobotMap::drive_ml->SetVoltageCompensationRampRate(0);
-    RobotMap::drive_mr->SetVoltageCompensationRampRate(0);
+    //RobotMap::drive_ml->SetVoltageCompensationRampRate(0);
+    //RobotMap::drive_mr->SetVoltageCompensationRampRate(0);
 
     RobotMap::drive_ml->Set(0);
     RobotMap::drive_mr->Set(0);
@@ -26,7 +26,9 @@ void Playback::Initialize() {
     RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
     RobotMap::drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
+
     inputFile.open(filePath);
+
     if(inputFile.is_open()) {
         std::cout << "Reading file at " << filePath << std::endl;
         std::string line;
@@ -64,16 +66,33 @@ void Playback::Initialize() {
 
 void Playback::Execute() {
     //should only run once
-    //TODO Figure out why one side plays in reverse
     if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
         while(t < playback_vec.size() && playback_vec[t+1].time <= timer.Get())
             t++;
         if(!reverse) {
             RobotMap::drive_ml->Set(playback_vec[t].l);
-            RobotMap::drive_mr->Set(-playback_vec[t].r); //change once we figure out what's going on
+            RobotMap::drive_mr->Set(playback_vec[t].r); //change once we figure out what's going on
+
+            RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
+            RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
+
+            RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
+            RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
+
+            std::cout << "Get() " << RobotMap::drive_ml->Get() << "," << RobotMap::drive_mr->Get() << std::endl;
+            std::cout << "GetOutputVoltage() " << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << std::endl;
         } else {
             RobotMap::drive_ml->Set(playback_vec[t].r);
-            RobotMap::drive_mr->Set(-playback_vec[t].l); //change once we figure out what's going on
+            RobotMap::drive_mr->Set(playback_vec[t].l); //change once we figure out what's going on
+
+            RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
+            RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
+
+            RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
+            RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
+
+            std::cout << "Get() " << RobotMap::drive_ml->Get() << "," << RobotMap::drive_mr->Get() << std::endl;
+            std::cout << "GetOutputVoltage() " << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << std::endl;
         }
     } else if (t == playback_vec.size() || timer.Get() > playback_vec.back().time) {
         std::cout << "Done playing back \n";

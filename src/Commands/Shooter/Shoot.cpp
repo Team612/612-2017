@@ -17,7 +17,7 @@ void Shoot::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void Shoot::Execute() {
-	printf("Shoot Execute\n");
+	//printf("Shoot Execute\n");
     if(Robot::oi->getgunner()->GetAButton()) {
           auto b = static_cast<float>(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kLeftHand));
           // If the joystick is not up or not greater than the dead band
@@ -27,7 +27,7 @@ void Shoot::Execute() {
           // in the negative direction
           Robot::shooter->Spin(OPTIMAL_RPM + b * THROTTLE);
     } else
-        Robot::shooter->Spin(IDLE);
+        Robot::shooter->Spin(0);
 }
 
 // Make this return true when this Command no longer needs to run execute()

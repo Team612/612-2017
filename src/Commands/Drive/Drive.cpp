@@ -16,7 +16,7 @@ void Drive::Execute() {
     if(!SmartDashboard::GetBoolean("Joe Mode", true)) {
         Robot::drivetrain->HaloDrive(Robot::oi->getdriver()->GetSmoothX(frc::GenericHID::kRightHand) * Robot::drive_limit,
                                      Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * -Robot::drive_limit,
-                                     Robot::oi->getdriver()->GetSmoothTrigger(frc::GenericHID::kLeftHand) > 0);
+                                     Robot::oi->getdriver()->GetSmoothTrigger(frc::GenericHID::kLeftHand) > 0.01);
     } else {
         Robot::drivetrain->TankDrive(Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kLeftHand) * Robot::drive_limit,
                                      Robot::oi->getdriver()->GetSmoothY(frc::GenericHID::kRightHand) * Robot::drive_limit);

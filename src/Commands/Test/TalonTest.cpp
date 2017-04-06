@@ -48,8 +48,8 @@ void TalonTest::Initialize() {
         std::cout << "Testing Climber Talon (Left)" << std::endl;
         break;
     /*case TalonENUM::CLIMBER:
-        chosenSRX = RobotMap::climber_srx;
-        std::cout << "Testing Climber Talon" << std::endl;
+        chosenSRX = nullptr;
+        std::cout << "Warning: Climber testing is disabled" << std::endl;
         break;*/
     case TalonENUM::INTAKE_L:
         chosen = RobotMap::intake_talon_left;
@@ -77,7 +77,7 @@ void TalonTest::Execute() {
     }
     if(chosenSRX != nullptr) {
         chosenSRX->Set(speed);
-            std::cout << "Encoder test: " << chosenSRX->Get()<< std::endl;
+        std::cout << "Encoder test: " << chosenSRX->Get()<< std::endl;
     }
 }
 

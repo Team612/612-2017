@@ -9,8 +9,8 @@ void Climb::Initialize() {
 }
 
 void Climb::Execute() {
-    if(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand) > 0.01) {
-        Robot::climber->Move(-static_cast<float>(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand)));
+    if(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand) < -0.01) {
+        Robot::climber->Move(static_cast<float>(Robot::oi->getgunner()->GetY(frc::GenericHID::kRightHand)));
     }
     else {
         Robot::climber->Block();

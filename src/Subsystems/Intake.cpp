@@ -18,8 +18,7 @@ Intake::Intake() : Subsystem("Intake") {
 //    RobotMap::intake_talon_left->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 //    RobotMap::intake_talon_left->SetClosedLoopOutputDirection(true);
     lib612::Networking::AddFunction([](){
-        frc::SmartDashboard::PutNumber("Total Intake Current", RobotMap::intake_talon_left->GetOutputCurrent() +
-                                                               RobotMap::intake_talon_right->GetOutputCurrent());
+        frc::SmartDashboard::PutNumber("Total Intake Current", RobotMap::pdp->GetCurrent(5) * 2);
     });
 }
 
@@ -30,12 +29,12 @@ void Intake::InitDefaultCommand() {
 //TODO extend with functionality as needed
 void Intake::IntakeFuel() {
     RobotMap::intake_talon_right->Set(-1);
-    RobotMap::intake_talon_left->Set(1);
+    RobotMap::intake_talon_left->Set(-1);
 }
 
 void Intake::ClearBalls() {
     RobotMap::intake_talon_right->Set(1);
-    RobotMap::intake_talon_left->Set(-1);
+    RobotMap::intake_talon_left->Set(1);
 }
 
 void Intake::Stop() {

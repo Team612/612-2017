@@ -34,9 +34,9 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_fr->Set(PORTS::CAN::drive_talonMR);
     //this->drive_fr->SetClosedLoopOutputDirection(true);
     this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_rl->Set(PORTS::CAN::drive_talonML);
+    this->drive_rl->Set(drive_ml->GetDeviceID());
     this->drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_rr->Set(PORTS::CAN::drive_talonMR);
+    this->drive_rr->Set(drive_mr->GetDeviceID());
     this->drive_ml->SetVoltageRampRate(RAMP_RATE);
     this->drive_mr->SetVoltageRampRate(RAMP_RATE);
     this->drive_ml->SetInverted(true);
@@ -76,12 +76,12 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         //frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
         //frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
         frc::SmartDashboard::PutNumber("New Ultrasonic Distance in inches by regression combination", ur2->GetDistanceInches());
-        frc::SmartDashboard::PutNumber("Total Drive Current", this->drive_fr->GetOutputCurrent() +
-                                                              this->drive_mr->GetOutputCurrent() +
-                                                              this->drive_rr->GetOutputCurrent() +
-                                                              this->drive_fl->GetOutputCurrent() +
-                                                              this->drive_mr->GetOutputCurrent() +
-                                                              this->drive_rr->GetOutputCurrent());
+        frc::SmartDashboard::PutNumber("Total Drive Current", RobotMap::pdp->GetCurrent(0) +
+                                                              RobotMap::pdp->GetCurrent(1) +
+                                                              RobotMap::pdp->GetCurrent(2) +
+                                                              RobotMap::pdp->GetCurrent(3) +
+                                                              RobotMap::pdp->GetCurrent(13) +
+                                                              RobotMap::pdp->GetCurrent(14));
     });
 }
 
@@ -155,6 +155,8 @@ void Drivetrain::TankDrive(double raw_left, double raw_right){
         drive_ml->SetVoltageRampRate(0);
         drive_ml->Set(0);
         drive_ml->SetVoltageRampRate(RAMP_RATE);
+        drive_fl->Set(drive_ml->GetDeviceID());
+        drive_rl->Set(drive_ml->GetDeviceID());
     } else {
         drive_ml->Set(Limit(l));
     }
@@ -162,6 +164,8 @@ void Drivetrain::TankDrive(double raw_left, double raw_right){
         drive_mr->SetVoltageRampRate(0);
         drive_mr->Set(0);
         drive_mr->SetVoltageRampRate(RAMP_RATE);
+        drive_fr->Set(drive_mr->GetDeviceID());
+        drive_rr->Set(drive_mr->GetDeviceID());
     } else {
         drive_mr->Set(Limit(r));
     }

@@ -71,7 +71,7 @@ void Robot::RobotInit() {
         SmartDashboard::PutString("Current Time", s.str());
     });
     tempcam = CameraServer::GetInstance();
-    tempcam->StartAutomaticCapture();
+    //tempcam->StartAutomaticCapture();
 
     drive_limit = 1.0;
     //default to Joe Mode
