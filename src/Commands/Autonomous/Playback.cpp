@@ -71,9 +71,11 @@ void Playback::Execute() {
         if(!reverse) {
             RobotMap::drive_ml->Set(playback_vec[t].l);
             RobotMap::drive_mr->Set(-playback_vec[t].r); //change once we figure out what's going on
+            std::cout << "Left: " << playback_vec[t].l << " Right: " << -playback_vec[t].r << std::endl;
         } else {
             RobotMap::drive_ml->Set(playback_vec[t].r);
             RobotMap::drive_mr->Set(-playback_vec[t].l); //change once we figure out what's going on
+            std::cout << "Left: " << playback_vec[t].l << " Right: " << -playback_vec[t].r << std::endl;
         }
     } else if (t == playback_vec.size() || timer.Get() > playback_vec.back().time) {
         std::cout << "Done playing back \n";
