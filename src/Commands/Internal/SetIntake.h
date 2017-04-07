@@ -5,7 +5,7 @@
 class SetIntake: public Command {
     bool clear;
 public:
-    SetIntake(float timeout, bool clear = false);
+    SetIntake(bool clear = false);
 
     void Initialize() override;
     void Execute() override;

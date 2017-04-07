@@ -17,6 +17,8 @@ public:
 private:
     const float OPTIMAL_RPM = -3300.0f;
     const float THROTTLE = 500.0f;
+    const float OPTIMAL_VOLTS = -7.06f;
+    const float THROTTLE_VOLTS = 12 - std::abs(OPTIMAL_VOLTS);
     const float IDLE = 1000.0f;
     const float START_MULTIPLIER = 1.25f;
     const double DEADBAND = 0.01;

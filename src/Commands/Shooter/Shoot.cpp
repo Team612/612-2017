@@ -25,7 +25,7 @@ void Shoot::Execute() {
               b = 0.0f;
           // at this stage, b should be negative, so b * a positive throttle makes the shooter go faster
           // in the negative direction
-          Robot::shooter->Spin(OPTIMAL_RPM + b * THROTTLE);
+          Robot::shooter->Spin(OPTIMAL_VOLTS + b * THROTTLE_VOLTS);
     } else
         Robot::shooter->Spin(0);
 }

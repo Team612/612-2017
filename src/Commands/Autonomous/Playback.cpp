@@ -67,11 +67,13 @@ void Playback::Initialize() {
 void Playback::Execute() {
     //should only run once
     if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
-        while(t < playback_vec.size() && playback_vec[t+1].time <= timer.Get())
+        //TODO remove redundancy
+        while(t < playback_vec.size() && playback_vec[t+1].time <= timer.Get()) {
             t++;
+        }
         if(!reverse) {
             RobotMap::drive_ml->Set(playback_vec[t].l);
-            RobotMap::drive_mr->Set(playback_vec[t].r); //change once we figure out what's going on
+            RobotMap::drive_mr->Set(playback_vec[t].r);
 
             RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
             RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
@@ -83,7 +85,7 @@ void Playback::Execute() {
             std::cout << "GetOutputVoltage() " << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << std::endl;
         } else {
             RobotMap::drive_ml->Set(playback_vec[t].r);
-            RobotMap::drive_mr->Set(playback_vec[t].l); //change once we figure out what's going on
+            RobotMap::drive_mr->Set(playback_vec[t].l);
 
             RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
             RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());

@@ -2,8 +2,8 @@
 
 #include "../../Robot.h"
 
-SetIntake::SetIntake(float timeout, bool clear) {
-    SetTimeout(timeout);
+SetIntake::SetIntake(bool clear) {
+    //SetTimeout(timeout);
     this->clear = clear;
 }
 
@@ -20,7 +20,8 @@ void SetIntake::Execute() {
 }
 
 bool SetIntake::IsFinished() {
-    return IsTimedOut();
+    //return IsTimedOut();
+    return false;
 }
 
 void SetIntake::End() {
