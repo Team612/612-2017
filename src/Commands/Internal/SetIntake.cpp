@@ -8,15 +8,15 @@ SetIntake::SetIntake(bool clear) {
 }
 
 void SetIntake::Initialize() {
+
+}
+
+void SetIntake::Execute() {
     if(clear)
         Robot::intake->ClearBalls();
     else {
         Robot::intake->IntakeFuel();
     }
-}
-
-void SetIntake::Execute() {
-
 }
 
 bool SetIntake::IsFinished() {

@@ -71,7 +71,7 @@ void Robot::RobotInit() {
         SmartDashboard::PutString("Current Time", s.str());
     });
     tempcam = CameraServer::GetInstance();
-    //tempcam->StartAutomaticCapture();
+    tempcam->StartAutomaticCapture();
 
     drive_limit = 1.0;
     //default to Joe Mode
@@ -85,9 +85,22 @@ void Robot::DisabledInit() {
 	}
 	shiftCommand = std::make_unique<Shift>(Shift::SHIFT_DIR::DOWN);
 	shiftCommand->Start();
+
+    RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    RobotMap::drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
+    RobotMap::drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
+    //this->drive_fr->SetClosedLoopOutputDirection(true);
+    RobotMap::drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
+    RobotMap::drive_rr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
+    RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
 }
 
 void Robot::DisabledPeriodic() {
+    lib612::Networking::UpdateAll();
     Scheduler::GetInstance()->Run();
 }
 
@@ -117,6 +130,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
+    lib612::Networking::UpdateAll();
     Scheduler::GetInstance()->Run();
 }
 void Robot::TeleopInit() {
@@ -140,6 +154,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+    lib612::Networking::UpdateAll();
     //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     if(oi->getdriver()->GetBackButton())
         RobotMap::shooter_l->ClearIaccum();
@@ -158,6 +173,7 @@ void Robot::TestInit() {
 }
 
 void Robot::TestPeriodic() {
+    lib612::Networking::UpdateAll();
     /*
      * How to record an autonomous mode
      * 1. Switch robot to Test

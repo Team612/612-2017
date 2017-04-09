@@ -9,7 +9,7 @@ void Climb::Initialize() {
 }
 
 void Climb::Execute() {
-    if(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand) < 0) {
+    if(Robot::oi->getgunner()->GetSmoothY(frc::GenericHID::kRightHand) < -0.02) {
         Robot::climber->Move(static_cast<float>(Robot::oi->getgunner()->GetY(frc::GenericHID::kRightHand)));
     }
     else {

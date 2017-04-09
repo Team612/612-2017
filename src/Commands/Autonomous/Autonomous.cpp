@@ -12,7 +12,7 @@ Autonomous::Autonomous() {
     AddSequential(new WaitCommand(1));
     std::cout << "Running: " << chosen_mode << std::endl;
     if(chosen_mode == "Simple") {
-        AddSequential(new AutoDrive(3, auto_speed));
+        AddSequential(new AutoDrive(5, 1));
         //TODO REMOVE!!
         //AddSequential(new Playback("home/lvuser/simple"));
     } else if(chosen_mode == "1 Gear Auto") {
@@ -21,8 +21,11 @@ Autonomous::Autonomous() {
     } else if(chosen_mode == "10 Ball Auto") {
         //start at the boiler
         //Shoot for 15 seconds
-        AddParallel(new SetShooter(-7.06), 15);
-        AddParallel(new SetIntake(), 15);
+        AddParallel(new SetShooter(-7.06), 10);
+        AddParallel(new SetIntake(), 10);
+        //TODO, replace with motion profile
+        AddSequential(new WaitCommand(10));
+        AddSequential(new AutoDrive(5, -.8f));
     } else if(chosen_mode == "Full Gear Auto") {
         //drive up to peg, place gear, wait 2 seconds, drive to loading station
         AddSequential(new Playback(Robot::filePath, !frc::SmartDashboard::GetBoolean("Red side", true)));

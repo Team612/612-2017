@@ -62,48 +62,44 @@ void Playback::Initialize() {
 
     timer.Reset();
     timer.Start();
-}
 
-void Playback::Execute() {
-    //should only run once
-    if(t < playback_vec.size() && timer.Get() <= playback_vec.back().time) {
-        //TODO remove redundancy
-        while(t < playback_vec.size() && playback_vec[t+1].time <= timer.Get()) {
-            t++;
-        }
-        if(!reverse) {
-            RobotMap::drive_ml->Set(playback_vec[t].l);
-            RobotMap::drive_mr->Set(playback_vec[t].r);
+    isFinished = false;
 
-            RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
-            RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
-
-            RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
-            RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
-
-            std::cout << "Get() " << RobotMap::drive_ml->Get() << "," << RobotMap::drive_mr->Get() << std::endl;
-            std::cout << "GetOutputVoltage() " << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << std::endl;
-        } else {
-            RobotMap::drive_ml->Set(playback_vec[t].r);
+    do {
+        if(reverse) {
+            RobotMap::drive_ml->Set(-playback_vec[t].r);
             RobotMap::drive_mr->Set(playback_vec[t].l);
-
-            RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
-            RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
-
-            RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
-            RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
-
-            std::cout << "Get() " << RobotMap::drive_ml->Get() << "," << RobotMap::drive_mr->Get() << std::endl;
-            std::cout << "GetOutputVoltage() " << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << std::endl;
+        } else {
+            RobotMap::drive_ml->Set(-playback_vec[t].l);
+            RobotMap::drive_mr->Set(playback_vec[t].r);
         }
-    } else if (t == playback_vec.size() || timer.Get() > playback_vec.back().time) {
-        std::cout << "Done playing back \n";
-        isFinished = true;
-    } else {
-        std::cout << "God help us, Playback does not work! \n";
-        isFinished = true;
-    }
+
+        if(!frc::DriverStation::GetInstance().IsEnabled() || !frc::DriverStation::GetInstance().IsAutonomous()) {
+            isFinished = true;
+            break;
+        }
+
+        RobotMap::drive_fl->Set(RobotMap::drive_ml->GetDeviceID());
+        RobotMap::drive_rl->Set(RobotMap::drive_ml->GetDeviceID());
+
+        RobotMap::drive_fr->Set(RobotMap::drive_mr->GetDeviceID());
+        RobotMap::drive_rr->Set(RobotMap::drive_mr->GetDeviceID());
+
+        std::cout << "Get() " << RobotMap::drive_ml->Get() << "," << RobotMap::drive_mr->Get() << std::endl;
+        std::cout << "GetOutputVoltage() " << RobotMap::drive_ml->GetOutputVoltage() << "," << RobotMap::drive_mr->GetOutputVoltage() << std::endl;
+        std::cout << "t: " << t << std::endl << "size: " << playback_vec.size() << std::endl;
+
+        if(timer.Get() >= playback_vec[t + 1].time)
+            t++;
+
+        if (t >= playback_vec.size() || timer.Get() > playback_vec.back().time) {
+            std::cout << "Done playing back \n";
+            isFinished = true;
+        }
+    } while(!isFinished);
 }
+
+void Playback::Execute() {  }
 
 bool Playback::IsFinished() {
     return isFinished;
@@ -117,6 +113,8 @@ void Playback::End() {
     std::cout << "Playback is over, you can rest easy (unless it didn't do what it was supposed to, then you gotta panic 'till the code is fixed) \n";
     RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    timer.Stop();
+    timer.Reset();
 }
 
 void Playback::Interrupted() {
@@ -127,4 +125,6 @@ void Playback::Interrupted() {
     std::cout << "How the heck was Playback interrupted, it doesn't even require anything?! \n";
     RobotMap::drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     RobotMap::drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
+    timer.Stop();
+    timer.Reset();
 }

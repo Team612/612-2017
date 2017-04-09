@@ -10,7 +10,7 @@ AutoDrive::AutoDrive(float time, float speed) {
 }
 
 void AutoDrive::Initialize() {
-    Robot::drivetrain->TankDrive(_speed, _speed);
+    Robot::drivetrain->TankDrive(_speed * .6, _speed);
 }
 
 void AutoDrive::Execute() {
@@ -22,7 +22,6 @@ bool AutoDrive::IsFinished() {
 }
 
 void AutoDrive::End() {
-
     printf("Info: End auto driving.\n");
     Robot::drivetrain->SetVelocity(0.0, 0.0);
 }

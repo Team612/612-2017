@@ -29,9 +29,9 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_ml->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     this->drive_mr->SetTalonControlMode(CANTalon::TalonControlMode::kThrottleMode);
     this->drive_fl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_fl->Set(PORTS::CAN::drive_talonML);
+    this->drive_fl->Set(drive_ml->GetDeviceID());
     this->drive_fr->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
-    this->drive_fr->Set(PORTS::CAN::drive_talonMR);
+    this->drive_fr->Set(drive_mr->GetDeviceID());
     //this->drive_fr->SetClosedLoopOutputDirection(true);
     this->drive_rl->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
     this->drive_rl->Set(drive_ml->GetDeviceID());
@@ -56,6 +56,13 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     this->drive_mr->SetCurrentLimit(MAX_AMPS);
     this->drive_fr->SetCurrentLimit(MAX_AMPS);
     this->drive_rr->SetCurrentLimit(MAX_AMPS);
+
+    this->drive_ml->EnableCurrentLimit(true);
+    this->drive_rl->EnableCurrentLimit(true);
+    this->drive_fl->EnableCurrentLimit(true);
+    this->drive_mr->EnableCurrentLimit(true);
+    this->drive_fr->EnableCurrentLimit(true);
+    this->drive_rr->EnableCurrentLimit(true);
 
     this->drive.reset(RobotMap::drive.get());
 
