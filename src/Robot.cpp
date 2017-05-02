@@ -40,7 +40,7 @@ void Robot::RobotInit() {
     //subsystems
     shiftHopper = std::make_shared<Hopper>();
     shooter = std::make_shared<Shooter>();
-    drivetrain = std::make_shared<Drivetrain>(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0)); //TODO actually use
+    drivetrain.reset(new Drivetrain(new lib612::DriveProfile(1, 1, 1, 1, 1, 1, 0.1, 0.2, 0, 0))); //TODO actually use
     intake = std::make_shared<Intake>();
     climber = std::make_shared<Climber>();
     shifter = std::make_shared<Shifter>();
@@ -62,13 +62,44 @@ void Robot::RobotInit() {
     std::cout << "Info: Starting current: " << initial_current << std::endl;
     std::cout << "Info: Channel 15 current: " << init_climber_current << std::endl;
 
-    //Put time on dashboard
-    lib612::Networking::AddFunction([]() {
+    //Global SmartDashboard capabilities
+    //print time
+    lib612::Networking::update_functions.push_back([]() {
         auto now = std::chrono::system_clock::now();
         auto to_time_t = std::chrono::system_clock::to_time_t(now);
         std::stringstream s;
         s << std::ctime(&to_time_t);
         SmartDashboard::PutString("Current Time", s.str());
+    });
+    //print intake current
+    lib612::Networking::update_functions.push_back([](){
+        frc::SmartDashboard::PutNumber("Total Intake Current", RobotMap::intake_talon_left->GetOutputCurrent() +
+                                                               RobotMap::intake_talon_right->GetOutputCurrent());
+    });
+    //print shooter info
+    lib612::Networking::update_functions.push_back([](){
+        //frc::SmartDashboard::PutNumber("Shooter speed", RobotMap::shooter_l->GetSpeed());
+        //frc::SmartDashboard::PutNumber("Shooter I Error", RobotMap::shooter_l->GetIaccum());
+        //frc::SmartDashboard::PutNumber("I Zone", RobotMap::shooter_l->GetIzone());
+        //frc::SmartDashboard::PutNumber("Shooter Error", RobotMap::shooter_l->GetClosedLoopError());
+        frc::SmartDashboard::PutNumber("Shooter voltage", RobotMap::shooter_l->GetOutputVoltage());
+        //frc::SmartDashboard::PutNumber("Shooter current", RobotMap::shooter_l->GetOutputCurrent());
+        frc::SmartDashboard::PutNumber("Total Shooter Current", RobotMap::shooter_l->GetOutputCurrent());
+    });
+    //print drive current
+    lib612::Networking::update_functions.push_back([](){
+        frc::SmartDashboard::PutNumber("Total Drive Current", RobotMap::drive_ml->GetOutputCurrent() +
+                                                              RobotMap::drive_fl->GetOutputCurrent() +
+                                                              RobotMap::drive_rl->GetOutputCurrent() +
+                                                              RobotMap::drive_mr->GetOutputCurrent() +
+                                                              RobotMap::drive_fr->GetOutputCurrent() +
+                                                              RobotMap::drive_rr->GetOutputCurrent());
+    });
+    //print climber info
+    lib612::Networking::update_functions.push_back([](){
+        //frc::SmartDashboard::PutNumber("Climber current", RobotMap::climber_srx->GetOutputCurrent());
+        frc::SmartDashboard::PutNumber("Total Climber Current", RobotMap::climber_r->GetOutputCurrent() +
+                                                                RobotMap::climber_l->GetOutputCurrent());
     });
     tempcam = CameraServer::GetInstance();
     tempcam->StartAutomaticCapture();
@@ -100,7 +131,7 @@ void Robot::DisabledInit() {
 }
 
 void Robot::DisabledPeriodic() {
-    lib612::Networking::UpdateAll();
+    //lib612::Networking::UpdateAll();
     Scheduler::GetInstance()->Run();
 }
 
@@ -130,7 +161,7 @@ void Robot::AutonomousInit() {
 }
 
 void Robot::AutonomousPeriodic() {
-    lib612::Networking::UpdateAll();
+    //lib612::Networking::UpdateAll();
     Scheduler::GetInstance()->Run();
 }
 void Robot::TeleopInit() {
@@ -154,7 +185,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-    lib612::Networking::UpdateAll();
+    //lib612::Networking::UpdateAll();
     //std::cout << "Robot.cpp: " << __LINE__ << std::endl;
     if(oi->getdriver()->GetBackButton())
         RobotMap::shooter_l->ClearIaccum();
@@ -173,7 +204,7 @@ void Robot::TestInit() {
 }
 
 void Robot::TestPeriodic() {
-    lib612::Networking::UpdateAll();
+    //lib612::Networking::UpdateAll();
     /*
      * How to record an autonomous mode
      * 1. Switch robot to Test

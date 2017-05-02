@@ -14,16 +14,6 @@ Shooter::Shooter() : Subsystem("Shooter") {
     //RobotMap::shooter_l->SelectProfileSlot(0);
     //RobotMap::shooter_l->SetPID(0.2, 0.001, 0.0, 0.025);
     //RobotMap::shooter_l->SetIzone(2000);
-
-    lib612::Networking::AddFunction([](){
-        //frc::SmartDashboard::PutNumber("Shooter speed", RobotMap::shooter_l->GetSpeed());
-        //frc::SmartDashboard::PutNumber("Shooter I Error", RobotMap::shooter_l->GetIaccum());
-        //frc::SmartDashboard::PutNumber("I Zone", RobotMap::shooter_l->GetIzone());
-        //frc::SmartDashboard::PutNumber("Shooter Error", RobotMap::shooter_l->GetClosedLoopError());
-        frc::SmartDashboard::PutNumber("Shooter voltage", RobotMap::shooter_l->GetOutputVoltage());
-        //frc::SmartDashboard::PutNumber("Shooter current", RobotMap::shooter_l->GetOutputCurrent());
-        frc::SmartDashboard::PutNumber("Total Shooter Current", RobotMap::pdp->GetCurrent(9));
-    });
 }
 
 void Shooter::InitDefaultCommand() {

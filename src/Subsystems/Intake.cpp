@@ -17,9 +17,6 @@ Intake::Intake() : Subsystem("Intake") {
     RobotMap::intake_talon_left->SetVoltageRampRate(RAMP_RATE);
 //    RobotMap::intake_talon_left->SetTalonControlMode(CANTalon::TalonControlMode::kFollowerMode);
 //    RobotMap::intake_talon_left->SetClosedLoopOutputDirection(true);
-    lib612::Networking::AddFunction([](){
-        frc::SmartDashboard::PutNumber("Total Intake Current", RobotMap::pdp->GetCurrent(5) * 2);
-    });
 }
 
 void Intake::InitDefaultCommand() {

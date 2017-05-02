@@ -9,10 +9,6 @@ namespace lib612 {
     namespace Networking {
         static std::vector<std::function<void(void)>> update_functions = { };
 
-        inline void AddFunction(std::function<void(void)> fn) {
-            update_functions.push_back(fn);
-        }
-
         enum class Mode {
             AUTONOMOUS,
             TELEOPERATED,
@@ -21,7 +17,7 @@ namespace lib612 {
         };
 
         //Robot mode based only on the driverstation
-        inline  Mode GetRobotMode() {
+        inline Mode GetRobotMode() {
             if (frc::DriverStation::GetInstance().IsAutonomous())
                 return Mode::AUTONOMOUS;
             else if (frc::DriverStation::GetInstance().IsTest())
@@ -52,8 +48,7 @@ namespace lib612 {
             frc::SmartDashboard::PutNumber("Match Time", frc::DriverStation::GetInstance().GetMatchTime());
             frc::SmartDashboard::PutNumber("Battery", frc::DriverStation::GetInstance().GetBatteryVoltage());
 
-            for (auto function : update_functions) {
-                //std::cout << "SD update" << std::endl;
+            for (const auto& function : update_functions) {
                 function();
             }
         }

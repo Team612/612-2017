@@ -5,6 +5,8 @@
 #include "../Robot.h"
 
 Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
+    std::cout << "Drive"
+            "" << std::endl;
     //ur = RobotMap::ultrasonic;
     ur2 = RobotMap::new_ultrasonic;
     profile = dp;
@@ -74,7 +76,7 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
     //double DistancePerPulse = DistancePerWheelRotation * WheelRotationsPerPulse;
 
     //update Smart Dashboard
-    lib612::Networking::AddFunction([this](){
+    lib612::Networking::update_functions.push_back([this](){
         frc::SmartDashboard::PutNumber("Drivetrain P",this->profile->P);
         frc::SmartDashboard::PutNumber("Drivetrain I",this->profile->I);
         frc::SmartDashboard::PutNumber("Drivetrain D", this->profile->D);
@@ -83,12 +85,6 @@ Drivetrain::Drivetrain(lib612::DriveProfile* dp) : Subsystem("Drivetrain") {
         //frc::SmartDashboard::PutNumber("Climber Current", RobotMap::pdp->GetCurrent(15));
         //frc::SmartDashboard::PutNumber("Ultrasonic Distance (mm)", ur->GetRangeMM());
         frc::SmartDashboard::PutNumber("New Ultrasonic Distance in inches by regression combination", ur2->GetDistanceInches());
-        frc::SmartDashboard::PutNumber("Total Drive Current", RobotMap::pdp->GetCurrent(0) +
-                                                              RobotMap::pdp->GetCurrent(1) +
-                                                              RobotMap::pdp->GetCurrent(2) +
-                                                              RobotMap::pdp->GetCurrent(3) +
-                                                              RobotMap::pdp->GetCurrent(13) +
-                                                              RobotMap::pdp->GetCurrent(14));
     });
 }
 
